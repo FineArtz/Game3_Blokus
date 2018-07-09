@@ -524,6 +524,10 @@ cornerSet = [
 
 tileSizes = [1, 2, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
 
+# the most time for a tile to be rotated
+
+tileMaxRotation = [1, 2, 2, 4, 1, 2, 4, 2, 4, 4, 4, 4, 4, 2, 4, 1, 4, 4, 2, 4, 4]
+
 # ascii for each color
 
 colorAscii = [9946, 9930, 9947]

@@ -9,11 +9,14 @@ import random
 DecisionFunc = []
 EvalFunc = []
 
-def randomGreedy(board, order, used, **info):
+minimaxDepth = 2
+# depth = n means search n rounds 
+
+def randomGreedy(board, player, opponent, **info):
     remain = []
     nowSize = 0
     for i in range(21):
-        if not used[i]:
+        if not player.used[i]:
             if nowSize == shape.tileSizes[i]:
                 remain[nowSize - 1].append(i)
             else:
@@ -37,13 +40,13 @@ def randomGreedy(board, order, used, **info):
                             direction.append(d)
                             dsize = dsize + 1
                     for k in direction:
-                        tile = Tiles(remain[size - 1][i], k // 4, k % 4)
-                        flag = board.dropTile(order, tile, x, y)
+                        tile = Tiles(remain[size - 1][i], k % 4, k // 4)
+                        flag = board.canDrop(player.order, tile, x, y)
                         if flag:
                             return [
                                  remain[size - 1][i], # type of tile
-                                 k // 4, # rotation
-                                 k % 4, # flip
+                                 k % 4, # rotation
+                                 k // 4, # flip
                                  x, # x
                                  y # y
                             ]
@@ -53,56 +56,108 @@ def randomGreedy(board, order, used, **info):
 
 DecisionFunc.append(randomGreedy)
 
-def greedyEval(board, order, w1 = 10, w2 = 10):
+def greedyEval(board, player, w1 = 10, w2 = 10):
     def validCornerNumber(order):
-        tmpSet = board.cornerSets[order] | board.tmpSets[order]
-        Len = 0
-        for p in tmpSet:
-            if not board.isAdj(order, p[0], p[1]):
-                Len = Len + 1
-        return Len
+        return len(board.getCorners(order))
 
-    score = 0
-    for i in range(board.size):
-        for j in range(board.size):
-            if board.board[i][j] == board.color[order] or board.board[i][j] == board.tmpColor[order]:
-                score = score + 1
-    score = score * w1
+    score = player.score * w1
     cor = 0
     for i in range(board.playerNum):
-        cor = cor + (1 if i == order else -1) * validCornerNumber(i)
+        cor = cor + (1 if i == player.order else -1) * validCornerNumber(i)
     score = score + cor * w2
     score = score + random.random()
     return score
 
 EvalFunc.append(greedyEval)
 
-def greedy(board, order, used, evalFunc = 0, **info):
+def greedy(board, player, opponent, evalFunc = 0, **info):
     maxScore = -32768
     maxDecision = []
     for i in range(20, -1, -1):
-        if used[i]:
+        if player.used[i]:
             continue
         for x in range(board.size):
             for y in range(board.size):
-                for k in range(8):
-                    tile = Tiles(i, k // 4, k % 4)
-                    result = board.tryDrop(order, tile, x, y)
-                    if result != False:
-                        score = EvalFunc[evalFunc](board, order)
-                        if score > maxScore:
-                            maxScore = score
-                            maxDecision = [
-                                i, # type of tile
-                                k // 4, # rotation
-                                k % 4, # flip
-                                x, # x
-                                y # y
-                            ]
-                        board.retraceDrop(order)
+                for p in range(shape.tileMaxRotation[i]):
+                    for q in range(2):
+                        tile = Tiles(i, p, q)
+                        result = board.dropTile(player.order, tile, x, y)
+                        if result:
+                            player.score = player.score + tile.size
+                            score = EvalFunc[evalFunc](board, player)
+                            if score > maxScore:
+                                maxScore = score
+                                maxDecision = [
+                                    i, # type of tile
+                                    p, # rotation
+                                    q, # flip
+                                    x, # x
+                                    y # y
+                                ]
+                            board.retraceDrop(tile, x, y)
+                            player.score = player.score - tile.size
     if maxScore > -32768:
         return maxDecision
     else:
         return [-1, 0, 0, 0, 0]
 
 DecisionFunc.append(greedy)
+
+def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer):
+    if depth == minimaxDepth:
+        return EvalFunc[evalFunc](board, player)
+    if player.order != desPlayer:
+        for i in range(20, -1, -1):
+            if player.used[i]:
+                continue
+            for x in range(board.size):
+                for y in range(board.size):
+                    for p in range(shape.tileMaxRotation[i]):
+                        for q in range(2):
+                            tile = Tiles(i, p, q)
+                            result = board.dropTile(player.order, tile, x, y)
+                            if result:
+                                player.score = player.score + tile.size
+                                score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
+                                board.retraceDrop(tile, x, y)
+                                player.score = player.score - tile.size
+                                if score < beta:
+                                    beta = score
+                                    if alpha >= beta:
+                                        return alpha 
+        return beta
+    else:
+        bestMove = [-1, 0, 0, 0, 0]
+        for i in range(20, -1, -1):
+            if player.used[i]:
+                continue
+            for x in range(board.size):
+                for y in range(board.size):
+                    for p in range(shape.tileMaxRotation[i]):
+                        for q in range(2):
+                            tile = Tiles(i, p, q)
+                            result = board.dropTile(player.order, tile, x, y)
+                            if result:
+                                player.score = player.score + tile.size
+                                score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
+                                board.retraceDrop(tile, x, y)
+                                player.score = player.score - tile.size
+                                if score > alpha:
+                                    alpha = score
+                                    if depth == 0:
+                                        bestMove = [i, p, q, x, y]
+                                        if alpha >= beta:
+                                            return bestMove
+                                    else:
+                                        if alpha >= beta:
+                                            return beta
+        return alpha if depth != 0 else bestMove
+
+def alphaBeta(board, player, opponent, evalFunc = 0, **info):
+    global minimaxDepth
+    if 'setMaxDepth' in info:
+        minimaxDepth = info['setMaxDepth']
+    bestMove = _alphaBeta(0, board, player, opponent, evalFunc, -32768, 32767, player.order)
+    return bestMove
+
+DecisionFunc.append(alphaBeta)

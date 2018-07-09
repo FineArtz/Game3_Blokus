@@ -23,7 +23,8 @@ class Coordinate(object):
 class Tiles(object):
     def __init__(self, type = -1, rotation = 0, flip = 0):
         self.type = type
-        self.rotation = rotation % 4
+        self.maxRotation = 0 if type == -1 else shape.tileMaxRotation[type]
+        self.rotation = rotation % max(self.maxRotation, 1)
         # 0, 1, 2, 3 represent the CLOCKWISE rotation of 0, 90, 180, 270 degrees represently
         self.flip = flip % 2
         # 0: non-flip
@@ -76,42 +77,20 @@ class Board(object):
                 self.size = 14
                 self.playerNum = 2
                 self.color = [1, 2]
-                self.tmpColor = [11, 21]
                 self.board = [[0 for col in range(14)] for row in range(14)]
                 # 0: blank
                 # 1: occupied by player 1
                 # 2: occupied by player 2
-                self.boardState = [[[True for col in range(14)] for row in range(14)] for i in range(self.playerNum)]
-                # board state supplementary for players to play tiles
-                # True: can be covered (but it may be impossible to be covered)
-                # False: cannot be covered (the square has been occupied or is adjacent to the square with the same color)
-                self.cornerSets = [set([(4, 4)]), set([(9, 9)])]
-                self.tmpSets = [set(), set()]
         elif isinstance(initState, Board):
             self.type = initState.type
             self.size = initState.size
             self.playerNum = initState.playerNum
             self.color = initState.color
             self.board = copy.deepcopy(initState.board)
-            self.boardState = copy.deepcopy(initState.boardState)
-            self.cornerSets = copy.deepcopy(initState.cornerSets)
-            self.tmpSets = copy.deepcopy(initState.tmpSets)
         elif isinstance(initState, dict):
-            self.type, self.size, self.playerNum, self.board, self.cornerLists = initState
-            self.boardState = [[[True for col in range(14)] for row in range(14)] for i in range(self.playerNum)]
-            for i in range(self.size):
-                for j in range(self.size):
-                    c = self.board[i][j]
-                    if c is 0:
-                        continue
-                    for p in range(self.playerNum):
-                        self.boardState[p][i][j] = False
-                    player = self.color.index(c)
-                    for k in range(4):
-                        nx = i + CooDx[k]
-                        ny = j + CooDy[k]
-                        if self.__isInBound(nx, ny):
-                            self.boardState[player][nx][ny] = False
+            self.type, self.size, self.playerNum, self.board = initState
+            self.color = [i + 1 for i in range(self.playerNum)]
+
     '''
     def copyBoard(self, newBoard, order):
         if not isinstance(newBoard, Board):
@@ -123,17 +102,34 @@ class Board(object):
         newBoard.cornerSets = copy.copy(self.cornerSets)
     '''
 
-    def __isInBound(self, x, y):
+    def isInBound(self, x, y):
         return (x >= 0 and x < self.size and y >= 0 and y < self.size)
 
     def isAdj(self, player, x, y):
         for k in range(4):
             nx = x + CooDx[k]
             ny = y + CooDy[k]
-            if self.__isInBound(nx, ny):
-                if self.board[nx][ny] == self.color[player] or self.board[nx][ny] == self.tmpColor[player]:
+            if self.isInBound(nx, ny):
+                if self.board[nx][ny] == self.color[player]:
                     return True
         return False
+
+    def isCorner(self, player, x, y):
+        for k in range(4):
+            nx = x + CooDp[k]
+            ny = y + CooDq[k]
+            if self.isInBound(nx, ny):
+                if self.board[nx][ny] == self.color[player]:
+                    return True
+        return False
+
+    def getCorners(self, player):
+        ret = set()
+        for i in range(self.size):
+            for j in range(self.size):
+                if self.board[i][j] == 0 and not self.isAdj(player, i, j) and self.isCorner(player, i, j):
+                    ret.update([i, j])
+        return ret
 
     def canDrop(self, player, tile, x, y):
         if not isinstance(tile, Tiles):
@@ -142,11 +138,15 @@ class Board(object):
             raise ValueError
         coverCorner = False
         for coo in tile.shape:
-            if not self.__isInBound(x + coo[0], y + coo[1]):
+            if not self.isInBound(x + coo[0], y + coo[1]):
                 return False
-            if not self.boardState[player][x + coo[0]][y + coo[1]]:
+            if self.board[x + coo[0]][y + coo[1]] != 0:
                 return False
-            if not self.cornerSets[player].isdisjoint(set([(x + coo[0], y + coo[1])])):
+            if self.isAdj(player, x + coo[0], y + coo[1]):
+                return False
+            if self.isCorner(player, x + coo[0], y + coo[1]) \
+            or (x + coo[0], y + coo[1]) == (4, 4) \
+            or (x + coo[0], y + coo[1]) == (9, 9):
                 coverCorner = True
         return coverCorner
 
@@ -159,21 +159,10 @@ class Board(object):
             raise ValueError
         if not self.canDrop(player, tile, x, y):
             return False
-        for i in range(self.playerNum):
-            for coo in tile.shape:
-                self.boardState[i][coo[0] + x][coo[1] + y] = False
         for coo in tile.shape:
-            for k in range(4):
-                nx = x + coo[0] + CooDx[k]
-                ny = y + coo[1] + CooDy[k]
-                if self.__isInBound(nx, ny):
-                    self.boardState[player][nx][ny] = False
             self.board[x + coo[0]][y + coo[1]] = self.color[player]
-        for coo in tile.corner:
-            if self.__isInBound(x + coo[0], y + coo[1]):
-                self.cornerSets[player].update([(x + coo[0], y + coo[1])])
         return True
-
+    '''
     def tryDrop(self, player, tile, x, y):
         if not isinstance(tile, Tiles):
             raise TypeError
@@ -184,27 +173,36 @@ class Board(object):
         if not self.canDrop(player, tile, x, y):
             return False
         for coo in tile.shape:
-            self.board[x + coo[0]][y + coo[1]] = self.tmpColor[player]
-        for coo in tile.corner:
-            if self.__isInBound(x + coo[0], y + coo[1]):
-                self.tmpSets[player].update([(x + coo[0], y + coo[1])])
-        self.tmpSets[player] = self.tmpSets[player] - self.cornerSets[player]
+            self.board[x + coo[0]][y + coo[1]] = self.Color[player]
         return True
+    '''
+    '''
+    def retraceDrop(self, pointList):
+        for coo in pointList:
+            self.board[coo[0]][coo[1]] = 0
+    '''
 
-    def retraceDrop(self, player):
+    def retraceDrop(self, tile, x, y):
+        for coo in tile.shape:
+            self.board[x + coo[0]][y + coo[1]] = 0
+
+    def print(self, fout = None):
         for i in range(self.size):
             for j in range(self.size):
-                if self.board[i][j] == self.tmpColor[player]:
-                    self.board[i][j] = 0
-        self.tmpSets[player] = set()
-    
-    def print(self, fout):
+                if fout is None:
+                    print("%d " % self.board[i][j], end = '')
+                else:
+                    fout.write(chr(shape.colorAscii[self.board[i][j]]))
+                    fout.write(chr(32))
+            print() if fout is None else fout.write("\n")
+
+    def getScore(self):
+        scores = [0 for i in range(self.playerNum)]
         for i in range(self.size):
             for j in range(self.size):
-                fout.write(chr(shape.colorAscii[self.board[i][j]]))
-                fout.write(chr(32))
-            fout.write("\n")
-        fout.write("\n")
+                if self.board[i][j] != 0:
+                    scores[self.board[i][j] - 1] = scores[self.board[i][j] - 1] + 1
+        return scores
 
     def getInfo(self):
         return {
@@ -212,5 +210,44 @@ class Board(object):
             "boardSize" : self.size,
             "playerNum" : self.playerNum,
             "board" : self.board,
-            "cornerSets" : self.cornerSets
         }
+
+    def parseFromMatrix(self, matrix, player):
+        self.type = 0
+        self.size = 14
+        self.playerNum = 2
+        self.color = [1, 2]
+        self.board = copy.deepcopy(matrix)
+        visited = [[False for i in range(14)] for j in range(14)]
+
+        def getTile(x, y, color, tilePoints, minx, miny):
+            visited[x][y] = True
+            tilePoints.append((x, y))
+            for k in range(4):
+                nx = x + CooDx[k]
+                ny = y + CooDy[k]
+                if self.isInBound(nx, ny):
+                    if matrix[nx][ny] == color and not visited[nx][ny]:
+                        minx = min(minx, nx)
+                        miny = min(miny, ny)
+                        getTile(nx, ny, color, tilePoints, minx, miny)
+
+        for i in range(14):
+            for j in range(14):
+                if matrix[i][j] != 0 and not visited[i][j]:
+                    tilePoints = []
+                    minx = 14
+                    miny = 14
+                    getTile(i, j, matrix[i][j], tilePoints, minx, miny)
+                    for i in range(len(tilePoints)):
+                        tilePoints[i][0] = tilePoints[i][0] - minx
+                        tilePoints[i][1] = tilePoints[i][1] - miny
+                    tilePoints.sort()
+                    for t in range(21):
+                        if shape.tileSizes[t] != len(tilePoints):
+                            continue
+                        if tilePoints in shape.shapeSet[t]:
+                            player[matrix[i][j]].used[t] = True
+                            player[matrix[i][j]].scores += shape.tileSizes[t]
+                            break
+
