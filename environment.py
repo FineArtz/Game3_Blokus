@@ -19,7 +19,7 @@ if __name__ == '__main__':
     sente = 0
     if '-s' in sys.argv[1:]:
         argpos = sys.argv.index('-s')
-        sente = sys.argv[argpos + 1] % 2
+        sente = int(sys.argv[argpos + 1]) % 2
 
     '''
         -p level: pvc mode. Human player is player #0,
@@ -52,6 +52,12 @@ if __name__ == '__main__':
 
     board = Board()
 
+    print("0\n0")
+    for i in range(14):
+        for j in range(14):
+            print("0 ", end = '')
+        print()
+        
     while True:
         playerOrder, tileSize = list(map(int, input().split(' ')))
         playerOrder = playerOrder ^ sente
