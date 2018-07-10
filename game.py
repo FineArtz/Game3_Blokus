@@ -6,25 +6,25 @@ from player import Player
 import shape
 import sys
 
-argc = len(sys.argv)
-
-testMode = False
-if '-t' in sys.argv[1:]:
-    testMode = True
-
-board = Board()
-player = []
-if '-p' in sys.argv[1:]:
-    argpos = sys.argv.index('-p')
-    pType1 = int(sys.argv[argpos + 1])
-    pType2 = int(sys.argv[argpos + 2])
-    player.append(Player(0, 0, pType1))
-    player.append(Player(0, 1, pType2))
-else:
-    player.append(Player(0, 0, 0))
-    player.append(Player(0, 1, 2))
-
 if __name__ == '__main__':
+
+    argc = len(sys.argv)
+
+    testMode = False
+    if '-t' in sys.argv[1:]:
+        testMode = True
+
+    board = Board()
+    player = []
+    if '-p' in sys.argv[1:]:
+        argpos = sys.argv.index('-p')
+        pType1 = int(sys.argv[argpos + 1])
+        pType2 = int(sys.argv[argpos + 2])
+        player.append(Player(0, 0, pType1))
+        player.append(Player(0, 1, pType2))
+    else:
+        player.append(Player(0, 0, 0))
+        player.append(Player(0, 1, 2))
 
     if testMode:
         fout = open("game.out", "w+", encoding = 'utf-8')

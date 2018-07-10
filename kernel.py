@@ -213,12 +213,16 @@ def alphaBeta(board, player, opponent, evalFunc = 0, **info):
     '''
         Alphabeta pruning
     '''
-    
+
     global minimaxDepth
+    global evalWeight
     if 'setMaxDepth' in info:
         minimaxDepth = info['setMaxDepth']
     if 'setEvalFunc' in info:
         evalFunc = info['setEvalFunc']
+    if 'setEvalWeight' in info:
+        evalWeight = info['setEvalWeight']
+        
     bestMove = _alphaBeta(0, board, player, opponent, evalFunc, -32768, 32767, player.order)
     return bestMove
 

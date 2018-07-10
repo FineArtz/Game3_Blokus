@@ -131,38 +131,74 @@ class Board(object):
                     ret.update([i, j])
         return ret
 
-    def canDrop(self, player, tile, x, y):
-        # return True if player can drop the tile at (x, y)
-        if not isinstance(tile, Tiles):
-            raise TypeError
-        if tile.type == -1:
-            raise ValueError
-        coverCorner = False
-        for coo in tile.shape:
-            if not self.isInBound(x + coo[0], y + coo[1]):
-                return False
-            if self.board[x + coo[0]][y + coo[1]] != 0:
-                return False
-            if self.isAdj(player, x + coo[0], y + coo[1]):
-                return False
-            if self.isCorner(player, x + coo[0], y + coo[1]) \
-            or (x + coo[0], y + coo[1]) == (4, 4) \
-            or (x + coo[0], y + coo[1]) == (9, 9):
-                coverCorner = True
-        return coverCorner
+    def canDrop(self, player, tile, x = -1, y = -1):
+        '''
+            return True if player can drop the tile at (x, y).
+            'tile' can be given in the form of pointlist or Tiles.
+        '''
+        if x == -1 and y == -1:
+            if not isinstance(tile, list):
+                raise TypeError
+            coverCorner = False
+            for coo in tile:
+                if not self.isInBound(coo[0], coo[1]):
+                    return False
+                if self.board[coo[0]][coo[1]] != 0:
+                    return False
+                if self.isAdj(player, coo[0], coo[1]):
+                    return False
+                if self.isCorner(player, coo[0], coo[1]) \
+                or ((coo[0], coo[1]) == (4, 4) and player == 0) \
+                or ((coo[0], coo[1]) == (9, 9) and player == 1):
+                    coverCorner = True
+            return coverCorner
+        else:
+            if not isinstance(tile, Tiles):
+                raise TypeError
+            if tile.type == -1:
+                raise ValueError
+            coverCorner = False
+            for coo in tile.shape:
+                if not self.isInBound(x + coo[0], y + coo[1]):
+                    return False
+                if self.board[x + coo[0]][y + coo[1]] != 0:
+                    return False
+                if self.isAdj(player, x + coo[0], y + coo[1]):
+                    return False
+                if self.isCorner(player, x + coo[0], y + coo[1]) \
+                or ((x + coo[0], y + coo[1]) == (4, 4) and player == 0) \
+                or ((x + coo[0], y + coo[1]) == (9, 9) and player == 1):
+                    coverCorner = True
+            return coverCorner
 
-    def dropTile(self, player, tile, x, y):
-        if not isinstance(tile, Tiles):
-            raise TypeError
-        if tile.type == -1:
-            raise ValueError
-        if player < 0 or player >= self.playerNum:
-            raise ValueError
-        if not self.canDrop(player, tile, x, y):
-            return False
-        for coo in tile.shape:
-            self.board[x + coo[0]][y + coo[1]] = self.color[player]
-        return True
+    def dropTile(self, player, tile, x = -1, y = -1):
+        '''
+            drop the tile at (x, y) and update the board.
+            'tile' can be given in the form of pointlist or Tiles.
+        '''
+        if x == -1 and y == -1:
+            if not isinstance(tile, list):
+                raise TypeError
+            if player < 0 or player >= self.playerNum:
+                raise ValueError
+            if not self.canDrop(player, tile, x, y):
+                return False
+            for coo in tile:
+                self.board[coo[0]][coo[1]] = self.color[player]
+            return True
+        else:
+            if not isinstance(tile, Tiles):
+                raise TypeError
+            if tile.type == -1:
+                raise ValueError
+            if player < 0 or player >= self.playerNum:
+                raise ValueError
+            if not self.canDrop(player, tile, x, y):
+                return False
+            for coo in tile.shape:
+                self.board[x + coo[0]][y + coo[1]] = self.color[player]
+            return True
+
     '''
     def tryDrop(self, player, tile, x, y):
         if not isinstance(tile, Tiles):
@@ -248,7 +284,29 @@ class Board(object):
                         if shape.tileSizes[t] != len(tilePoints):
                             continue
                         if tilePoints in shape.shapeSet[t]:
-                            player[matrix[i][j]].used[t] = True
-                            player[matrix[i][j]].scores += shape.tileSizes[t]
+                            player[matrix[i][j] - 1].used[t] = True
+                            player[matrix[i][j] - 1].scores += shape.tileSizes[t]
                             break
+
+    def toMatrix(self):
+        # return board as a 14*14 matrix
+        return self.board
+
+    def isOver(self, player):
+        '''
+            'player' here is a list of Player.
+            If no player can drop a tile, return True.
+        '''
+        for i in range(self.playerNum):
+            for t in range(21):
+                if player[i].used[t]:
+                    continue
+                for x in range(self.size):
+                    for y in range(self.size):
+                        for p in range(shape.tileMaxRotation[i]):
+                            for q in range(2):
+                                tile = Tiles(i, p, q)
+                                if self.canDrop(i, tile, x, y):
+                                    return False
+        return True
 
