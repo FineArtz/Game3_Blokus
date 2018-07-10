@@ -6,6 +6,15 @@ from kernel import DecisionFunc
 from board import Tiles, Board
 
 class Player(object):
+
+    '''
+        type: the type of game. Blokus Duo is type 0. 
+        order: the order of player, 0 or 1
+        level: the level of AI player. 
+
+        Invoke 'action' to drop a tile.
+    '''
+    
     def __init__(self, type = -1, order = 0, level = 0):
         if type == -1:
             pass

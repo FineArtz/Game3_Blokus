@@ -132,6 +132,7 @@ class Board(object):
         return ret
 
     def canDrop(self, player, tile, x, y):
+        # return True if player can drop the tile at (x, y)
         if not isinstance(tile, Tiles):
             raise TypeError
         if tile.type == -1:
@@ -176,12 +177,6 @@ class Board(object):
             self.board[x + coo[0]][y + coo[1]] = self.Color[player]
         return True
     '''
-    '''
-    def retraceDrop(self, pointList):
-        for coo in pointList:
-            self.board[coo[0]][coo[1]] = 0
-    '''
-
     def retraceDrop(self, tile, x, y):
         for coo in tile.shape:
             self.board[x + coo[0]][y + coo[1]] = 0
@@ -213,6 +208,11 @@ class Board(object):
         }
 
     def parseFromMatrix(self, matrix, player):
+
+        '''
+            Get the board and player info from a matrix
+        '''
+
         self.type = 0
         self.size = 14
         self.playerNum = 2
@@ -221,6 +221,7 @@ class Board(object):
         visited = [[False for i in range(14)] for j in range(14)]
 
         def getTile(x, y, color, tilePoints, minx, miny):
+            # floodfill
             visited[x][y] = True
             tilePoints.append((x, y))
             for k in range(4):
