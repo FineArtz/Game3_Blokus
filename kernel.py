@@ -84,7 +84,7 @@ def randomGreedy(board, player, opponent, **info):
 
 DecisionFunc.append(randomGreedy)
 
-def greedyEval(board, player):
+def greedyEval(board, player, opponent):
 
     '''
         Evaluation function.
@@ -93,15 +93,13 @@ def greedyEval(board, player):
                 between the player and opponents * w2
     '''
 
-    def validCornerNumber(order):
-        return len(board.getCorners(order))
+    def validCornerNumber(player):
+        return len(board.getCorners(player))
 
     score = player.score * evalWeight[0]
-    cor = 0
-    for i in range(board.playerNum):
-        cor = cor + (1 if i == player.order else -1) * validCornerNumber(i)
-    score = score + cor * evalWeight[1]
-    score = score + random.random() 
+    cor = validCornerNumber(player) - validCornerNumber(opponent)
+    score += cor * evalWeight[1]
+    score += random.random() 
     # avoid the same choice 
     return score
 
@@ -134,7 +132,10 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                         result = board.dropTile(player.order, tile, x, y)
                         if result:
                             player.score = player.score + tile.size
-                            score = EvalFunc[evalFunc](board, player)
+                            for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
+                                if board.isInBound(x + coo[0], y + coo[1]):
+                                    player.corners.update([(x + coo[0], y + coo[1])])
+                            score = EvalFunc[evalFunc](board, player, opponent)
                             if score > maxScore:
                                 maxScore = score
                                 maxDecision = [
@@ -145,6 +146,7 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                                     y # y
                                 ]
                             board.retraceDrop(tile, x, y)
+                            player.updateCorners(board)
                             player.score = player.score - tile.size
     if maxScore > -32768:
         return maxDecision
@@ -160,7 +162,7 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
     '''
 
     if depth == minimaxDepth:
-        return EvalFunc[evalFunc](board, player)
+        return EvalFunc[evalFunc](board, player, opponent)
     if player.order != desPlayer:
         for i in range(20, -1, -1):
             if player.used[i]:
@@ -173,9 +175,13 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
                             result = board.dropTile(player.order, tile, x, y)
                             if result:
                                 player.score = player.score + tile.size
+                                for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
+                                    if board.isInBound(x + coo[0], y + coo[1]):
+                                        player.corners.update([(x + coo[0], y + coo[1])])
                                 score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
                                 board.retraceDrop(tile, x, y)
                                 player.score = player.score - tile.size
+                                player.updateCorners(board)
                                 if score < beta:
                                     beta = score
                                     if alpha >= beta:
@@ -194,8 +200,12 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
                             result = board.dropTile(player.order, tile, x, y)
                             if result:
                                 player.score = player.score + tile.size
+                                for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
+                                    if board.isInBound(x + coo[0], y + coo[1]):
+                                        player.corners.update([(x + coo[0], y + coo[1])])
                                 score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
                                 board.retraceDrop(tile, x, y)
+                                player.updateCorners(board)
                                 player.score = player.score - tile.size
                                 if score > alpha:
                                     alpha = score

@@ -3,7 +3,8 @@
 # interact with board
 
 from kernel import DecisionFunc
-from board import Tiles, Board
+from board import Tiles, Board, CooDp, CooDq
+from shape import cornerSet
 import sys
 
 class Player(object):
@@ -28,6 +29,10 @@ class Player(object):
                 self.tiles = [Tiles(i) for i in range(21)]
                 self.used = [False for i in range(21)]
                 self.score = 0
+                if order == 0:
+                    self.corners = set([(4, 4)])
+                else:
+                    self.corners = set([(9, 9)])
                 if level == -1:
                     self.decisionMaker = None
                 else:
@@ -35,6 +40,16 @@ class Player(object):
                 self.w1, self.w2 = [20, 10]
                 if 'setWeight' in info:
                     self.w1, self.w2 = info['setWeight']
+
+    def updateCorners(self, board):
+        tmpSet = set()
+        for (i, j) in self.corners:
+            if board.board[i][j] == self.order + 1:
+                tmpSet.update([(i, j)])
+            elif board.board[i][j] == 0:
+                if board.isCorner(self.order, i, j):
+                    tmpSet.update([(i, j)])
+        self.corners = tmpSet
 
     def action(self, board, opponent):
         if self.decisionMaker is None:
@@ -48,6 +63,9 @@ class Player(object):
             tile = Tiles(tileType, rot, flp)
             board.dropTile(self.order, tile, x, y)
             self.used[tileType] = True
+            for coo in cornerSet[tileType][rot + flp * 4]:
+                if board.isInBound(x + coo[0], y + coo[1]):
+                    self.corners.update([(x + coo[0], y + coo[1])])
             self.score = self.score + self.tiles[tileType].size
             return {
                 "action" : True,

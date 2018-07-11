@@ -125,10 +125,9 @@ class Board(object):
 
     def getCorners(self, player):
         ret = set()
-        for i in range(self.size):
-            for j in range(self.size):
-                if self.board[i][j] == 0 and not self.isAdj(player, i, j) and self.isCorner(player, i, j):
-                    ret.update([i, j])
+        for (i, j) in player.corners:
+            if self.isCorner(player.order, i, j) and not self.isAdj(player.order, i, j):
+                ret.update([(i, j)])
         return ret
 
     def canDrop(self, player, tile, x = -1, y = -1):
@@ -284,8 +283,10 @@ class Board(object):
                         if shape.tileSizes[t] != len(tilePoints):
                             continue
                         if tilePoints in shape.shapeSet[t]:
+                            u = shape.shapeSet[t].index(tilePoints)
                             player[matrix[i][j] - 1].used[t] = True
                             player[matrix[i][j] - 1].scores += shape.tileSizes[t]
+                            player.shapeSet.update(shape.cornerSet[t][u])
                             break
 
     def toMatrix(self):
