@@ -23,8 +23,8 @@ if __name__ == '__main__':
         player.append(Player(0, 0, pType1))
         player.append(Player(0, 1, pType2))
     else:
-        player.append(Player(0, 0, 2))
-        player.append(Player(0, 1, 2))
+        player.append(Player(0, 0, 1))
+        player.append(Player(0, 1, 1))
 
     if testMode:
         fout = open("game.out", "w+", encoding = 'utf-8')

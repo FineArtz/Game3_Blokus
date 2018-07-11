@@ -1,8 +1,6 @@
 @echo off
-environment.py > envout.txt
+start env.bat
 :loop
     player.py < envout.txt > playerout.txt
-    environment.py < playerout.txt
     player.py < envout.txt > playerout.txt
-    environment.py < playerout.txt
     goto loop

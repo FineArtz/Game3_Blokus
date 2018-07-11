@@ -5,7 +5,8 @@
 from kernel import DecisionFunc
 from board import Tiles, Board, CooDp, CooDq
 from shape import cornerSet
-import sys
+import sys, argparse
+import json
 
 class Player(object):
 
@@ -33,6 +34,7 @@ class Player(object):
                     self.corners = set([(4, 4)])
                 else:
                     self.corners = set([(9, 9)])
+                self.tmpSet = []
                 if level == -1:
                     self.decisionMaker = None
                 else:
@@ -44,11 +46,8 @@ class Player(object):
     def updateCorners(self, board):
         tmpSet = set()
         for (i, j) in self.corners:
-            if board.board[i][j] == self.order + 1:
+            if board.board[i][j] == 0:
                 tmpSet.update([(i, j)])
-            elif board.board[i][j] == 0:
-                if board.isCorner(self.order, i, j):
-                    tmpSet.update([(i, j)])
         self.corners = tmpSet
 
     def action(self, board, opponent):
@@ -61,7 +60,7 @@ class Player(object):
         tileType, rot, flp, x, y = self.decisionMaker(board, self, opponent, setEvalWeight = [self.w1, self.w2])
         if tileType != -1:
             tile = Tiles(tileType, rot, flp)
-            board.dropTile(self.order, tile, x, y)
+            board.dropTile(self, tile, x, y)
             self.used[tileType] = True
             for coo in cornerSet[tileType][rot + flp * 4]:
                 if board.isInBound(x + coo[0], y + coo[1]):
@@ -81,50 +80,72 @@ class Player(object):
             }
 
 if __name__ == '__main__':
-    argc = len(sys.argv)
-    
-    '''
-        -l level: set the level of AI player as 'level'
-        default: -l 0
-    '''
-    lv = 0
-    if '-l' in sys.argv[1:]:
-        argpos = sys.argv.index('-l')
-        lv = int(sys.argv[argpos + 1])
-    
-    '''
-        -w w1 w2: weights for evaluation functions
-        default: -w 20 10
-    '''
-    w1 = 20
-    w2 = 10
-    if '-w' in sys.argv[1:]:
-        argpos = sys.argv.index('-w')
-        w1 = int(sys.argv[argpos + 1])
-        w2 = int(sys.argv[argpos + 2])
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", help = "AI config")
+
+    """
+        argc = len(sys.argv)
+        
+        '''
+            -l level: set the level of AI player as 'level'
+            default: -l 0
+        '''
+        lv = 0
+        if '-l' in sys.argv[1:]:
+            argpos = sys.argv.index('-l')
+            lv = int(sys.argv[argpos + 1])
+        
+        '''
+            -w w1 w2: weights for evaluation functions
+            default: -w 20 10
+        '''
+        w1 = 20
+        w2 = 10
+        if '-w' in sys.argv[1:]:
+            argpos = sys.argv.index('-w')
+            w1 = int(sys.argv[argpos + 1])
+            w2 = int(sys.argv[argpos + 2])
+    """
 
     board = Board()
-
-    playerOrder = int(input())
-    player = Player(0, playerOrder, lv, setEvalWeight = [w1, w2])
-    opponent = Player(0, playerOrder ^ 1, 0)
-
-    tileSize = int(input())
-    for i in range(tileSize):
-        x, y = list(map(int, input().split(' ')))
-    
+    output = {}
     matrix = []
-    for i in range(14):
-        matrix.append(list(map(int, input().split(' '))))
-    
-    board.parseFromMatrix(matrix, [player, opponent])
+    player = None
+    opponent = None
 
-    result = player.action(board, opponent)
-    if result['action']:
-        tile = Tiles(result['tileType'], result['rotation'], result['flip'])
-        print("%d %d" % (playerOrder, tile.size))
-        for coo in tile.shape:
-            print("%d %d" % (result['x'] + coo[0], result['y'] + coo[1]))
+    jsInfo = input()
+    info = json.loads(jsInfo)
+    if info['history'] != []:
+        p_id = info['history'][-1]['id']
+        playerOrder = p_id ^ 1
+        player = Player(0, playerOrder, 0)
+        opponent = Player(0, playerOrder ^ 1, 0)
+        matrix = info['history'][-1]['st']
     else:
-        print("%d -1" % playerOrder)
+        matrix = [[0 for i in range(14)] for j in range(14)]
+        player = Player(0, 0, 0)
+        opponent = Player(0, 1, 0)
+        
+    board.parseFromMatrix(matrix, [player, opponent])
+    result = player.action(board, opponent)
+
+    if result['action']:
+        output['status'] = "Success"
+        output['is_pass'] = False
+        output['action'] = []
+        tile = Tiles(result['tileType'], result['rotation'], result['flip'])
+        x = result['x']
+        y = result['y']
+        for (i, j) in tile.shape:
+            output['action'].append({
+                "row" : x + i,
+                "col" : y + j
+            })
+        print(json.dumps(output))
+    else:
+        output['status'] = "Success"
+        output['is_pass'] = True
+        output['action'] = []
+        print(json.dumps(output))
 

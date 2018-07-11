@@ -9,7 +9,7 @@ import random
 DecisionFunc = [] # the list of search functions
 EvalFunc = [] # the list of evaluation functions
 
-evalWeight = [10, 10]
+evalWeight = [20, 10]
 # weights of greedyEval
 
 minimaxDepth = 2
@@ -71,7 +71,7 @@ def randomGreedy(board, player, opponent, **info):
                     random.shuffle(direction)
                     for k in direction:
                         tile = Tiles(remain[size - 1][i], k % 4, k // 4)
-                        flag = board.canDrop(player.order, tile, x, y)
+                        flag = board.canDrop(player, tile, x, y)
                         if flag:
                             return [
                                  remain[size - 1][i], # type of tile
@@ -129,12 +129,14 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                 for p in range(shape.tileMaxRotation[i]):
                     for q in range(2):
                         tile = Tiles(i, p, q)
-                        result = board.dropTile(player.order, tile, x, y)
+                        result = board.dropTile(player, tile, x, y)
                         if result:
-                            player.score = player.score + tile.size
+                            player.score += tile.size
+                            ss = set()
                             for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
                                 if board.isInBound(x + coo[0], y + coo[1]):
-                                    player.corners.update([(x + coo[0], y + coo[1])])
+                                    ss.update([(x + coo[0], y + coo[1])])
+                            player.tmpSet.append(ss)
                             score = EvalFunc[evalFunc](board, player, opponent)
                             if score > maxScore:
                                 maxScore = score
@@ -146,8 +148,8 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                                     y # y
                                 ]
                             board.retraceDrop(tile, x, y)
-                            player.updateCorners(board)
-                            player.score = player.score - tile.size
+                            player.tmpSet.pop()
+                            player.score -= tile.size
     if maxScore > -32768:
         return maxDecision
     else:
@@ -172,16 +174,18 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
                     for p in range(shape.tileMaxRotation[i]):
                         for q in range(2):
                             tile = Tiles(i, p, q)
-                            result = board.dropTile(player.order, tile, x, y)
+                            result = board.dropTile(player, tile, x, y)
                             if result:
                                 player.score = player.score + tile.size
+                                ss = set()
                                 for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
                                     if board.isInBound(x + coo[0], y + coo[1]):
-                                        player.corners.update([(x + coo[0], y + coo[1])])
+                                        ss.update([(x + coo[0], y + coo[1])])
+                                player.tmpSet.append(ss)
                                 score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
                                 board.retraceDrop(tile, x, y)
                                 player.score = player.score - tile.size
-                                player.updateCorners(board)
+                                player.tmpSet.pop()
                                 if score < beta:
                                     beta = score
                                     if alpha >= beta:
@@ -197,26 +201,28 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
                     for p in range(shape.tileMaxRotation[i]):
                         for q in range(2):
                             tile = Tiles(i, p, q)
-                            result = board.dropTile(player.order, tile, x, y)
+                            result = board.dropTile(player, tile, x, y)
                             if result:
                                 player.score = player.score + tile.size
+                                ss = set()
                                 for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
                                     if board.isInBound(x + coo[0], y + coo[1]):
-                                        player.corners.update([(x + coo[0], y + coo[1])])
+                                        ss.update([(x + coo[0], y + coo[1])])
+                                player.tmpSet.append(ss)
                                 score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
                                 board.retraceDrop(tile, x, y)
-                                player.updateCorners(board)
+                                player.tmpSet.pop()
                                 player.score = player.score - tile.size
                                 if score > alpha:
                                     alpha = score
                                     if depth == 0:
                                         bestMove = [i, p, q, x, y]
                                         if alpha >= beta:
-                                            return bestMove
+                                            return [alpha, bestMove]
                                     else:
                                         if alpha >= beta:
                                             return beta
-        return alpha if depth != 0 else bestMove
+        return alpha if depth != 0 else [alpha, bestMove]
 
 def alphaBeta(board, player, opponent, evalFunc = 0, **info):
 
@@ -233,7 +239,10 @@ def alphaBeta(board, player, opponent, evalFunc = 0, **info):
     if 'setEvalWeight' in info:
         evalWeight = info['setEvalWeight']
         
-    bestMove = _alphaBeta(0, board, player, opponent, evalFunc, -32768, 32767, player.order)
-    return bestMove
+    alpha = -32768
+    beta = 32767
+    score = [player.score * evalWeight[0], opponent.score * evalWeight[0]]
+    bestMove = _alphaBeta(0, board, player, opponent, evalFunc, alpha, beta, player.order)
+    return bestMove[1]
 
 DecisionFunc.append(alphaBeta)

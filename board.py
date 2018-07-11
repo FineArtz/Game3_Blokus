@@ -42,9 +42,9 @@ class Tiles(object):
         for i in range(5):
             for j in range(5):
                 if (i, j) in self.shape:
-                    print("+") if writeObject == None else writeObject.write("+")
+                    print("+") if writeObject is None else writeObject.write("+")
                 else:
-                    print("_") if writeObject == None else writeObject.write("-")
+                    print("_") if writeObject is None else writeObject.write("-")
             print("\n") if writeObject == None else writeObject.write("\n")
 
     def leftRotate(self):
@@ -106,27 +106,48 @@ class Board(object):
         return (x >= 0 and x < self.size and y >= 0 and y < self.size)
 
     def isAdj(self, player, x, y):
-        for k in range(4):
-            nx = x + CooDx[k]
-            ny = y + CooDy[k]
-            if self.isInBound(nx, ny):
-                if self.board[nx][ny] == self.color[player]:
-                    return True
-        return False
+        if hasattr(player, 'order'):
+            for k in range(4):
+                nx = x + CooDx[k]
+                ny = y + CooDy[k]
+                if self.isInBound(nx, ny):
+                    if self.board[nx][ny] == self.color[player.order]:
+                        return True
+            return False
+        else:
+            for k in range(4):
+                nx = x + CooDx[k]
+                ny = y + CooDy[k]
+                if self.isInBound(nx, ny):
+                    if self.board[nx][ny] == self.color[player]:
+                        return True
+            return False
 
     def isCorner(self, player, x, y):
-        for k in range(4):
-            nx = x + CooDp[k]
-            ny = y + CooDq[k]
-            if self.isInBound(nx, ny):
-                if self.board[nx][ny] == self.color[player]:
-                    return True
-        return False
+        if hasattr(player, 'order'):
+            for k in range(4):
+                nx = x + CooDp[k]
+                ny = y + CooDq[k]
+                if self.isInBound(nx, ny):
+                    if self.board[nx][ny] == self.color[player.order]:
+                        return True
+            return False
+        else:
+            for k in range(4):
+                nx = x + CooDp[k]
+                ny = y + CooDq[k]
+                if self.isInBound(nx, ny):
+                    if self.board[nx][ny] == self.color[player]:
+                        return True
+            return False
 
     def getCorners(self, player):
+        tmp = copy.copy(player.corners)
+        for s in player.tmpSet:
+            tmp = tmp | s
         ret = set()
-        for (i, j) in player.corners:
-            if self.isCorner(player.order, i, j) and not self.isAdj(player.order, i, j):
+        for (i, j) in tmp:
+            if self.board[i][j] == 0 and not self.isAdj(player, i, j):
                 ret.update([(i, j)])
         return ret
 
@@ -139,16 +160,16 @@ class Board(object):
             if not isinstance(tile, list):
                 raise TypeError
             coverCorner = False
-            for coo in tile:
-                if not self.isInBound(coo[0], coo[1]):
+            for (i, j) in tile:
+                if not self.isInBound(i, j):
                     return False
-                if self.board[coo[0]][coo[1]] != 0:
+                if self.board[i][j] != 0:
                     return False
-                if self.isAdj(player, coo[0], coo[1]):
+                if self.isAdj(player, i, j):
                     return False
-                if self.isCorner(player, coo[0], coo[1]) \
-                or ((coo[0], coo[1]) == (4, 4) and player == 0) \
-                or ((coo[0], coo[1]) == (9, 9) and player == 1):
+                if self.isCorner(player, i, j) \
+                or ((i, j) == (4, 4) and player == 0) \
+                or ((i, j) == (9, 9) and player == 1):
                     coverCorner = True
             return coverCorner
         else:
@@ -157,16 +178,16 @@ class Board(object):
             if tile.type == -1:
                 raise ValueError
             coverCorner = False
-            for coo in tile.shape:
-                if not self.isInBound(x + coo[0], y + coo[1]):
+            for (i, j) in tile.shape:
+                if not self.isInBound(x + i, y + j):
                     return False
-                if self.board[x + coo[0]][y + coo[1]] != 0:
+                if self.board[x + i][y + j] != 0:
                     return False
-                if self.isAdj(player, x + coo[0], y + coo[1]):
+                if self.isAdj(player, x + i, y + j):
                     return False
-                if self.isCorner(player, x + coo[0], y + coo[1]) \
-                or ((x + coo[0], y + coo[1]) == (4, 4) and player == 0) \
-                or ((x + coo[0], y + coo[1]) == (9, 9) and player == 1):
+                if (x + i, y + j) in player.corners \
+                or ((x + i, y + j) == (4, 4) and player.order == 0) \
+                or ((x + i, y + j) == (9, 9) and player.order == 1):
                     coverCorner = True
             return coverCorner
 
@@ -182,20 +203,18 @@ class Board(object):
                 raise ValueError
             if not self.canDrop(player, tile, x, y):
                 return False
-            for coo in tile:
-                self.board[coo[0]][coo[1]] = self.color[player]
+            for (i, j) in tile:
+                self.board[i][j] = self.color[player]
             return True
         else:
             if not isinstance(tile, Tiles):
                 raise TypeError
             if tile.type == -1:
                 raise ValueError
-            if player < 0 or player >= self.playerNum:
-                raise ValueError
             if not self.canDrop(player, tile, x, y):
                 return False
-            for coo in tile.shape:
-                self.board[x + coo[0]][y + coo[1]] = self.color[player]
+            for (i, j) in tile.shape:
+                self.board[x + i][y + j] = self.color[player.order]
             return True
 
     '''
@@ -307,7 +326,7 @@ class Board(object):
                         for p in range(shape.tileMaxRotation[i]):
                             for q in range(2):
                                 tile = Tiles(i, p, q)
-                                if self.canDrop(i, tile, x, y):
+                                if self.canDrop(player[i], tile, x, y):
                                     return False
         return True
 

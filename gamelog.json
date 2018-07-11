@@ -1,0 +1,292 @@
+{
+  "step" : [
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 4, "col" : 2},
+        { "row" : 4, "col" : 3},
+        { "row" : 4, "col" : 4},
+        { "row" : 5, "col" : 2},
+        { "row" : 6, "col" : 2}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 7, "col" : 9},
+        { "row" : 7, "col" : 10},
+        { "row" : 8, "col" : 8},
+        { "row" : 8, "col" : 9},
+        { "row" : 9, "col" : 9}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 3, "col" : 5},
+        { "row" : 3, "col" : 6},
+        { "row" : 3, "col" : 7},
+        { "row" : 4, "col" : 6},
+        { "row" : 4, "col" : 7}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 8, "col" : 6},
+        { "row" : 9, "col" : 5},
+        { "row" : 9, "col" : 6},
+        { "row" : 9, "col" : 7},
+        { "row" : 10, "col" : 6}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 0, "col" : 1},
+        { "row" : 1, "col" : 1},
+        { "row" : 2, "col" : 1},
+        { "row" : 3, "col" : 0},
+        { "row" : 3, "col" : 1}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 11, "col" : 4},
+        { "row" : 11, "col" : 5},
+        { "row" : 12, "col" : 5},
+        { "row" : 12, "col" : 6},
+        { "row" : 13, "col" : 6}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 0, "col" : 4},
+        { "row" : 1, "col" : 3},
+        { "row" : 1, "col" : 4},
+        { "row" : 1, "col" : 5},
+        { "row" : 2, "col" : 4}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 11, "col" : 0},
+        { "row" : 11, "col" : 1},
+        { "row" : 11, "col" : 2},
+        { "row" : 12, "col" : 2},
+        { "row" : 12, "col" : 3}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 7, "col" : 3},
+        { "row" : 7, "col" : 4},
+        { "row" : 7, "col" : 5},
+        { "row" : 8, "col" : 2},
+        { "row" : 8, "col" : 3}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 6, "col" : 4},
+        { "row" : 6, "col" : 5},
+        { "row" : 6, "col" : 6},
+        { "row" : 6, "col" : 7},
+        { "row" : 7, "col" : 7}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 1, "col" : 8},
+        { "row" : 1, "col" : 10},
+        { "row" : 2, "col" : 8},
+        { "row" : 2, "col" : 9},
+        { "row" : 2, "col" : 10}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 8, "col" : 11},
+        { "row" : 8, "col" : 13},
+        { "row" : 9, "col" : 11},
+        { "row" : 9, "col" : 12},
+        { "row" : 9, "col" : 13}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 0, "col" : 11},
+        { "row" : 0, "col" : 12},
+        { "row" : 1, "col" : 12},
+        { "row" : 1, "col" : 13},
+        { "row" : 2, "col" : 12}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 11, "col" : 7},
+        { "row" : 11, "col" : 8},
+        { "row" : 11, "col" : 9},
+        { "row" : 12, "col" : 8},
+        { "row" : 13, "col" : 8}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 3, "col" : 11},
+        { "row" : 4, "col" : 9},
+        { "row" : 4, "col" : 10},
+        { "row" : 4, "col" : 11},
+        { "row" : 4, "col" : 12}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 4, "col" : 13},
+        { "row" : 5, "col" : 11},
+        { "row" : 5, "col" : 12},
+        { "row" : 5, "col" : 13},
+        { "row" : 6, "col" : 11}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 9, "col" : 1},
+        { "row" : 10, "col" : 1},
+        { "row" : 10, "col" : 2},
+        { "row" : 10, "col" : 3},
+        { "row" : 11, "col" : 3}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 12, "col" : 10},
+        { "row" : 12, "col" : 11},
+        { "row" : 12, "col" : 12},
+        { "row" : 12, "col" : 13},
+        { "row" : 13, "col" : 11}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 5, "col" : 8},
+        { "row" : 6, "col" : 8},
+        { "row" : 6, "col" : 9},
+        { "row" : 6, "col" : 10},
+        { "row" : 7, "col" : 8}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 13, "col" : 0},
+        { "row" : 13, "col" : 1}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 6, "col" : 12},
+        { "row" : 6, "col" : 13},
+        { "row" : 7, "col" : 11},
+        { "row" : 7, "col" : 12}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 1,
+      "action" : [
+        { "row" : 3, "col" : 12}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 8, "col" : 10},
+        { "row" : 9, "col" : 10},
+        { "row" : 10, "col" : 10},
+        { "row" : 11, "col" : 10}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 5, "col" : 0},
+        { "row" : 6, "col" : 0},
+        { "row" : 7, "col" : 0},
+        { "row" : 7, "col" : 1}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 12, "col" : 4},
+        { "row" : 13, "col" : 3},
+        { "row" : 13, "col" : 4},
+        { "row" : 13, "col" : 5}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 12, "col" : 9},
+        { "row" : 13, "col" : 9},
+        { "row" : 13, "col" : 10}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 0, "col" : 6},
+        { "row" : 0, "col" : 7}
+      ],
+      "state" : {}
+    },
+    {
+      "player" : 0,
+      "action" : [
+        { "row" : 5, "col" : 5}
+      ],
+      "state" : {}
+    }
+  ]
+}
