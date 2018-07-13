@@ -5,6 +5,7 @@ from board import Tiles, Board
 from player import Player
 import shape
 import sys
+import time
 
 if __name__ == '__main__':
 
@@ -36,6 +37,8 @@ if __name__ == '__main__':
         flag = False
         Round = Round + 1
         for i in range(board.playerNum):
+            startTime = time.time()
+
             result = player[i].action(board, player[i ^ 1])
             if result['action']:
                 flag = True
@@ -50,6 +53,9 @@ if __name__ == '__main__':
                     for coo in shape.shapeSet[result['tileType']][result['rotation'] + result['flip'] * 4]:
                         print("%d %d " % (result['x'] + coo[0], result['y'] + coo[1]), end = '')
                     print()
+                
+            endTime = time.time()
+            print("player %d: %s" % (i, endTime - startTime))
         if not flag:
             if testMode:
                 fout.write("\n")

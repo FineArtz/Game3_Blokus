@@ -1,0 +1,919 @@
+Wed Jul 11 15:27:29 2018    profile.stats
+
+         532857505 function calls (532413031 primitive calls) in 295.731 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      8/1    0.000    0.000  295.731  295.731 {built-in method builtins.exec}
+        1    0.000    0.000  295.731  295.731 game.py:4(<module>)
+       32    0.000    0.000  295.700    9.241 G:\Game3Blokus\player.py:52(action)
+       32    0.000    0.000  295.699    9.241 G:\Game3Blokus\kernel.py:227(alphaBeta)
+444443/32   19.171    0.000  295.699    9.241 G:\Game3Blokus\kernel.py:160(_alphaBeta)
+ 19308703   10.471    0.000  205.284    0.000 G:\Game3Blokus\board.py:194(dropTile)
+ 19308703   55.042    0.000  193.020    0.000 G:\Game3Blokus\board.py:154(canDrop)
+ 55119239  110.743    0.000  155.157    0.000 G:\Game3Blokus\board.py:108(isAdj)
+269025036   49.387    0.000   49.387    0.000 G:\Game3Blokus\board.py:105(isInBound)
+   432932    0.617    0.000   39.807    0.000 G:\Game3Blokus\kernel.py:87(greedyEval)
+   865864    0.855    0.000   39.126    0.000 G:\Game3Blokus\kernel.py:96(validCornerNumber)
+   865864    6.771    0.000   38.176    0.000 G:\Game3Blokus\board.py:144(getCorners)
+ 19308745   24.616    0.000   29.864    0.000 G:\Game3Blokus\board.py:24(__init__)
+ 55119335    5.742    0.000    5.742    0.000 {built-in method builtins.hasattr}
+ 19308745    3.741    0.000    3.741    0.000 {built-in method builtins.max}
+ 38617489    3.519    0.000    3.519    0.000 {built-in method builtins.isinstance}
+ 11409239    1.744    0.000    1.744    0.000 {method 'update' of 'set' objects}
+ 20174643    1.602    0.000    1.602    0.000 {built-in method builtins.len}
+   865864    0.696    0.000    0.809    0.000 D:\Python 3.6.4\lib\copy.py:66(copy)
+   444411    0.501    0.000    0.501    0.000 G:\Game3Blokus\board.py:234(retraceDrop)
+   444447    0.154    0.000    0.154    0.000 {method 'append' of 'list' objects}
+   444411    0.151    0.000    0.151    0.000 {method 'pop' of 'list' objects}
+   865901    0.113    0.000    0.113    0.000 {method 'get' of 'dict' objects}
+   432932    0.064    0.000    0.064    0.000 {method 'random' of '_random.Random' objects}
+       30    0.004    0.000    0.015    0.000 G:\Game3Blokus\board.py:238(print)
+     13/2    0.000    0.000    0.012    0.006 <frozen importlib._bootstrap>:966(_find_and_load)
+     13/2    0.000    0.000    0.012    0.006 <frozen importlib._bootstrap>:936(_find_and_load_unlocked)
+     13/2    0.000    0.000    0.012    0.006 <frozen importlib._bootstrap>:651(_load_unlocked)
+      7/2    0.000    0.000    0.012    0.006 <frozen importlib._bootstrap_external>:672(exec_module)
+     20/2    0.000    0.000    0.011    0.005 <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+    12212    0.006    0.000    0.010    0.000 {method 'write' of '_io.TextIOWrapper' objects}
+        1    0.000    0.000    0.010    0.010 G:\Game3Blokus\player.py:5(<module>)
+        7    0.000    0.000    0.006    0.001 <frozen importlib._bootstrap_external>:743(get_code)
+        1    0.000    0.000    0.006    0.006 G:\Game3Blokus\kernel.py:5(<module>)
+        1    0.000    0.000    0.005    0.005 D:\Python 3.6.4\lib\random.py:38(<module>)
+    12212    0.003    0.000    0.004    0.000 D:\Python 3.6.4\lib\codecs.py:326(reset)
+       13    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap>:870(_find_spec)
+       36    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap_external>:75(_path_stat)
+       36    0.003    0.000    0.003    0.000 {built-in method nt.stat}
+        8    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:1149(find_spec)
+        8    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:1117(_get_spec)
+        1    0.000    0.000    0.002    0.002 D:\Python 3.6.4\lib\hashlib.py:54(<module>)
+       15    0.002    0.000    0.002    0.000 {built-in method builtins.print}
+       19    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:1233(find_spec)
+       13    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap>:564(module_from_spec)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap_external>:845(_cache_bytecode)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap_external>:850(set_data)
+        1    0.001    0.001    0.002    0.002 <frozen importlib._bootstrap_external>:106(_write_atomic)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap_external>:919(create_module)
+        1    0.002    0.002    0.002    0.002 {built-in method _imp.create_dynamic}
+        1    0.000    0.000    0.001    0.001 G:\Game3Blokus\board.py:5(<module>)
+        8    0.001    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:830(get_data)
+    11760    0.001    0.000    0.001    0.000 {built-in method builtins.chr}
+        1    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap_external>:735(source_to_code)
+        1    0.001    0.001    0.001    0.001 {built-in method builtins.compile}
+        6    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:485(_compile_bytecode)
+        6    0.001    0.000    0.001    0.000 {built-in method marshal.loads}
+        1    0.001    0.001    0.001    0.001 {built-in method nt.replace}
+        1    0.001    0.001    0.001    0.001 {method 'close' of '_io.TextIOWrapper' objects}
+    12212    0.001    0.000    0.001    0.000 D:\Python 3.6.4\lib\codecs.py:275(reset)
+        9    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:85(_path_is_mode_type)
+        8    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:94(_path_isfile)
+        7    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:840(path_stats)
+        1    0.000    0.000    0.000    0.000 {built-in method io.open}
+       14    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+        5    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:728(create_module)
+        8    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\hashlib.py:73(__get_builtin_constructor)
+        5    0.000    0.000    0.000    0.000 {built-in method _imp.create_builtin}
+        8    0.000    0.000    0.000    0.000 {method 'read' of '_io.FileIO' objects}
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:504(_init_module_attrs)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:265(__call__)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:364(_create_)
+       92    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:57(_path_join)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:147(__enter__)
+        1    0.000    0.000    0.000    0.000 {built-in method nt.open}
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:263(cache_from_source)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:124(__new__)
+       15    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:403(cached)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:157(_get_module_lock)
+        8    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:361(_get_cached)
+        7    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:430(_validate_bytecode_header)
+        6    0.000    0.000    0.000    0.000 {built-in method builtins.__build_class__}
+       92    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:59(<listcomp>)
+        2    0.000    0.000    0.000    0.000 G:\Game3Blokus\player.py:22(__init__)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:99(_path_isdir)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:373(_calc_mode)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:707(find_spec)
+        2    0.000    0.000    0.000    0.000 G:\Game3Blokus\player.py:29(<listcomp>)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\bisect.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:497(_code_to_bytecode)
+       15    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:63(_path_split)
+        8    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1228(_get_spec)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:58(__init__)
+        5    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:433(spec_from_loader)
+      198    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {method 'write' of '_io.FileIO' objects}
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:318(__exit__)
+       97    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:78(acquire)
+       17    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:997(_handle_fromlist)
+        1    0.000    0.000    0.000    0.000 {built-in method marshal.dumps}
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:151(__exit__)
+        8    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+        8    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:524(spec_from_file_location)
+       26    0.000    0.000    0.000    0.000 {built-in method _thread.allocate_lock}
+      109    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:222(_verbose_message)
+       23    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1080(_path_importer_cache)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:103(release)
+        1    0.000    0.000    0.000    0.000 G:\Game3Blokus\shape.py:12(<module>)
+      106    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+       15    0.000    0.000    0.000    0.000 {method 'rsplit' of 'str' objects}
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:176(cb)
+       13    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+       12    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:351(__setattr__)
+        1    0.000    0.000    0.000    0.000 G:\Game3Blokus\board.py:73(__init__)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\random.py:87(__init__)
+       26    0.000    0.000    0.000    0.000 {built-in method _thread.get_ident}
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\codecs.py:308(__init__)
+       13    0.000    0.000    0.000    0.000 {built-in method _imp.is_builtin}
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\random.py:96(seed)
+        7    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x0000000068AAC430}
+       29    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:847(__exit__)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:52(_r_long)
+        1    0.000    0.000    0.000    0.000 G:\Game3Blokus\board.py:80(<listcomp>)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:114(__prepare__)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:369(__init__)
+       55    0.000    0.000    0.000    0.000 {built-in method _imp.release_lock}
+       52    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:321(<genexpr>)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:416(parent)
+       12    0.000    0.000    0.000    0.000 {built-in method nt.getcwd}
+        6    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:20(_is_descriptor)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:462(_find_new_)
+        7    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+       55    0.000    0.000    0.000    0.000 {built-in method _imp.acquire_lock}
+       29    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:843(__enter__)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:311(__enter__)
+        3    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:417(_get_mixins_)
+       59    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
+       19    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:37(_relax_case)
+        7    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:393(_check_name_wrapper)
+        1    0.000    0.000    0.000    0.000 {function Random.seed at 0x0000020A18754158}
+        7    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:35(_new_module)
+        5    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:736(exec_module)
+        1    0.000    0.000    0.000    0.000 {built-in method math.exp}
+        5    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:232(_requires_builtin_wrapper)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\random.py:71(Random)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:143(__init__)
+        8    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:780(find_spec)
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:307(__init__)
+        7    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:800(__init__)
+       22    0.000    0.000    0.000    0.000 {built-in method nt.fspath}
+       13    0.000    0.000    0.000    0.000 {built-in method from_bytes}
+        6    0.000    0.000    0.000    0.000 {built-in method _imp._fix_co_filename}
+        3    0.000    0.000    0.000    0.000 {method 'extend' of 'bytearray' objects}
+        9    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {method 'format' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:47(_w_long)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:927(exec_module)
+        1    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_md5}
+        1    0.000    0.000    0.000    0.000 {method 'union' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:160(<setcomp>)
+        8    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:28(_is_dunder)
+       12    0.000    0.000    0.000    0.000 {method 'get' of 'mappingproxy' objects}
+        8    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:36(_is_sunder)
+        8    0.000    0.000    0.000    0.000 {built-in method _imp.is_frozen}
+       13    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:424(has_location)
+       12    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:310(__getattr__)
+        6    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:535(_generate_next_value_)
+       14    0.000    0.000    0.000    0.000 {built-in method builtins.globals}
+        5    0.000    0.000    0.000    0.000 {built-in method _imp.exec_builtin}
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:135(<dictcomp>)
+        1    0.000    0.000    0.000    0.000 G:\Game3Blokus\board.py:72(Board)
+        1    0.000    0.000    0.000    0.000 {built-in method math.sqrt}
+        7    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:825(get_filename)
+        1    0.000    0.000    0.000    0.000 G:\Game3Blokus\player.py:10(Player)
+        2    0.000    0.000    0.000    0.000 G:\Game3Blokus\player.py:30(<listcomp>)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\enum.py:65(__init__)
+        2    0.000    0.000    0.000    0.000 {built-in method math.log}
+        5    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:753(is_package)
+        7    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:669(create_module)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:908(__init__)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\codecs.py:259(__init__)
+        1    0.000    0.000    0.000    0.000 G:\Game3Blokus\board.py:23(Tiles)
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\random.py:664(SystemRandom)
+        2    0.000    0.000    0.000    0.000 {method 'to_bytes' of 'int' objects}
+        6    0.000    0.000    0.000    0.000 {method 'items' of 'collections.OrderedDict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 D:\Python 3.6.4\lib\codecs.py:185(__init__)
+        1    0.000    0.000    0.000    0.000 G:\Game3Blokus\board.py:16(Coordinate)
+        1    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha1}
+        1    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha224}
+        1    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha256}
+        1    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha384}
+        1    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'index' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'mro' of 'type' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        1    0.000    0.000    0.000    0.000 {built-in method _imp.exec_dynamic}
+        1    0.000    0.000    0.000    0.000 {built-in method sys._getframe}
+        1    0.000    0.000    0.000    0.000 {built-in method _hashlib.openssl_sha512}
+
+
+   Ordered by: cumulative time
+
+Function                                                               was called by...
+                                                                           ncalls  tottime  cumtime
+{built-in method builtins.exec}                                        <-     7/2    0.000    0.011  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+game.py:4(<module>)                                                    <-       1    0.000  295.731  {built-in method builtins.exec}
+G:\Game3Blokus\player.py:52(action)                                    <-      32    0.000  295.700  game.py:4(<module>)
+G:\Game3Blokus\kernel.py:227(alphaBeta)                                <-      32    0.000  295.699  G:\Game3Blokus\player.py:52(action)
+G:\Game3Blokus\kernel.py:160(_alphaBeta)                               <- 444411/11479   18.672  290.309  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+                                                                               32    0.499  295.699  G:\Game3Blokus\kernel.py:227(alphaBeta)
+G:\Game3Blokus\board.py:194(dropTile)                                  <- 19308674   10.471  205.283  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+                                                                               29    0.000    0.001  G:\Game3Blokus\player.py:52(action)
+G:\Game3Blokus\board.py:154(canDrop)                                   <- 19308703   55.042  193.020  G:\Game3Blokus\board.py:194(dropTile)
+G:\Game3Blokus\board.py:108(isAdj)                                     <- 10215909   20.797   29.186  G:\Game3Blokus\board.py:144(getCorners)
+                                                                         44903330   89.946  125.971  G:\Game3Blokus\board.py:154(canDrop)
+G:\Game3Blokus\board.py:105(isInBound)                                 <- 211819633   38.672   38.672  G:\Game3Blokus\board.py:108(isAdj)
+                                                                         54828653   10.281   10.281  G:\Game3Blokus\board.py:154(canDrop)
+                                                                          2376590    0.434    0.434  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+                                                                              160    0.000    0.000  G:\Game3Blokus\player.py:52(action)
+G:\Game3Blokus\kernel.py:87(greedyEval)                                <-  432932    0.617   39.807  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+G:\Game3Blokus\kernel.py:96(validCornerNumber)                         <-  865864    0.855   39.126  G:\Game3Blokus\kernel.py:87(greedyEval)
+G:\Game3Blokus\board.py:144(getCorners)                                <-  865864    6.771   38.176  G:\Game3Blokus\kernel.py:96(validCornerNumber)
+G:\Game3Blokus\board.py:24(__init__)                                   <- 19308674   24.616   29.864  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+                                                                               42    0.000    0.000  G:\Game3Blokus\player.py:29(<listcomp>)
+                                                                               29    0.000    0.000  G:\Game3Blokus\player.py:52(action)
+{built-in method builtins.hasattr}                                     <-      10    0.000    0.000  <frozen importlib._bootstrap>:433(spec_from_loader)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:564(module_from_spec)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:651(_load_unlocked)
+                                                                               17    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+                                                                               19    0.000    0.000  <frozen importlib._bootstrap_external>:1117(_get_spec)
+                                                                               18    0.000    0.000  D:\Python 3.6.4\lib\enum.py:20(_is_descriptor)
+                                                                                6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                         55119239    5.742    5.742  G:\Game3Blokus\board.py:108(isAdj)
+{built-in method builtins.max}                                         <- 19308745    3.741    3.741  G:\Game3Blokus\board.py:24(__init__)
+{built-in method builtins.isinstance}                                  <-       6    0.000    0.000  <frozen importlib._bootstrap_external>:485(_compile_bytecode)
+                                                                               23    0.000    0.000  <frozen importlib._bootstrap_external>:1117(_get_spec)
+                                                                                6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+                                                                                6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                                9    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\random.py:96(seed)
+                                                                         19308703    1.727    1.727  G:\Game3Blokus\board.py:154(canDrop)
+                                                                         19308703    1.792    1.792  G:\Game3Blokus\board.py:194(dropTile)
+                                                                               32    0.000    0.000  G:\Game3Blokus\player.py:52(action)
+{method 'update' of 'set' objects}                                     <- 9392766    1.411    1.411  G:\Game3Blokus\board.py:144(getCorners)
+                                                                          2016337    0.333    0.333  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+                                                                              136    0.000    0.000  G:\Game3Blokus\player.py:52(action)
+{built-in method builtins.len}                                         <-      15    0.000    0.000  <frozen importlib._bootstrap_external>:63(_path_split)
+                                                                               14    0.000    0.000  <frozen importlib._bootstrap_external>:430(_validate_bytecode_header)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:743(get_code)
+                                                                                2    0.000    0.000  D:\Python 3.6.4\lib\enum.py:28(_is_dunder)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:36(_is_sunder)
+                                                                         19308745    1.507    1.507  G:\Game3Blokus\board.py:24(__init__)
+                                                                           865864    0.095    0.095  G:\Game3Blokus\kernel.py:96(validCornerNumber)
+                                                                                1    0.000    0.000  game.py:4(<module>)
+D:\Python 3.6.4\lib\copy.py:66(copy)                                   <-  865864    0.696    0.809  G:\Game3Blokus\board.py:144(getCorners)
+G:\Game3Blokus\board.py:234(retraceDrop)                               <-  444411    0.501    0.501  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+{method 'append' of 'list' objects}                                    <-      12    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+                                                                                6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                               12    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+                                                                                4    0.000    0.000  G:\Game3Blokus\kernel.py:5(<module>)
+                                                                           444411    0.154    0.154  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+                                                                                2    0.000    0.000  game.py:4(<module>)
+{method 'pop' of 'list' objects}                                       <-  444411    0.151    0.151  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+{method 'get' of 'dict' objects}                                       <-      13    0.000    0.000  <frozen importlib._bootstrap>:176(cb)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                           865864    0.113    0.113  D:\Python 3.6.4\lib\copy.py:66(copy)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:462(_find_new_)
+                                                                               10    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:73(__get_builtin_constructor)
+{method 'random' of '_random.Random' objects}                          <-  432932    0.064    0.064  G:\Game3Blokus\kernel.py:87(greedyEval)
+G:\Game3Blokus\board.py:238(print)                                     <-      30    0.004    0.015  game.py:4(<module>)
+<frozen importlib._bootstrap>:966(_find_and_load)                      <-       1    0.000    0.000  D:\Python 3.6.4\lib\bisect.py:1(<module>)
+                                                                                1    0.000    0.002  D:\Python 3.6.4\lib\hashlib.py:54(<module>)
+                                                                                2    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:73(__get_builtin_constructor)
+                                                                                4    0.000    0.005  D:\Python 3.6.4\lib\random.py:38(<module>)
+                                                                                1    0.000    0.001  G:\Game3Blokus\board.py:5(<module>)
+                                                                                1    0.000    0.006  G:\Game3Blokus\kernel.py:5(<module>)
+                                                                                1    0.000    0.010  G:\Game3Blokus\player.py:5(<module>)
+                                                                                2    0.000    0.012  game.py:4(<module>)
+<frozen importlib._bootstrap>:936(_find_and_load_unlocked)             <-    13/2    0.000    0.012  <frozen importlib._bootstrap>:966(_find_and_load)
+<frozen importlib._bootstrap>:651(_load_unlocked)                      <-    13/2    0.000    0.012  <frozen importlib._bootstrap>:936(_find_and_load_unlocked)
+<frozen importlib._bootstrap_external>:672(exec_module)                <-     7/2    0.000    0.012  <frozen importlib._bootstrap>:651(_load_unlocked)
+<frozen importlib._bootstrap>:211(_call_with_frames_removed)           <-       5    0.000    0.000  <frozen importlib._bootstrap>:728(create_module)
+                                                                                5    0.000    0.000  <frozen importlib._bootstrap>:736(exec_module)
+                                                                              7/2    0.000    0.011  <frozen importlib._bootstrap_external>:672(exec_module)
+                                                                                1    0.000    0.001  <frozen importlib._bootstrap_external>:735(source_to_code)
+                                                                                1    0.000    0.002  <frozen importlib._bootstrap_external>:919(create_module)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:927(exec_module)
+{method 'write' of '_io.TextIOWrapper' objects}                        <-   12180    0.006    0.009  G:\Game3Blokus\board.py:238(print)
+                                                                               32    0.000    0.000  game.py:4(<module>)
+G:\Game3Blokus\player.py:5(<module>)                                   <-       1    0.000    0.010  {built-in method builtins.exec}
+<frozen importlib._bootstrap_external>:743(get_code)                   <-       7    0.000    0.006  <frozen importlib._bootstrap_external>:672(exec_module)
+G:\Game3Blokus\kernel.py:5(<module>)                                   <-       1    0.000    0.006  {built-in method builtins.exec}
+D:\Python 3.6.4\lib\random.py:38(<module>)                             <-       1    0.000    0.005  {built-in method builtins.exec}
+D:\Python 3.6.4\lib\codecs.py:326(reset)                               <-   12212    0.003    0.004  {method 'write' of '_io.TextIOWrapper' objects}
+<frozen importlib._bootstrap>:870(_find_spec)                          <-      13    0.000    0.003  <frozen importlib._bootstrap>:936(_find_and_load_unlocked)
+<frozen importlib._bootstrap_external>:75(_path_stat)                  <-       9    0.000    0.001  <frozen importlib._bootstrap_external>:85(_path_is_mode_type)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:373(_calc_mode)
+                                                                                7    0.000    0.001  <frozen importlib._bootstrap_external>:840(path_stats)
+                                                                               19    0.000    0.001  <frozen importlib._bootstrap_external>:1233(find_spec)
+{built-in method nt.stat}                                              <-      36    0.003    0.003  <frozen importlib._bootstrap_external>:75(_path_stat)
+<frozen importlib._bootstrap_external>:1149(find_spec)                 <-       8    0.000    0.002  <frozen importlib._bootstrap>:870(_find_spec)
+<frozen importlib._bootstrap_external>:1117(_get_spec)                 <-       8    0.000    0.002  <frozen importlib._bootstrap_external>:1149(find_spec)
+D:\Python 3.6.4\lib\hashlib.py:54(<module>)                            <-       1    0.000    0.002  {built-in method builtins.exec}
+{built-in method builtins.print}                                       <-      15    0.002    0.002  game.py:4(<module>)
+<frozen importlib._bootstrap_external>:1233(find_spec)                 <-      19    0.000    0.002  <frozen importlib._bootstrap_external>:1117(_get_spec)
+<frozen importlib._bootstrap>:564(module_from_spec)                    <-      13    0.000    0.002  <frozen importlib._bootstrap>:651(_load_unlocked)
+<frozen importlib._bootstrap_external>:845(_cache_bytecode)            <-       1    0.000    0.002  <frozen importlib._bootstrap_external>:743(get_code)
+<frozen importlib._bootstrap_external>:850(set_data)                   <-       1    0.000    0.002  <frozen importlib._bootstrap_external>:845(_cache_bytecode)
+<frozen importlib._bootstrap_external>:106(_write_atomic)              <-       1    0.001    0.002  <frozen importlib._bootstrap_external>:850(set_data)
+<frozen importlib._bootstrap_external>:919(create_module)              <-       1    0.000    0.002  <frozen importlib._bootstrap>:564(module_from_spec)
+{built-in method _imp.create_dynamic}                                  <-       1    0.002    0.002  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+G:\Game3Blokus\board.py:5(<module>)                                    <-       1    0.000    0.001  {built-in method builtins.exec}
+<frozen importlib._bootstrap_external>:830(get_data)                   <-       8    0.001    0.001  <frozen importlib._bootstrap_external>:743(get_code)
+{built-in method builtins.chr}                                         <-   11760    0.001    0.001  G:\Game3Blokus\board.py:238(print)
+<frozen importlib._bootstrap_external>:735(source_to_code)             <-       1    0.000    0.001  <frozen importlib._bootstrap_external>:743(get_code)
+{built-in method builtins.compile}                                     <-       1    0.001    0.001  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+<frozen importlib._bootstrap_external>:485(_compile_bytecode)          <-       6    0.000    0.001  <frozen importlib._bootstrap_external>:743(get_code)
+{built-in method marshal.loads}                                        <-       6    0.001    0.001  <frozen importlib._bootstrap_external>:485(_compile_bytecode)
+{built-in method nt.replace}                                           <-       1    0.001    0.001  <frozen importlib._bootstrap_external>:106(_write_atomic)
+{method 'close' of '_io.TextIOWrapper' objects}                        <-       1    0.001    0.001  game.py:4(<module>)
+D:\Python 3.6.4\lib\codecs.py:275(reset)                               <-   12212    0.001    0.001  D:\Python 3.6.4\lib\codecs.py:326(reset)
+<frozen importlib._bootstrap_external>:85(_path_is_mode_type)          <-       8    0.000    0.001  <frozen importlib._bootstrap_external>:94(_path_isfile)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:99(_path_isdir)
+<frozen importlib._bootstrap_external>:94(_path_isfile)                <-       8    0.000    0.001  <frozen importlib._bootstrap_external>:1233(find_spec)
+<frozen importlib._bootstrap_external>:840(path_stats)                 <-       7    0.000    0.001  <frozen importlib._bootstrap_external>:743(get_code)
+{built-in method io.open}                                              <-       1    0.000    0.000  game.py:4(<module>)
+D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)          <-      14    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:54(<module>)
+<frozen importlib._bootstrap>:728(create_module)                       <-       5    0.000    0.000  <frozen importlib._bootstrap>:564(module_from_spec)
+D:\Python 3.6.4\lib\hashlib.py:73(__get_builtin_constructor)           <-       8    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+{built-in method _imp.create_builtin}                                  <-       5    0.000    0.000  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+{method 'read' of '_io.FileIO' objects}                                <-       8    0.000    0.000  <frozen importlib._bootstrap_external>:830(get_data)
+<frozen importlib._bootstrap>:504(_init_module_attrs)                  <-      13    0.000    0.000  <frozen importlib._bootstrap>:564(module_from_spec)
+D:\Python 3.6.4\lib\enum.py:265(__call__)                              <-       1    0.000    0.000  G:\Game3Blokus\board.py:5(<module>)
+D:\Python 3.6.4\lib\enum.py:364(_create_)                              <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:265(__call__)
+<frozen importlib._bootstrap_external>:57(_path_join)                  <-      14    0.000    0.000  <frozen importlib._bootstrap_external>:263(cache_from_source)
+                                                                               78    0.000    0.000  <frozen importlib._bootstrap_external>:1233(find_spec)
+<frozen importlib._bootstrap>:147(__enter__)                           <-      13    0.000    0.000  <frozen importlib._bootstrap>:966(_find_and_load)
+{built-in method nt.open}                                              <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:106(_write_atomic)
+<frozen importlib._bootstrap_external>:263(cache_from_source)          <-       7    0.000    0.000  <frozen importlib._bootstrap_external>:361(_get_cached)
+                                                                                7    0.000    0.000  <frozen importlib._bootstrap_external>:743(get_code)
+D:\Python 3.6.4\lib\enum.py:124(__new__)                               <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+<frozen importlib._bootstrap>:403(cached)                              <-      15    0.000    0.000  <frozen importlib._bootstrap>:504(_init_module_attrs)
+<frozen importlib._bootstrap>:157(_get_module_lock)                    <-      13    0.000    0.000  <frozen importlib._bootstrap>:147(__enter__)
+<frozen importlib._bootstrap_external>:361(_get_cached)                <-       8    0.000    0.000  <frozen importlib._bootstrap>:403(cached)
+<frozen importlib._bootstrap_external>:430(_validate_bytecode_header)  <-       7    0.000    0.000  <frozen importlib._bootstrap_external>:743(get_code)
+{built-in method builtins.__build_class__}                             <-       2    0.000    0.000  D:\Python 3.6.4\lib\random.py:38(<module>)
+                                                                                3    0.000    0.000  G:\Game3Blokus\board.py:5(<module>)
+                                                                                1    0.000    0.000  G:\Game3Blokus\player.py:5(<module>)
+<frozen importlib._bootstrap_external>:59(<listcomp>)                  <-      92    0.000    0.000  <frozen importlib._bootstrap_external>:57(_path_join)
+G:\Game3Blokus\player.py:22(__init__)                                  <-       2    0.000    0.000  game.py:4(<module>)
+<frozen importlib._bootstrap_external>:99(_path_isdir)                 <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:850(set_data)
+<frozen importlib._bootstrap_external>:373(_calc_mode)                 <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:845(_cache_bytecode)
+<frozen importlib._bootstrap>:707(find_spec)                           <-      13    0.000    0.000  <frozen importlib._bootstrap>:870(_find_spec)
+G:\Game3Blokus\player.py:29(<listcomp>)                                <-       2    0.000    0.000  G:\Game3Blokus\player.py:22(__init__)
+D:\Python 3.6.4\lib\bisect.py:1(<module>)                              <-       1    0.000    0.000  {built-in method builtins.exec}
+<frozen importlib._bootstrap_external>:497(_code_to_bytecode)          <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:743(get_code)
+<frozen importlib._bootstrap_external>:63(_path_split)                 <-      14    0.000    0.000  <frozen importlib._bootstrap_external>:263(cache_from_source)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:850(set_data)
+<frozen importlib._bootstrap_external>:1228(_get_spec)                 <-       8    0.000    0.000  <frozen importlib._bootstrap_external>:1233(find_spec)
+<frozen importlib._bootstrap>:58(__init__)                             <-      13    0.000    0.000  <frozen importlib._bootstrap>:157(_get_module_lock)
+<frozen importlib._bootstrap>:433(spec_from_loader)                    <-       5    0.000    0.000  <frozen importlib._bootstrap>:707(find_spec)
+{method 'rstrip' of 'str' objects}                                     <-     198    0.000    0.000  <frozen importlib._bootstrap_external>:59(<listcomp>)
+{method 'write' of '_io.FileIO' objects}                               <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:106(_write_atomic)
+<frozen importlib._bootstrap>:318(__exit__)                            <-      13    0.000    0.000  <frozen importlib._bootstrap>:651(_load_unlocked)
+{built-in method builtins.getattr}                                     <-      68    0.000    0.000  <frozen importlib._bootstrap>:504(_init_module_attrs)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:114(__prepare__)
+                                                                               12    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                                4    0.000    0.000  D:\Python 3.6.4\lib\enum.py:462(_find_new_)
+                                                                               12    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+<frozen importlib._bootstrap>:78(acquire)                              <-      13    0.000    0.000  <frozen importlib._bootstrap>:147(__enter__)
+<frozen importlib._bootstrap>:997(_handle_fromlist)                    <-       1    0.000    0.000  D:\Python 3.6.4\lib\bisect.py:1(<module>)
+                                                                                2    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:54(<module>)
+                                                                                7    0.000    0.000  D:\Python 3.6.4\lib\random.py:38(<module>)
+                                                                                1    0.000    0.000  G:\Game3Blokus\board.py:5(<module>)
+                                                                                1    0.000    0.000  G:\Game3Blokus\kernel.py:5(<module>)
+                                                                                3    0.000    0.000  G:\Game3Blokus\player.py:5(<module>)
+                                                                                2    0.000    0.000  game.py:4(<module>)
+{built-in method marshal.dumps}                                        <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:497(_code_to_bytecode)
+<frozen importlib._bootstrap>:151(__exit__)                            <-      13    0.000    0.000  <frozen importlib._bootstrap>:966(_find_and_load)
+D:\Python 3.6.4\lib\enum.py:70(__setitem__)                            <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:114(__prepare__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                                6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+<frozen importlib._bootstrap_external>:524(spec_from_file_location)    <-       8    0.000    0.000  <frozen importlib._bootstrap_external>:1228(_get_spec)
+{built-in method _thread.allocate_lock}                                <-      26    0.000    0.000  <frozen importlib._bootstrap>:58(__init__)
+<frozen importlib._bootstrap>:222(_verbose_message)                    <-      13    0.000    0.000  <frozen importlib._bootstrap>:318(__exit__)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:430(_validate_bytecode_header)
+                                                                                6    0.000    0.000  <frozen importlib._bootstrap_external>:485(_compile_bytecode)
+                                                                                8    0.000    0.000  <frozen importlib._bootstrap_external>:743(get_code)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:850(set_data)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:919(create_module)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:927(exec_module)
+                                                                               78    0.000    0.000  <frozen importlib._bootstrap_external>:1233(find_spec)
+<frozen importlib._bootstrap_external>:1080(_path_importer_cache)      <-      23    0.000    0.000  <frozen importlib._bootstrap_external>:1117(_get_spec)
+<frozen importlib._bootstrap>:103(release)                             <-      13    0.000    0.000  <frozen importlib._bootstrap>:151(__exit__)
+G:\Game3Blokus\shape.py:12(<module>)                                   <-       1    0.000    0.000  {built-in method builtins.exec}
+{method 'join' of 'str' objects}                                       <-      92    0.000    0.000  <frozen importlib._bootstrap_external>:57(_path_join)
+                                                                               14    0.000    0.000  <frozen importlib._bootstrap_external>:263(cache_from_source)
+{method 'rsplit' of 'str' objects}                                     <-      15    0.000    0.000  <frozen importlib._bootstrap_external>:63(_path_split)
+<frozen importlib._bootstrap>:176(cb)                                  <-      13    0.000    0.000  <frozen importlib._bootstrap>:966(_find_and_load)
+{built-in method builtins.any}                                         <-      13    0.000    0.000  <frozen importlib._bootstrap>:318(__exit__)
+D:\Python 3.6.4\lib\enum.py:351(__setattr__)                           <-       5    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+                                                                                6    0.000    0.000  {built-in method builtins.setattr}
+G:\Game3Blokus\board.py:73(__init__)                                   <-       1    0.000    0.000  game.py:4(<module>)
+D:\Python 3.6.4\lib\random.py:87(__init__)                             <-       1    0.000    0.000  D:\Python 3.6.4\lib\random.py:38(<module>)
+{built-in method _thread.get_ident}                                    <-      13    0.000    0.000  <frozen importlib._bootstrap>:78(acquire)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:103(release)
+D:\Python 3.6.4\lib\codecs.py:308(__init__)                            <-       1    0.000    0.000  {built-in method io.open}
+{built-in method _imp.is_builtin}                                      <-      13    0.000    0.000  <frozen importlib._bootstrap>:707(find_spec)
+D:\Python 3.6.4\lib\random.py:96(seed)                                 <-       1    0.000    0.000  D:\Python 3.6.4\lib\random.py:87(__init__)
+{built-in method __new__ of type object at 0x0000000068AAC430}         <-       7    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+<frozen importlib._bootstrap>:847(__exit__)                            <-      29    0.000    0.000  <frozen importlib._bootstrap>:870(_find_spec)
+<frozen importlib._bootstrap_external>:52(_r_long)                     <-      13    0.000    0.000  <frozen importlib._bootstrap_external>:430(_validate_bytecode_header)
+G:\Game3Blokus\board.py:80(<listcomp>)                                 <-       1    0.000    0.000  G:\Game3Blokus\board.py:73(__init__)
+D:\Python 3.6.4\lib\enum.py:114(__prepare__)                           <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+<frozen importlib._bootstrap>:369(__init__)                            <-       5    0.000    0.000  <frozen importlib._bootstrap>:433(spec_from_loader)
+                                                                                8    0.000    0.000  <frozen importlib._bootstrap_external>:524(spec_from_file_location)
+{built-in method _imp.release_lock}                                    <-      13    0.000    0.000  <frozen importlib._bootstrap>:157(_get_module_lock)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:176(cb)
+                                                                               29    0.000    0.000  <frozen importlib._bootstrap>:847(__exit__)
+<frozen importlib._bootstrap>:321(<genexpr>)                           <-      52    0.000    0.000  {built-in method builtins.any}
+<frozen importlib._bootstrap>:416(parent)                              <-      13    0.000    0.000  <frozen importlib._bootstrap>:504(_init_module_attrs)
+{built-in method nt.getcwd}                                            <-      12    0.000    0.000  <frozen importlib._bootstrap_external>:1080(_path_importer_cache)
+D:\Python 3.6.4\lib\enum.py:20(_is_descriptor)                         <-       6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+D:\Python 3.6.4\lib\enum.py:462(_find_new_)                            <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+{built-in method builtins.setattr}                                     <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+                                                                                6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+{built-in method _imp.acquire_lock}                                    <-      13    0.000    0.000  <frozen importlib._bootstrap>:157(_get_module_lock)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:176(cb)
+                                                                               29    0.000    0.000  <frozen importlib._bootstrap>:843(__enter__)
+<frozen importlib._bootstrap>:843(__enter__)                           <-      29    0.000    0.000  <frozen importlib._bootstrap>:870(_find_spec)
+<frozen importlib._bootstrap>:311(__enter__)                           <-      13    0.000    0.000  <frozen importlib._bootstrap>:651(_load_unlocked)
+D:\Python 3.6.4\lib\enum.py:417(_get_mixins_)                          <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:114(__prepare__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+{method 'rpartition' of 'str' objects}                                 <-      13    0.000    0.000  <frozen importlib._bootstrap>:416(parent)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:936(_find_and_load_unlocked)
+                                                                               14    0.000    0.000  <frozen importlib._bootstrap_external>:263(cache_from_source)
+                                                                               19    0.000    0.000  <frozen importlib._bootstrap_external>:1233(find_spec)
+<frozen importlib._bootstrap_external>:37(_relax_case)                 <-      19    0.000    0.000  <frozen importlib._bootstrap_external>:1233(find_spec)
+<frozen importlib._bootstrap_external>:393(_check_name_wrapper)        <-       7    0.000    0.000  <frozen importlib._bootstrap_external>:743(get_code)
+{function Random.seed at 0x0000020A18754158}                           <-       1    0.000    0.000  D:\Python 3.6.4\lib\random.py:96(seed)
+<frozen importlib._bootstrap>:35(_new_module)                          <-       7    0.000    0.000  <frozen importlib._bootstrap>:564(module_from_spec)
+<frozen importlib._bootstrap>:736(exec_module)                         <-       5    0.000    0.000  <frozen importlib._bootstrap>:651(_load_unlocked)
+{built-in method math.exp}                                             <-       1    0.000    0.000  D:\Python 3.6.4\lib\random.py:38(<module>)
+<frozen importlib._bootstrap>:232(_requires_builtin_wrapper)           <-       5    0.000    0.000  <frozen importlib._bootstrap>:433(spec_from_loader)
+D:\Python 3.6.4\lib\random.py:71(Random)                               <-       1    0.000    0.000  {built-in method builtins.__build_class__}
+<frozen importlib._bootstrap>:143(__init__)                            <-      13    0.000    0.000  <frozen importlib._bootstrap>:966(_find_and_load)
+<frozen importlib._bootstrap>:780(find_spec)                           <-       8    0.000    0.000  <frozen importlib._bootstrap>:870(_find_spec)
+<frozen importlib._bootstrap>:307(__init__)                            <-      13    0.000    0.000  <frozen importlib._bootstrap>:651(_load_unlocked)
+<frozen importlib._bootstrap_external>:800(__init__)                   <-       7    0.000    0.000  <frozen importlib._bootstrap_external>:1228(_get_spec)
+{built-in method nt.fspath}                                            <-      14    0.000    0.000  <frozen importlib._bootstrap_external>:263(cache_from_source)
+                                                                                8    0.000    0.000  <frozen importlib._bootstrap_external>:524(spec_from_file_location)
+{built-in method from_bytes}                                           <-      13    0.000    0.000  <frozen importlib._bootstrap_external>:52(_r_long)
+{built-in method _imp._fix_co_filename}                                <-       6    0.000    0.000  <frozen importlib._bootstrap_external>:485(_compile_bytecode)
+{method 'extend' of 'bytearray' objects}                               <-       3    0.000    0.000  <frozen importlib._bootstrap_external>:497(_code_to_bytecode)
+{method 'endswith' of 'str' objects}                                   <-       9    0.000    0.000  <frozen importlib._bootstrap_external>:361(_get_cached)
+{method 'format' of 'str' objects}                                     <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:106(_write_atomic)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:430(_validate_bytecode_header)
+<frozen importlib._bootstrap_external>:47(_w_long)                     <-       2    0.000    0.000  <frozen importlib._bootstrap_external>:497(_code_to_bytecode)
+<frozen importlib._bootstrap_external>:927(exec_module)                <-       1    0.000    0.000  <frozen importlib._bootstrap>:651(_load_unlocked)
+{built-in method _hashlib.openssl_md5}                                 <-       1    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+{method 'union' of 'set' objects}                                      <-       1    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:54(<module>)
+D:\Python 3.6.4\lib\enum.py:160(<setcomp>)                             <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+D:\Python 3.6.4\lib\enum.py:28(_is_dunder)                             <-       7    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:310(__getattr__)
+{method 'get' of 'mappingproxy' objects}                               <-      12    0.000    0.000  D:\Python 3.6.4\lib\enum.py:351(__setattr__)
+D:\Python 3.6.4\lib\enum.py:36(_is_sunder)                             <-       8    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+{built-in method _imp.is_frozen}                                       <-       8    0.000    0.000  <frozen importlib._bootstrap>:780(find_spec)
+<frozen importlib._bootstrap>:424(has_location)                        <-      13    0.000    0.000  <frozen importlib._bootstrap>:504(_init_module_attrs)
+{built-in method builtins.issubclass}                                  <-      12    0.000    0.000  D:\Python 3.6.4\lib\enum.py:417(_get_mixins_)
+D:\Python 3.6.4\lib\enum.py:310(__getattr__)                           <-       1    0.000    0.000  {built-in method builtins.getattr}
+D:\Python 3.6.4\lib\enum.py:535(_generate_next_value_)                 <-       6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+{built-in method builtins.globals}                                     <-      14    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:54(<module>)
+{built-in method _imp.exec_builtin}                                    <-       5    0.000    0.000  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+D:\Python 3.6.4\lib\enum.py:135(<dictcomp>)                            <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+G:\Game3Blokus\board.py:72(Board)                                      <-       1    0.000    0.000  {built-in method builtins.__build_class__}
+{built-in method math.sqrt}                                            <-       1    0.000    0.000  D:\Python 3.6.4\lib\random.py:38(<module>)
+<frozen importlib._bootstrap_external>:825(get_filename)               <-       7    0.000    0.000  <frozen importlib._bootstrap_external>:393(_check_name_wrapper)
+G:\Game3Blokus\player.py:10(Player)                                    <-       1    0.000    0.000  {built-in method builtins.__build_class__}
+G:\Game3Blokus\player.py:30(<listcomp>)                                <-       2    0.000    0.000  G:\Game3Blokus\player.py:22(__init__)
+D:\Python 3.6.4\lib\enum.py:65(__init__)                               <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:114(__prepare__)
+{built-in method math.log}                                             <-       2    0.000    0.000  D:\Python 3.6.4\lib\random.py:38(<module>)
+<frozen importlib._bootstrap>:753(is_package)                          <-       5    0.000    0.000  <frozen importlib._bootstrap>:232(_requires_builtin_wrapper)
+<frozen importlib._bootstrap_external>:669(create_module)              <-       7    0.000    0.000  <frozen importlib._bootstrap>:564(module_from_spec)
+<frozen importlib._bootstrap_external>:908(__init__)                   <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:1228(_get_spec)
+D:\Python 3.6.4\lib\codecs.py:259(__init__)                            <-       1    0.000    0.000  D:\Python 3.6.4\lib\codecs.py:308(__init__)
+G:\Game3Blokus\board.py:23(Tiles)                                      <-       1    0.000    0.000  {built-in method builtins.__build_class__}
+D:\Python 3.6.4\lib\random.py:664(SystemRandom)                        <-       1    0.000    0.000  {built-in method builtins.__build_class__}
+{method 'to_bytes' of 'int' objects}                                   <-       2    0.000    0.000  <frozen importlib._bootstrap_external>:47(_w_long)
+{method 'items' of 'collections.OrderedDict' objects}                  <-       6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+{method 'disable' of '_lsprof.Profiler' objects}                       <- 
+D:\Python 3.6.4\lib\codecs.py:185(__init__)                            <-       1    0.000    0.000  {built-in method io.open}
+G:\Game3Blokus\board.py:16(Coordinate)                                 <-       1    0.000    0.000  {built-in method builtins.__build_class__}
+{built-in method _hashlib.openssl_sha1}                                <-       1    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+{built-in method _hashlib.openssl_sha224}                              <-       1    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+{built-in method _hashlib.openssl_sha256}                              <-       1    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+{built-in method _hashlib.openssl_sha384}                              <-       1    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+{method 'pop' of 'dict' objects}                                       <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+{method 'index' of 'list' objects}                                     <-       1    0.000    0.000  game.py:4(<module>)
+{method 'mro' of 'type' objects}                                       <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+{built-in method builtins.id}                                          <-       1    0.000    0.000  <frozen importlib._bootstrap_external>:106(_write_atomic)
+{built-in method _imp.exec_dynamic}                                    <-       1    0.000    0.000  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+{built-in method sys._getframe}                                        <-       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+{built-in method _hashlib.openssl_sha512}                              <-       1    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+
+
+   Ordered by: cumulative time
+
+Function                                                               called...
+                                                                           ncalls  tottime  cumtime
+{built-in method builtins.exec}                                        ->       1    0.000    0.000  D:\Python 3.6.4\lib\bisect.py:1(<module>)
+                                                                                1    0.000    0.002  D:\Python 3.6.4\lib\hashlib.py:54(<module>)
+                                                                                1    0.000    0.005  D:\Python 3.6.4\lib\random.py:38(<module>)
+                                                                                1    0.000    0.001  G:\Game3Blokus\board.py:5(<module>)
+                                                                                1    0.000    0.006  G:\Game3Blokus\kernel.py:5(<module>)
+                                                                                1    0.000    0.010  G:\Game3Blokus\player.py:5(<module>)
+                                                                                1    0.000    0.000  G:\Game3Blokus\shape.py:12(<module>)
+                                                                                1    0.000  295.731  game.py:4(<module>)
+game.py:4(<module>)                                                    ->       2    0.000    0.012  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                                2    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+                                                                                1    0.000    0.000  G:\Game3Blokus\board.py:73(__init__)
+                                                                               30    0.004    0.015  G:\Game3Blokus\board.py:238(print)
+                                                                                2    0.000    0.000  G:\Game3Blokus\player.py:22(__init__)
+                                                                               32    0.000  295.700  G:\Game3Blokus\player.py:52(action)
+                                                                                1    0.000    0.000  {built-in method builtins.len}
+                                                                               15    0.002    0.002  {built-in method builtins.print}
+                                                                                1    0.000    0.000  {built-in method io.open}
+                                                                                2    0.000    0.000  {method 'append' of 'list' objects}
+                                                                                1    0.001    0.001  {method 'close' of '_io.TextIOWrapper' objects}
+                                                                                1    0.000    0.000  {method 'index' of 'list' objects}
+                                                                               32    0.000    0.000  {method 'write' of '_io.TextIOWrapper' objects}
+G:\Game3Blokus\player.py:52(action)                                    ->      29    0.000    0.000  G:\Game3Blokus\board.py:24(__init__)
+                                                                              160    0.000    0.000  G:\Game3Blokus\board.py:105(isInBound)
+                                                                               29    0.000    0.001  G:\Game3Blokus\board.py:194(dropTile)
+                                                                               32    0.000  295.699  G:\Game3Blokus\kernel.py:227(alphaBeta)
+                                                                               32    0.000    0.000  {built-in method builtins.isinstance}
+                                                                              136    0.000    0.000  {method 'update' of 'set' objects}
+G:\Game3Blokus\kernel.py:227(alphaBeta)                                ->      32    0.499  295.699  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+G:\Game3Blokus\kernel.py:160(_alphaBeta)                               -> 19308674   24.616   29.864  G:\Game3Blokus\board.py:24(__init__)
+                                                                          2376590    0.434    0.434  G:\Game3Blokus\board.py:105(isInBound)
+                                                                         19308674   10.471  205.283  G:\Game3Blokus\board.py:194(dropTile)
+                                                                           444411    0.501    0.501  G:\Game3Blokus\board.py:234(retraceDrop)
+                                                                           432932    0.617   39.807  G:\Game3Blokus\kernel.py:87(greedyEval)
+                                                                        444411/11479   18.672  290.309  G:\Game3Blokus\kernel.py:160(_alphaBeta)
+                                                                           444411    0.154    0.154  {method 'append' of 'list' objects}
+                                                                           444411    0.151    0.151  {method 'pop' of 'list' objects}
+                                                                          2016337    0.333    0.333  {method 'update' of 'set' objects}
+G:\Game3Blokus\board.py:194(dropTile)                                  -> 19308703   55.042  193.020  G:\Game3Blokus\board.py:154(canDrop)
+                                                                         19308703    1.792    1.792  {built-in method builtins.isinstance}
+G:\Game3Blokus\board.py:154(canDrop)                                   -> 54828653   10.281   10.281  G:\Game3Blokus\board.py:105(isInBound)
+                                                                         44903330   89.946  125.971  G:\Game3Blokus\board.py:108(isAdj)
+                                                                         19308703    1.727    1.727  {built-in method builtins.isinstance}
+G:\Game3Blokus\board.py:108(isAdj)                                     -> 211819633   38.672   38.672  G:\Game3Blokus\board.py:105(isInBound)
+                                                                         55119239    5.742    5.742  {built-in method builtins.hasattr}
+G:\Game3Blokus\board.py:105(isInBound)                                 -> 
+G:\Game3Blokus\kernel.py:87(greedyEval)                                ->  865864    0.855   39.126  G:\Game3Blokus\kernel.py:96(validCornerNumber)
+                                                                           432932    0.064    0.064  {method 'random' of '_random.Random' objects}
+G:\Game3Blokus\kernel.py:96(validCornerNumber)                         ->  865864    6.771   38.176  G:\Game3Blokus\board.py:144(getCorners)
+                                                                           865864    0.095    0.095  {built-in method builtins.len}
+G:\Game3Blokus\board.py:144(getCorners)                                ->  865864    0.696    0.809  D:\Python 3.6.4\lib\copy.py:66(copy)
+                                                                         10215909   20.797   29.186  G:\Game3Blokus\board.py:108(isAdj)
+                                                                          9392766    1.411    1.411  {method 'update' of 'set' objects}
+G:\Game3Blokus\board.py:24(__init__)                                   -> 19308745    1.507    1.507  {built-in method builtins.len}
+                                                                         19308745    3.741    3.741  {built-in method builtins.max}
+{built-in method builtins.hasattr}                                     -> 
+{built-in method builtins.max}                                         -> 
+{built-in method builtins.isinstance}                                  -> 
+{method 'update' of 'set' objects}                                     -> 
+{built-in method builtins.len}                                         -> 
+D:\Python 3.6.4\lib\copy.py:66(copy)                                   ->  865864    0.113    0.113  {method 'get' of 'dict' objects}
+G:\Game3Blokus\board.py:234(retraceDrop)                               -> 
+{method 'append' of 'list' objects}                                    -> 
+{method 'pop' of 'list' objects}                                       -> 
+{method 'get' of 'dict' objects}                                       -> 
+{method 'random' of '_random.Random' objects}                          -> 
+G:\Game3Blokus\board.py:238(print)                                     ->   11760    0.001    0.001  {built-in method builtins.chr}
+                                                                            12180    0.006    0.009  {method 'write' of '_io.TextIOWrapper' objects}
+<frozen importlib._bootstrap>:966(_find_and_load)                      ->      13    0.000    0.000  <frozen importlib._bootstrap>:143(__init__)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:147(__enter__)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:151(__exit__)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:176(cb)
+                                                                             13/2    0.000    0.012  <frozen importlib._bootstrap>:936(_find_and_load_unlocked)
+                                                                               13    0.000    0.000  {method 'get' of 'dict' objects}
+<frozen importlib._bootstrap>:936(_find_and_load_unlocked)             ->    13/2    0.000    0.012  <frozen importlib._bootstrap>:651(_load_unlocked)
+                                                                               13    0.000    0.003  <frozen importlib._bootstrap>:870(_find_spec)
+                                                                               13    0.000    0.000  {method 'rpartition' of 'str' objects}
+<frozen importlib._bootstrap>:651(_load_unlocked)                      ->      13    0.000    0.000  <frozen importlib._bootstrap>:307(__init__)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:311(__enter__)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:318(__exit__)
+                                                                               13    0.000    0.002  <frozen importlib._bootstrap>:564(module_from_spec)
+                                                                                5    0.000    0.000  <frozen importlib._bootstrap>:736(exec_module)
+                                                                              7/2    0.000    0.012  <frozen importlib._bootstrap_external>:672(exec_module)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:927(exec_module)
+                                                                               13    0.000    0.000  {built-in method builtins.hasattr}
+<frozen importlib._bootstrap_external>:672(exec_module)                ->     7/2    0.000    0.011  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+                                                                                7    0.000    0.006  <frozen importlib._bootstrap_external>:743(get_code)
+<frozen importlib._bootstrap>:211(_call_with_frames_removed)           ->       5    0.000    0.000  {built-in method _imp.create_builtin}
+                                                                                1    0.002    0.002  {built-in method _imp.create_dynamic}
+                                                                                5    0.000    0.000  {built-in method _imp.exec_builtin}
+                                                                                1    0.000    0.000  {built-in method _imp.exec_dynamic}
+                                                                                1    0.001    0.001  {built-in method builtins.compile}
+                                                                              7/2    0.000    0.011  {built-in method builtins.exec}
+{method 'write' of '_io.TextIOWrapper' objects}                        ->   12212    0.003    0.004  D:\Python 3.6.4\lib\codecs.py:326(reset)
+G:\Game3Blokus\player.py:5(<module>)                                   ->       1    0.000    0.010  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                                3    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+                                                                                1    0.000    0.000  {built-in method builtins.__build_class__}
+<frozen importlib._bootstrap_external>:743(get_code)                   ->       8    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+                                                                                7    0.000    0.000  <frozen importlib._bootstrap_external>:263(cache_from_source)
+                                                                                7    0.000    0.000  <frozen importlib._bootstrap_external>:393(_check_name_wrapper)
+                                                                                7    0.000    0.000  <frozen importlib._bootstrap_external>:430(_validate_bytecode_header)
+                                                                                6    0.000    0.001  <frozen importlib._bootstrap_external>:485(_compile_bytecode)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:497(_code_to_bytecode)
+                                                                                1    0.000    0.001  <frozen importlib._bootstrap_external>:735(source_to_code)
+                                                                                8    0.001    0.001  <frozen importlib._bootstrap_external>:830(get_data)
+                                                                                7    0.000    0.001  <frozen importlib._bootstrap_external>:840(path_stats)
+                                                                                1    0.000    0.002  <frozen importlib._bootstrap_external>:845(_cache_bytecode)
+                                                                                1    0.000    0.000  {built-in method builtins.len}
+G:\Game3Blokus\kernel.py:5(<module>)                                   ->       1    0.000    0.006  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+                                                                                4    0.000    0.000  {method 'append' of 'list' objects}
+D:\Python 3.6.4\lib\random.py:38(<module>)                             ->       4    0.000    0.005  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                                7    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\random.py:87(__init__)
+                                                                                2    0.000    0.000  {built-in method builtins.__build_class__}
+                                                                                1    0.000    0.000  {built-in method math.exp}
+                                                                                2    0.000    0.000  {built-in method math.log}
+                                                                                1    0.000    0.000  {built-in method math.sqrt}
+D:\Python 3.6.4\lib\codecs.py:326(reset)                               ->   12212    0.001    0.001  D:\Python 3.6.4\lib\codecs.py:275(reset)
+<frozen importlib._bootstrap>:870(_find_spec)                          ->      13    0.000    0.000  <frozen importlib._bootstrap>:707(find_spec)
+                                                                                8    0.000    0.000  <frozen importlib._bootstrap>:780(find_spec)
+                                                                               29    0.000    0.000  <frozen importlib._bootstrap>:843(__enter__)
+                                                                               29    0.000    0.000  <frozen importlib._bootstrap>:847(__exit__)
+                                                                                8    0.000    0.002  <frozen importlib._bootstrap_external>:1149(find_spec)
+<frozen importlib._bootstrap_external>:75(_path_stat)                  ->      36    0.003    0.003  {built-in method nt.stat}
+{built-in method nt.stat}                                              -> 
+<frozen importlib._bootstrap_external>:1149(find_spec)                 ->       8    0.000    0.002  <frozen importlib._bootstrap_external>:1117(_get_spec)
+<frozen importlib._bootstrap_external>:1117(_get_spec)                 ->      23    0.000    0.000  <frozen importlib._bootstrap_external>:1080(_path_importer_cache)
+                                                                               19    0.000    0.002  <frozen importlib._bootstrap_external>:1233(find_spec)
+                                                                               19    0.000    0.000  {built-in method builtins.hasattr}
+                                                                               23    0.000    0.000  {built-in method builtins.isinstance}
+D:\Python 3.6.4\lib\hashlib.py:54(<module>)                            ->       1    0.000    0.002  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                                2    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+                                                                               14    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)
+                                                                               14    0.000    0.000  {built-in method builtins.globals}
+                                                                                1    0.000    0.000  {method 'union' of 'set' objects}
+{built-in method builtins.print}                                       -> 
+<frozen importlib._bootstrap_external>:1233(find_spec)                 ->      78    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+                                                                               19    0.000    0.000  <frozen importlib._bootstrap_external>:37(_relax_case)
+                                                                               78    0.000    0.000  <frozen importlib._bootstrap_external>:57(_path_join)
+                                                                               19    0.000    0.001  <frozen importlib._bootstrap_external>:75(_path_stat)
+                                                                                8    0.000    0.001  <frozen importlib._bootstrap_external>:94(_path_isfile)
+                                                                                8    0.000    0.000  <frozen importlib._bootstrap_external>:1228(_get_spec)
+                                                                               19    0.000    0.000  {method 'rpartition' of 'str' objects}
+<frozen importlib._bootstrap>:564(module_from_spec)                    ->       7    0.000    0.000  <frozen importlib._bootstrap>:35(_new_module)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:504(_init_module_attrs)
+                                                                                5    0.000    0.000  <frozen importlib._bootstrap>:728(create_module)
+                                                                                7    0.000    0.000  <frozen importlib._bootstrap_external>:669(create_module)
+                                                                                1    0.000    0.002  <frozen importlib._bootstrap_external>:919(create_module)
+                                                                               13    0.000    0.000  {built-in method builtins.hasattr}
+<frozen importlib._bootstrap_external>:845(_cache_bytecode)            ->       1    0.000    0.000  <frozen importlib._bootstrap_external>:373(_calc_mode)
+                                                                                1    0.000    0.002  <frozen importlib._bootstrap_external>:850(set_data)
+<frozen importlib._bootstrap_external>:850(set_data)                   ->       1    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:63(_path_split)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:99(_path_isdir)
+                                                                                1    0.001    0.002  <frozen importlib._bootstrap_external>:106(_write_atomic)
+<frozen importlib._bootstrap_external>:106(_write_atomic)              ->       1    0.000    0.000  {built-in method builtins.id}
+                                                                                1    0.000    0.000  {built-in method nt.open}
+                                                                                1    0.001    0.001  {built-in method nt.replace}
+                                                                                1    0.000    0.000  {method 'format' of 'str' objects}
+                                                                                1    0.000    0.000  {method 'write' of '_io.FileIO' objects}
+<frozen importlib._bootstrap_external>:919(create_module)              ->       1    0.000    0.002  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+{built-in method _imp.create_dynamic}                                  -> 
+G:\Game3Blokus\board.py:5(<module>)                                    ->       1    0.000    0.001  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:265(__call__)
+                                                                                3    0.000    0.000  {built-in method builtins.__build_class__}
+<frozen importlib._bootstrap_external>:830(get_data)                   ->       8    0.000    0.000  {method 'read' of '_io.FileIO' objects}
+{built-in method builtins.chr}                                         -> 
+<frozen importlib._bootstrap_external>:735(source_to_code)             ->       1    0.000    0.001  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+{built-in method builtins.compile}                                     -> 
+<frozen importlib._bootstrap_external>:485(_compile_bytecode)          ->       6    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+                                                                                6    0.000    0.000  {built-in method _imp._fix_co_filename}
+                                                                                6    0.000    0.000  {built-in method builtins.isinstance}
+                                                                                6    0.001    0.001  {built-in method marshal.loads}
+{built-in method marshal.loads}                                        -> 
+{built-in method nt.replace}                                           -> 
+{method 'close' of '_io.TextIOWrapper' objects}                        -> 
+D:\Python 3.6.4\lib\codecs.py:275(reset)                               -> 
+<frozen importlib._bootstrap_external>:85(_path_is_mode_type)          ->       9    0.000    0.001  <frozen importlib._bootstrap_external>:75(_path_stat)
+<frozen importlib._bootstrap_external>:94(_path_isfile)                ->       8    0.000    0.001  <frozen importlib._bootstrap_external>:85(_path_is_mode_type)
+<frozen importlib._bootstrap_external>:840(path_stats)                 ->       7    0.000    0.001  <frozen importlib._bootstrap_external>:75(_path_stat)
+{built-in method io.open}                                              ->       1    0.000    0.000  D:\Python 3.6.4\lib\codecs.py:185(__init__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\codecs.py:308(__init__)
+D:\Python 3.6.4\lib\hashlib.py:116(__get_openssl_constructor)          ->       8    0.000    0.000  D:\Python 3.6.4\lib\hashlib.py:73(__get_builtin_constructor)
+                                                                                1    0.000    0.000  {built-in method _hashlib.openssl_md5}
+                                                                                1    0.000    0.000  {built-in method _hashlib.openssl_sha1}
+                                                                                1    0.000    0.000  {built-in method _hashlib.openssl_sha224}
+                                                                                1    0.000    0.000  {built-in method _hashlib.openssl_sha256}
+                                                                                1    0.000    0.000  {built-in method _hashlib.openssl_sha384}
+                                                                                1    0.000    0.000  {built-in method _hashlib.openssl_sha512}
+                                                                               12    0.000    0.000  {built-in method builtins.getattr}
+<frozen importlib._bootstrap>:728(create_module)                       ->       5    0.000    0.000  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+D:\Python 3.6.4\lib\hashlib.py:73(__get_builtin_constructor)           ->       2    0.000    0.000  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                               10    0.000    0.000  {method 'get' of 'dict' objects}
+{built-in method _imp.create_builtin}                                  -> 
+{method 'read' of '_io.FileIO' objects}                                -> 
+<frozen importlib._bootstrap>:504(_init_module_attrs)                  ->      15    0.000    0.000  <frozen importlib._bootstrap>:403(cached)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:416(parent)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:424(has_location)
+                                                                               68    0.000    0.000  {built-in method builtins.getattr}
+D:\Python 3.6.4\lib\enum.py:265(__call__)                              ->       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:364(_create_)
+D:\Python 3.6.4\lib\enum.py:364(_create_)                              ->       6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:114(__prepare__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:124(__new__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:351(__setattr__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:417(_get_mixins_)
+                                                                                6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:535(_generate_next_value_)
+                                                                                9    0.000    0.000  {built-in method builtins.isinstance}
+                                                                                1    0.000    0.000  {built-in method sys._getframe}
+                                                                               12    0.000    0.000  {method 'append' of 'list' objects}
+<frozen importlib._bootstrap_external>:57(_path_join)                  ->      92    0.000    0.000  <frozen importlib._bootstrap_external>:59(<listcomp>)
+                                                                               92    0.000    0.000  {method 'join' of 'str' objects}
+<frozen importlib._bootstrap>:147(__enter__)                           ->      13    0.000    0.000  <frozen importlib._bootstrap>:78(acquire)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap>:157(_get_module_lock)
+{built-in method nt.open}                                              -> 
+<frozen importlib._bootstrap_external>:263(cache_from_source)          ->      14    0.000    0.000  <frozen importlib._bootstrap_external>:57(_path_join)
+                                                                               14    0.000    0.000  <frozen importlib._bootstrap_external>:63(_path_split)
+                                                                               14    0.000    0.000  {built-in method nt.fspath}
+                                                                               14    0.000    0.000  {method 'join' of 'str' objects}
+                                                                               14    0.000    0.000  {method 'rpartition' of 'str' objects}
+D:\Python 3.6.4\lib\enum.py:124(__new__)                               ->       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:135(<dictcomp>)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:160(<setcomp>)
+                                                                                5    0.000    0.000  D:\Python 3.6.4\lib\enum.py:351(__setattr__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:417(_get_mixins_)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:462(_find_new_)
+                                                                                7    0.000    0.000  {built-in method __new__ of type object at 0x0000000068AAC430}
+                                                                               12    0.000    0.000  {built-in method builtins.getattr}
+                                                                                6    0.000    0.000  {built-in method builtins.hasattr}
+                                                                                6    0.000    0.000  {built-in method builtins.isinstance}
+                                                                                6    0.000    0.000  {built-in method builtins.setattr}
+                                                                                6    0.000    0.000  {method 'append' of 'list' objects}
+                                                                                6    0.000    0.000  {method 'items' of 'collections.OrderedDict' objects}
+                                                                                1    0.000    0.000  {method 'mro' of 'type' objects}
+                                                                                1    0.000    0.000  {method 'pop' of 'dict' objects}
+<frozen importlib._bootstrap>:403(cached)                              ->       8    0.000    0.000  <frozen importlib._bootstrap_external>:361(_get_cached)
+<frozen importlib._bootstrap>:157(_get_module_lock)                    ->      13    0.000    0.000  <frozen importlib._bootstrap>:58(__init__)
+                                                                               13    0.000    0.000  {built-in method _imp.acquire_lock}
+                                                                               13    0.000    0.000  {built-in method _imp.release_lock}
+<frozen importlib._bootstrap_external>:361(_get_cached)                ->       7    0.000    0.000  <frozen importlib._bootstrap_external>:263(cache_from_source)
+                                                                                9    0.000    0.000  {method 'endswith' of 'str' objects}
+<frozen importlib._bootstrap_external>:430(_validate_bytecode_header)  ->       1    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+                                                                               13    0.000    0.000  <frozen importlib._bootstrap_external>:52(_r_long)
+                                                                               14    0.000    0.000  {built-in method builtins.len}
+                                                                                1    0.000    0.000  {method 'format' of 'str' objects}
+{built-in method builtins.__build_class__}                             ->       1    0.000    0.000  D:\Python 3.6.4\lib\random.py:71(Random)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\random.py:664(SystemRandom)
+                                                                                1    0.000    0.000  G:\Game3Blokus\board.py:16(Coordinate)
+                                                                                1    0.000    0.000  G:\Game3Blokus\board.py:23(Tiles)
+                                                                                1    0.000    0.000  G:\Game3Blokus\board.py:72(Board)
+                                                                                1    0.000    0.000  G:\Game3Blokus\player.py:10(Player)
+<frozen importlib._bootstrap_external>:59(<listcomp>)                  ->     198    0.000    0.000  {method 'rstrip' of 'str' objects}
+G:\Game3Blokus\player.py:22(__init__)                                  ->       2    0.000    0.000  G:\Game3Blokus\player.py:29(<listcomp>)
+                                                                                2    0.000    0.000  G:\Game3Blokus\player.py:30(<listcomp>)
+<frozen importlib._bootstrap_external>:99(_path_isdir)                 ->       1    0.000    0.000  <frozen importlib._bootstrap_external>:85(_path_is_mode_type)
+<frozen importlib._bootstrap_external>:373(_calc_mode)                 ->       1    0.000    0.000  <frozen importlib._bootstrap_external>:75(_path_stat)
+<frozen importlib._bootstrap>:707(find_spec)                           ->       5    0.000    0.000  <frozen importlib._bootstrap>:433(spec_from_loader)
+                                                                               13    0.000    0.000  {built-in method _imp.is_builtin}
+G:\Game3Blokus\player.py:29(<listcomp>)                                ->      42    0.000    0.000  G:\Game3Blokus\board.py:24(__init__)
+D:\Python 3.6.4\lib\bisect.py:1(<module>)                              ->       1    0.000    0.000  <frozen importlib._bootstrap>:966(_find_and_load)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap>:997(_handle_fromlist)
+<frozen importlib._bootstrap_external>:497(_code_to_bytecode)          ->       2    0.000    0.000  <frozen importlib._bootstrap_external>:47(_w_long)
+                                                                                1    0.000    0.000  {built-in method marshal.dumps}
+                                                                                3    0.000    0.000  {method 'extend' of 'bytearray' objects}
+<frozen importlib._bootstrap_external>:63(_path_split)                 ->      15    0.000    0.000  {built-in method builtins.len}
+                                                                               15    0.000    0.000  {method 'rsplit' of 'str' objects}
+<frozen importlib._bootstrap_external>:1228(_get_spec)                 ->       8    0.000    0.000  <frozen importlib._bootstrap_external>:524(spec_from_file_location)
+                                                                                7    0.000    0.000  <frozen importlib._bootstrap_external>:800(__init__)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap_external>:908(__init__)
+<frozen importlib._bootstrap>:58(__init__)                             ->      26    0.000    0.000  {built-in method _thread.allocate_lock}
+<frozen importlib._bootstrap>:433(spec_from_loader)                    ->       5    0.000    0.000  <frozen importlib._bootstrap>:232(_requires_builtin_wrapper)
+                                                                                5    0.000    0.000  <frozen importlib._bootstrap>:369(__init__)
+                                                                               10    0.000    0.000  {built-in method builtins.hasattr}
+{method 'rstrip' of 'str' objects}                                     -> 
+{method 'write' of '_io.FileIO' objects}                               -> 
+<frozen importlib._bootstrap>:318(__exit__)                            ->      13    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+                                                                               13    0.000    0.000  {built-in method builtins.any}
+{built-in method builtins.getattr}                                     ->       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:310(__getattr__)
+<frozen importlib._bootstrap>:78(acquire)                              ->      13    0.000    0.000  {built-in method _thread.get_ident}
+<frozen importlib._bootstrap>:997(_handle_fromlist)                    ->      17    0.000    0.000  {built-in method builtins.hasattr}
+{built-in method marshal.dumps}                                        -> 
+<frozen importlib._bootstrap>:151(__exit__)                            ->      13    0.000    0.000  <frozen importlib._bootstrap>:103(release)
+D:\Python 3.6.4\lib\enum.py:70(__setitem__)                            ->       6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:20(_is_descriptor)
+                                                                                7    0.000    0.000  D:\Python 3.6.4\lib\enum.py:28(_is_dunder)
+                                                                                8    0.000    0.000  D:\Python 3.6.4\lib\enum.py:36(_is_sunder)
+                                                                                6    0.000    0.000  {built-in method builtins.isinstance}
+                                                                                1    0.000    0.000  {built-in method builtins.setattr}
+                                                                               12    0.000    0.000  {method 'append' of 'list' objects}
+<frozen importlib._bootstrap_external>:524(spec_from_file_location)    ->       8    0.000    0.000  <frozen importlib._bootstrap>:369(__init__)
+                                                                                8    0.000    0.000  {built-in method nt.fspath}
+{built-in method _thread.allocate_lock}                                -> 
+<frozen importlib._bootstrap>:222(_verbose_message)                    -> 
+<frozen importlib._bootstrap_external>:1080(_path_importer_cache)      ->      12    0.000    0.000  {built-in method nt.getcwd}
+<frozen importlib._bootstrap>:103(release)                             ->      13    0.000    0.000  {built-in method _thread.get_ident}
+G:\Game3Blokus\shape.py:12(<module>)                                   -> 
+{method 'join' of 'str' objects}                                       -> 
+{method 'rsplit' of 'str' objects}                                     -> 
+<frozen importlib._bootstrap>:176(cb)                                  ->      13    0.000    0.000  {built-in method _imp.acquire_lock}
+                                                                               13    0.000    0.000  {built-in method _imp.release_lock}
+                                                                               13    0.000    0.000  {method 'get' of 'dict' objects}
+{built-in method builtins.any}                                         ->      52    0.000    0.000  <frozen importlib._bootstrap>:321(<genexpr>)
+D:\Python 3.6.4\lib\enum.py:351(__setattr__)                           ->      12    0.000    0.000  {method 'get' of 'mappingproxy' objects}
+G:\Game3Blokus\board.py:73(__init__)                                   ->       1    0.000    0.000  G:\Game3Blokus\board.py:80(<listcomp>)
+D:\Python 3.6.4\lib\random.py:87(__init__)                             ->       1    0.000    0.000  D:\Python 3.6.4\lib\random.py:96(seed)
+{built-in method _thread.get_ident}                                    -> 
+D:\Python 3.6.4\lib\codecs.py:308(__init__)                            ->       1    0.000    0.000  D:\Python 3.6.4\lib\codecs.py:259(__init__)
+{built-in method _imp.is_builtin}                                      -> 
+D:\Python 3.6.4\lib\random.py:96(seed)                                 ->       1    0.000    0.000  {built-in method builtins.isinstance}
+                                                                                1    0.000    0.000  {function Random.seed at 0x0000020A18754158}
+{built-in method __new__ of type object at 0x0000000068AAC430}         -> 
+<frozen importlib._bootstrap>:847(__exit__)                            ->      29    0.000    0.000  {built-in method _imp.release_lock}
+<frozen importlib._bootstrap_external>:52(_r_long)                     ->      13    0.000    0.000  {built-in method from_bytes}
+G:\Game3Blokus\board.py:80(<listcomp>)                                 -> 
+D:\Python 3.6.4\lib\enum.py:114(__prepare__)                           ->       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:65(__init__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:70(__setitem__)
+                                                                                1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:417(_get_mixins_)
+                                                                                1    0.000    0.000  {built-in method builtins.getattr}
+<frozen importlib._bootstrap>:369(__init__)                            -> 
+{built-in method _imp.release_lock}                                    -> 
+<frozen importlib._bootstrap>:321(<genexpr>)                           -> 
+<frozen importlib._bootstrap>:416(parent)                              ->      13    0.000    0.000  {method 'rpartition' of 'str' objects}
+{built-in method nt.getcwd}                                            -> 
+D:\Python 3.6.4\lib\enum.py:20(_is_descriptor)                         ->      18    0.000    0.000  {built-in method builtins.hasattr}
+D:\Python 3.6.4\lib\enum.py:462(_find_new_)                            ->       4    0.000    0.000  {built-in method builtins.getattr}
+                                                                                1    0.000    0.000  {method 'get' of 'dict' objects}
+{built-in method builtins.setattr}                                     ->       6    0.000    0.000  D:\Python 3.6.4\lib\enum.py:351(__setattr__)
+{built-in method _imp.acquire_lock}                                    -> 
+<frozen importlib._bootstrap>:843(__enter__)                           ->      29    0.000    0.000  {built-in method _imp.acquire_lock}
+<frozen importlib._bootstrap>:311(__enter__)                           -> 
+D:\Python 3.6.4\lib\enum.py:417(_get_mixins_)                          ->      12    0.000    0.000  {built-in method builtins.issubclass}
+{method 'rpartition' of 'str' objects}                                 -> 
+<frozen importlib._bootstrap_external>:37(_relax_case)                 -> 
+<frozen importlib._bootstrap_external>:393(_check_name_wrapper)        ->       7    0.000    0.000  <frozen importlib._bootstrap_external>:825(get_filename)
+{function Random.seed at 0x0000020A18754158}                           -> 
+<frozen importlib._bootstrap>:35(_new_module)                          -> 
+<frozen importlib._bootstrap>:736(exec_module)                         ->       5    0.000    0.000  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+{built-in method math.exp}                                             -> 
+<frozen importlib._bootstrap>:232(_requires_builtin_wrapper)           ->       5    0.000    0.000  <frozen importlib._bootstrap>:753(is_package)
+D:\Python 3.6.4\lib\random.py:71(Random)                               -> 
+<frozen importlib._bootstrap>:143(__init__)                            -> 
+<frozen importlib._bootstrap>:780(find_spec)                           ->       8    0.000    0.000  {built-in method _imp.is_frozen}
+<frozen importlib._bootstrap>:307(__init__)                            -> 
+<frozen importlib._bootstrap_external>:800(__init__)                   -> 
+{built-in method nt.fspath}                                            -> 
+{built-in method from_bytes}                                           -> 
+{built-in method _imp._fix_co_filename}                                -> 
+{method 'extend' of 'bytearray' objects}                               -> 
+{method 'endswith' of 'str' objects}                                   -> 
+{method 'format' of 'str' objects}                                     -> 
+<frozen importlib._bootstrap_external>:47(_w_long)                     ->       2    0.000    0.000  {method 'to_bytes' of 'int' objects}
+<frozen importlib._bootstrap_external>:927(exec_module)                ->       1    0.000    0.000  <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+                                                                                1    0.000    0.000  <frozen importlib._bootstrap>:222(_verbose_message)
+{built-in method _hashlib.openssl_md5}                                 -> 
+{method 'union' of 'set' objects}                                      -> 
+D:\Python 3.6.4\lib\enum.py:160(<setcomp>)                             -> 
+D:\Python 3.6.4\lib\enum.py:28(_is_dunder)                             ->       2    0.000    0.000  {built-in method builtins.len}
+{method 'get' of 'mappingproxy' objects}                               -> 
+D:\Python 3.6.4\lib\enum.py:36(_is_sunder)                             ->       1    0.000    0.000  {built-in method builtins.len}
+{built-in method _imp.is_frozen}                                       -> 
+<frozen importlib._bootstrap>:424(has_location)                        -> 
+{built-in method builtins.issubclass}                                  -> 
+D:\Python 3.6.4\lib\enum.py:310(__getattr__)                           ->       1    0.000    0.000  D:\Python 3.6.4\lib\enum.py:28(_is_dunder)
+D:\Python 3.6.4\lib\enum.py:535(_generate_next_value_)                 -> 
+{built-in method builtins.globals}                                     -> 
+{built-in method _imp.exec_builtin}                                    -> 
+D:\Python 3.6.4\lib\enum.py:135(<dictcomp>)                            -> 
+G:\Game3Blokus\board.py:72(Board)                                      -> 
+{built-in method math.sqrt}                                            -> 
+<frozen importlib._bootstrap_external>:825(get_filename)               -> 
+G:\Game3Blokus\player.py:10(Player)                                    -> 
+G:\Game3Blokus\player.py:30(<listcomp>)                                -> 
+D:\Python 3.6.4\lib\enum.py:65(__init__)                               -> 
+{built-in method math.log}                                             -> 
+<frozen importlib._bootstrap>:753(is_package)                          -> 
+<frozen importlib._bootstrap_external>:669(create_module)              -> 
+<frozen importlib._bootstrap_external>:908(__init__)                   -> 
+D:\Python 3.6.4\lib\codecs.py:259(__init__)                            -> 
+G:\Game3Blokus\board.py:23(Tiles)                                      -> 
+D:\Python 3.6.4\lib\random.py:664(SystemRandom)                        -> 
+{method 'to_bytes' of 'int' objects}                                   -> 
+{method 'items' of 'collections.OrderedDict' objects}                  -> 
+{method 'disable' of '_lsprof.Profiler' objects}                       -> 
+D:\Python 3.6.4\lib\codecs.py:185(__init__)                            -> 
+G:\Game3Blokus\board.py:16(Coordinate)                                 -> 
+{built-in method _hashlib.openssl_sha1}                                -> 
+{built-in method _hashlib.openssl_sha224}                              -> 
+{built-in method _hashlib.openssl_sha256}                              -> 
+{built-in method _hashlib.openssl_sha384}                              -> 
+{method 'pop' of 'dict' objects}                                       -> 
+{method 'index' of 'list' objects}                                     -> 
+{method 'mro' of 'type' objects}                                       -> 
+{built-in method builtins.id}                                          -> 
+{built-in method _imp.exec_dynamic}                                    -> 
+{built-in method sys._getframe}                                        -> 
+{built-in method _hashlib.openssl_sha512}                              -> 
+
+

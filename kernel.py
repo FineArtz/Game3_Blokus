@@ -96,7 +96,7 @@ def greedyEval(board, player, opponent):
     def validCornerNumber(player):
         return len(board.getCorners(player))
 
-    score = player.score * evalWeight[0]
+    score = (player.score - opponent.score) * evalWeight[0]
     cor = validCornerNumber(player) - validCornerNumber(opponent)
     score += cor * evalWeight[1]
     score += random.random() 
@@ -165,64 +165,37 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
 
     if depth == minimaxDepth:
         return EvalFunc[evalFunc](board, player, opponent)
-    if player.order != desPlayer:
-        for i in range(20, -1, -1):
-            if player.used[i]:
-                continue
-            for x in range(board.size):
-                for y in range(board.size):
-                    for p in range(shape.tileMaxRotation[i]):
-                        for q in range(2):
-                            tile = Tiles(i, p, q)
-                            result = board.dropTile(player, tile, x, y)
-                            if result:
-                                player.score = player.score + tile.size
-                                ss = set()
-                                for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
-                                    if board.isInBound(x + coo[0], y + coo[1]):
-                                        ss.update([(x + coo[0], y + coo[1])])
-                                player.tmpSet.append(ss)
-                                score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
-                                board.retraceDrop(tile, x, y)
-                                player.score = player.score - tile.size
-                                player.tmpSet.pop()
-                                if score < beta:
-                                    beta = score
+    bestMove = [-1, 0, 0, 0, 0]
+    for i in range(20, -1, -1):
+        if player.used[i]:
+            continue
+        for x in range(board.size):
+            for y in range(board.size):
+                for p in range(shape.tileMaxRotation[i]):
+                    for q in range(2):
+                        tile = Tiles(i, p, q)
+                        result = board.dropTile(player, tile, x, y)
+                        if result:
+                            player.score += tile.size
+                            ss = set()
+                            for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
+                                if board.isInBound(x + coo[0], y + coo[1]):
+                                    ss.update([(x + coo[0], y + coo[1])])
+                            player.tmpSet.append(ss)
+                            score = -_alphaBeta(depth + 1, board, opponent, player, evalFunc, -beta, -alpha, desPlayer)
+                            board.retraceDrop(tile, x, y)
+                            player.tmpSet.pop()
+                            player.score -= tile.size
+                            if score >= alpha:
+                                alpha = score
+                                if depth == 0:
+                                    bestMove = [i, p, q, x, y]
                                     if alpha >= beta:
-                                        return alpha 
-        return beta
-    else:
-        bestMove = [-1, 0, 0, 0, 0]
-        for i in range(20, -1, -1):
-            if player.used[i]:
-                continue
-            for x in range(board.size):
-                for y in range(board.size):
-                    for p in range(shape.tileMaxRotation[i]):
-                        for q in range(2):
-                            tile = Tiles(i, p, q)
-                            result = board.dropTile(player, tile, x, y)
-                            if result:
-                                player.score = player.score + tile.size
-                                ss = set()
-                                for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
-                                    if board.isInBound(x + coo[0], y + coo[1]):
-                                        ss.update([(x + coo[0], y + coo[1])])
-                                player.tmpSet.append(ss)
-                                score = _alphaBeta(depth + 1, board, opponent, player, evalFunc, alpha, beta, desPlayer)
-                                board.retraceDrop(tile, x, y)
-                                player.tmpSet.pop()
-                                player.score = player.score - tile.size
-                                if score > alpha:
-                                    alpha = score
-                                    if depth == 0:
-                                        bestMove = [i, p, q, x, y]
-                                        if alpha >= beta:
-                                            return [alpha, bestMove]
-                                    else:
-                                        if alpha >= beta:
-                                            return beta
-        return alpha if depth != 0 else [alpha, bestMove]
+                                        return [alpha, bestMove]
+                                else:
+                                    if alpha >= beta:
+                                        return alpha
+    return alpha if depth != 0 else [alpha, bestMove]
 
 def alphaBeta(board, player, opponent, evalFunc = 0, **info):
 
