@@ -162,16 +162,19 @@ class Board(object):
             coverCorner = False
             for (i, j) in tile:
                 if not self.isInBound(i, j):
-                    return False
+                    raise Exception(u"超出边界")
                 if self.board[i][j] != 0:
-                    return False
+                    raise Exception(u"和已有块重叠")
                 if self.isAdj(player, i, j):
-                    return False
+                    raise Exception(u"边不能相邻")
                 if self.isCorner(player, i, j) \
                 or ((i, j) == (4, 4) and player == 0) \
                 or ((i, j) == (9, 9) and player == 1):
                     coverCorner = True
-            return coverCorner
+            if coverCorner:
+                return True
+            else:
+                raise Exception(u"必须有角相邻")
         else:
             if not isinstance(tile, Tiles):
                 raise TypeError
@@ -274,18 +277,16 @@ class Board(object):
         self.board = copy.deepcopy(matrix)
         visited = [[False for i in range(14)] for j in range(14)]
 
-        def getTile(x, y, color, tilePoints, minx, miny):
+        def getTile(x, y, color, tilePoints):
             # floodfill
             visited[x][y] = True
-            tilePoints.append((x, y))
+            tilePoints.append([x, y])
             for k in range(4):
                 nx = x + CooDx[k]
                 ny = y + CooDy[k]
                 if self.isInBound(nx, ny):
                     if matrix[nx][ny] == color and not visited[nx][ny]:
-                        minx = min(minx, nx)
-                        miny = min(miny, ny)
-                        getTile(nx, ny, color, tilePoints, minx, miny)
+                        getTile(nx, ny, color, tilePoints)
 
         for i in range(14):
             for j in range(14):
@@ -293,20 +294,32 @@ class Board(object):
                     tilePoints = []
                     minx = 14
                     miny = 14
-                    getTile(i, j, matrix[i][j], tilePoints, minx, miny)
-                    for i in range(len(tilePoints)):
-                        tilePoints[i][0] = tilePoints[i][0] - minx
-                        tilePoints[i][1] = tilePoints[i][1] - miny
+                    getTile(i, j, matrix[i][j], tilePoints)
+                    for [x, y] in tilePoints:
+                        minx = min(minx, x)
+                        miny = min(miny, y)
+                    for k in range(len(tilePoints)):
+                        tilePoints[k][0] = tilePoints[k][0] - minx
+                        tilePoints[k][1] = tilePoints[k][1] - miny
                     tilePoints.sort()
+                    tmpTile = []
+                    for [x, y] in tilePoints:
+                        tmpTile.append((x, y))
                     for t in range(21):
-                        if shape.tileSizes[t] != len(tilePoints):
+                        if shape.tileSizes[t] != len(tmpTile):
                             continue
-                        if tilePoints in shape.shapeSet[t]:
-                            u = shape.shapeSet[t].index(tilePoints)
+                        if tmpTile in shape.shapeSet[t]:
+                            u = shape.shapeSet[t].index(tmpTile)
                             player[matrix[i][j] - 1].used[t] = True
-                            player[matrix[i][j] - 1].scores += shape.tileSizes[t]
-                            player.shapeSet.update(shape.cornerSet[t][u])
+                            player[matrix[i][j] - 1].score += shape.tileSizes[t]
+                            for (x, y) in shape.cornerSet[t][u]:
+                                nx = minx + x
+                                ny = miny + y
+                                if nx >= 0 and nx < 14 and ny >= 0 and ny < 14:
+                                    player[matrix[i][j] - 1].corners.update([(nx, ny)])
                             break
+        player[0].updateCorners(self)
+        player[1].updateCorners(self)
 
     def toMatrix(self):
         # return board as a 14*14 matrix

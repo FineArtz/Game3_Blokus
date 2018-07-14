@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     output = {}
     output["status"] = "Success"
-    output["action_player_id"] = 0
+    output["action_player_id"] = -1
     output["state"] = board.board
 
     pprint(json.dumps(output))
