@@ -88,7 +88,8 @@ if __name__ == '__main__':
     output["state"] = board.board
 
     pprint(json.dumps(output))
-        
+    isOver = False
+
     while True:
         jsInfo = sys.stdin.readline().rstrip()
         info = json.loads(jsInfo)
@@ -98,10 +99,23 @@ if __name__ == '__main__':
 
         output = {}
         if isPass:
+            if isOver:
+                output['status'] = "Over"
+                output['result'] = {
+                    "record" : json.dumps(history),
+                    "score" : [p.score for p in player],
+                    "winner_id" : 0 if player[0].score > player[1].score else 1
+                }
+                pprint(json.dumps(output))
+                break
             output["status"] = "Success"
             output["action_player_id"] = playerOrder ^ 1
             output["state"] = board.board
+            pprint(json.dumps(output))
+            isOver = True
+            continue
 
+        isOver = False
         tile = []
         tileSize = len(act)
         minx = 14
@@ -146,18 +160,8 @@ if __name__ == '__main__':
                         if board.board[minx + i][miny + j] == 0:
                             player[playerOrder].corners.update([(minx + i, miny + j)])
                 
-                if board.isOver(player):
-                    output['status'] = "Over"
-                    output['result'] = {
-                        "record" : json.dumps(history),
-                        "score" : [p.score for p in player],
-                        "winner_id" : 0 if player[0].score > player[1].score else 1
-                    }
-                    pprint(json.dumps(output))
-                    break
-                else:
-                    output['status'] = "Success"
-                    output['action_player_id'] = playerOrder ^ 1
-                    output['state'] = board.board
-                    pprint(json.dumps(output))
+                output['status'] = "Success"
+                output['action_player_id'] = playerOrder ^ 1
+                output['state'] = board.board
+                pprint(json.dumps(output))
 

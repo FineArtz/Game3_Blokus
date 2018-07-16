@@ -14,4 +14,6 @@ if __name__ == '__main__':
     bd.parseFromMatrix(matrix, [player, opponent])
     print(player.used)
     print(opponent.used)
+    print(player.corners)
+    print(opponent.corners)
     fin.close()

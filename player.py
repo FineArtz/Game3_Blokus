@@ -131,8 +131,11 @@ if __name__ == '__main__':
         matrix = [[0 for i in range(14)] for j in range(14)]
         player = Player(0, 0, 0)
         opponent = Player(0, 1, 0)
-        
-    board.parseFromMatrix(matrix, [player, opponent])
+    
+    if playerOrder == 0:
+        board.parseFromMatrix(matrix, [player, opponent])
+    else:
+        board.parseFromMatrix(matrix, [opponent, player])
     result = player.action(board, opponent)
 
     if result['action']:
