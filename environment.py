@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     player = []
 
-    parser.add_argument("--players_allocate", default = "AI_0,AI_0", help = "indicate player type and order")
+    parser.add_argument("--players_allocate", default = "AI,AI", help = "indicate player type and order")
     parser.add_argument("--extra", help = "extra info")
     args = parser.parse_args()
 
@@ -27,56 +27,15 @@ if __name__ == '__main__':
         if len(pa) != 2:
             raise ValueError("--player_allocate must have two arguments!")
         for i in range(2):
-            if pa[i][0:3] == "AI_":
-                lv = int(pa[i][3:])
-                player.append(Player(0, i, lv))
+            if pa[i] == "AI":
+                player.append(Player(0, i, 0))
             elif pa[i] == "human":
                 player.append(Player(0, i, -1))
             else:
-                raise ValueError("args of --player_allocate must be 'AI_#' or 'human'!")
+                raise ValueError("args of --player_allocate must be 'AI' or 'human'!")
 
     if not args.extra is None:
         pass
-
-    """
-        '''
-            -s x: the player #x will go first
-            default x = 0
-        '''
-        sente = 0
-        if '-s' in sys.argv[1:]:
-            argpos = sys.argv.index('-s')
-            sente = int(sys.argv[argpos + 1]) % 2
-
-        '''
-            -p level: pvc mode. Human player is player #0,
-                and 'level' is the level of AI
-            or
-            -c level1 level2: cvc mode. 
-                'level1' and 'level2' are the levels of 
-                player #0 and player #1 represently
-            default: -c 0 0
-
-            -p and -c can not be set simutaneously, 
-            or an exception will be thrown
-        '''
-        if '-p' in sys.argv[1:]:
-            if '-c' in sys.argv[1:]:
-                raise Exception("config conflict: [-p, -c]")
-            argpos = sys.argv.index('-p')
-            pType = int(sys.argv[argpos + 1])
-            
-            player.append(Player(0, sente, -1))
-            player.append(Player(0, sente ^ 1, pType))
-        elif '-c' in sys.argv[1:]:
-            argpos = sys.argv.index('-c')
-            pType = [int(sys.argv[argpos + i]) for i in range(2)]
-            player.append(Player(0, sente, pType[0]))
-            player.append(Player(0, sente ^ 1, pType[1]))
-        else:
-            player.append(Player(0, sente, 0))
-            player.append(Player(0, sente ^ 1, 0))
-    """
 
     board = Board()
     history = {}

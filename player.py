@@ -50,14 +50,20 @@ class Player(object):
                 tmpSet.update([(i, j)])
         self.corners = tmpSet
 
-    def action(self, board, opponent):
+    def action(self, board, opponent, **info):
         if self.decisionMaker is None:
             raise ValueError("The player is human")
         if not isinstance(board, Board):
             raise TypeError
         if self.type != board.type or self.order >= board.playerNum:
             raise ValueError
-        tileType, rot, flp, x, y = self.decisionMaker(board, self, opponent, setEvalWeight = [self.w1, self.w2])
+        if 'setEvalWeight' in info:
+            self.w1, self.w2 = info['setEvalWeight']
+        ef = 0
+        if 'setEvalFunc' in info:
+            ef = info['setEvalFunc']
+        tileType, rot, flp, x, y = self.decisionMaker(board, self, opponent, \
+                                    setEvalWeight = [self.w1, self.w2], setEvalFunc = ef)
         if tileType != -1:
             tile = Tiles(tileType, rot, flp)
             board.dropTile(self, tile, x, y)
@@ -86,35 +92,22 @@ if __name__ == '__main__':
     parser.add_argument("--input", help = "input history")
     args = parser.parse_args()
 
-    """
-        argc = len(sys.argv)
-        
-        '''
-            -l level: set the level of AI player as 'level'
-            default: -l 0
-        '''
-        lv = 0
-        if '-l' in sys.argv[1:]:
-            argpos = sys.argv.index('-l')
-            lv = int(sys.argv[argpos + 1])
-        
-        '''
-            -w w1 w2: weights for evaluation functions
-            default: -w 20 10
-        '''
-        w1 = 20
-        w2 = 10
-        if '-w' in sys.argv[1:]:
-            argpos = sys.argv.index('-w')
-            w1 = int(sys.argv[argpos + 1])
-            w2 = int(sys.argv[argpos + 2])
-    """
-
     board = Board()
     output = {}
     matrix = []
     player = None
     opponent = None
+    lv = 0
+    evalWeight = [10, 20]
+    evalFunc = 0
+
+    conf = json.loads(args.config)
+    if conf['AI_level']:
+        lv = conf['AI_level']
+    if conf['eval_weight'] != []:
+        evalWeight = conf['eval_weight']
+    if conf['eval_func']:
+        evalFunc = conf['eval_func']
 
     jsInfo = args.input
     info = json.loads(jsInfo)
@@ -124,19 +117,19 @@ if __name__ == '__main__':
             playerOrder = 0
         else:
             playerOrder ^= 1
-        player = Player(0, playerOrder, 0)
+        player = Player(0, playerOrder, lv)
         opponent = Player(0, playerOrder ^ 1, 0)
         matrix = info['history'][-1]['state']
     else:
         matrix = [[0 for i in range(14)] for j in range(14)]
-        player = Player(0, 0, 0)
+        player = Player(0, 0, lv)
         opponent = Player(0, 1, 0)
     
     if playerOrder == 0:
         board.parseFromMatrix(matrix, [player, opponent])
     else:
         board.parseFromMatrix(matrix, [opponent, player])
-    result = player.action(board, opponent)
+    result = player.action(board, opponent, setEvalWeight = evalWeight, setEvalFunc = evalFunc)
 
     if result['action']:
         output['status'] = "Success"
