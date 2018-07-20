@@ -63,8 +63,12 @@ if __name__ == '__main__':
                 output['result'] = {
                     "record" : json.dumps(history),
                     "score" : [p.score for p in player],
-                    "winner_id" : 0 if player[0].score > player[1].score else 1
+                    "winner_id" : 0 
                 }
+                if player[0].score < player[1].score:
+                    output['result']['winner_id'] = 1
+                elif player[0].score == player[1].score:
+                    output['result']['winner_id'] = -1
                 pprint(json.dumps(output))
                 break
             output["status"] = "Success"
