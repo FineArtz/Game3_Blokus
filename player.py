@@ -4,7 +4,7 @@
 
 from kernel import DecisionFunc
 from board import Tiles, Board, CooDp, CooDq
-from shape import cornerSet
+from shape import cornerSet, tileSizes
 import sys, argparse
 import json
 
@@ -27,7 +27,6 @@ class Player(object):
             self.type = type
             self.order = order
             if type is 0:
-                self.tiles = [Tiles(i) for i in range(21)]
                 self.used = [False for i in range(21)]
                 self.score = 0
                 if order == 0:
@@ -71,7 +70,8 @@ class Player(object):
             for coo in cornerSet[tileType][rot + flp * 4]:
                 if board.isInBound(x + coo[0], y + coo[1]):
                     self.corners.update([(x + coo[0], y + coo[1])])
-            self.score = self.score + self.tiles[tileType].size
+            self.score = self.score + tileSizes[tileType]
+            self.updateCorners(board)
             return {
                 "action" : True,
                 "tileType" : tileType,

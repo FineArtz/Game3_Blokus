@@ -5,6 +5,7 @@
 from board import Tiles, Board
 import shape
 import random
+import copy
 
 DecisionFunc = [] # the list of search functions
 EvalFunc = [] # the list of evaluation functions
@@ -36,6 +37,51 @@ minimaxDepth = 2
         If none of tile can be dropped, the functions return
             [-1, 0, 0, 0, 0]
 '''
+
+def randomRandom(board, player, opponent, **info):
+
+    '''
+        Purely random
+    '''
+
+    tmpSet = set()
+    for c in player.corners:
+        if board.board[c[0]][c[1]] == 0 \
+        and not c in tmpSet \
+        and not board.isAdj(player, c[0], c[1]):
+            tmpSet.update([c])
+    for s in player.tmpSet:
+        for c in s:
+            if board.board[c[0]][c[1]] == 0 \
+            and not c in tmpSet \
+            and not board.isAdj(player, c[0], c[1]):
+                tmpSet.update([c])
+    possibleCorners = [c for c in tmpSet]
+    random.shuffle(possibleCorners)
+    remain = [i for i in range(21) if not player.used[i]]
+    random.shuffle(remain)
+    for (x, y) in possibleCorners:
+        for t in remain:
+            direction = [i for i in range(8)]
+            random.shuffle(direction)
+            for d in direction:
+                tile = Tiles(t, d % 4, d // 4)
+                for (xx, yy) in tile.shape:
+                    cx = x - xx
+                    cy = y - yy
+                    if cx >= 0 and cy >= 0:
+                        flag = board.dropTile(player, tile, cx, cy)
+                        if flag:
+                            return [
+                                t, # type of tile
+                                d % 4, # rotation
+                                d // 4, # flip
+                                cx, # x
+                                cy # y
+                            ]
+    return [-1, 0, 0, 0, 0]
+
+DecisionFunc.append(randomRandom)
 
 def randomGreedy(board, player, opponent, **info):
 
@@ -84,7 +130,7 @@ def randomGreedy(board, player, opponent, **info):
 
 DecisionFunc.append(randomGreedy)
 
-def greedyEval(board, player, opponent):
+def greedyEval(board, player, opponent, **info):
 
     '''
         Evaluation function.
@@ -104,6 +150,57 @@ def greedyEval(board, player, opponent):
     return score
 
 EvalFunc.append(greedyEval)
+
+def mctsEval(board, player, opponent, **info):
+    score = 0
+    rev = False
+    tot = 5
+    if 'setTot' in info:
+        tot = info['setTot']
+    if 'setReverse' in info:
+        rev = info['setReverse']
+    initScore = 0
+    if not rev:
+        initScore = greedyEval(board, player, opponent)
+    else:
+        initScore = greedyEval(board, opponent, player)
+    for game in range(tot):
+        if not rev:
+            tmpPlayer = copy.deepcopy(player)
+            tmpOpp = copy.deepcopy(opponent)
+        else:
+            tmpOpp = copy.deepcopy(player)
+            tmpPlayer = copy.deepcopy(opponent)
+        tmpHistory = []
+        tmpPlayer.decisionMaker = tmpOpp.decisionMaker = randomRandom
+        for s in tmpPlayer.tmpSet:
+            tmpPlayer.corners = tmpPlayer.corners | s
+        for s in tmpOpp.tmpSet:
+            tmpOpp.corners = tmpOpp.corners | s
+        flag = False
+        for stp in range(5):
+            flag = False
+            result = tmpPlayer.action(board, tmpOpp, setEvalFunc = 0)
+            if result['action']:
+                flag = True
+                tmpHistory.append(result)
+            result = tmpOpp.action(board, tmpPlayer, setEvalFunc = 0)
+            if result['action']:
+                flag = True
+                tmpHistory.append(result)
+            if not flag:
+                break
+        for h in tmpHistory:
+            board.retraceDrop(Tiles(h['tileType'], h['rotation'], h['flip']), h['x'], h['y'])
+        if flag:
+            if greedyEval(board, tmpPlayer, tmpOpp) > initScore:
+                score += 1
+        else:
+            if tmpPlayer.score > tmpOpp.score:
+                score += 1
+    return score / tot
+
+EvalFunc.append(mctsEval)
 
 def greedy(board, player, opponent, evalFunc = 0, **info):
 
@@ -137,7 +234,8 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                                 if board.isInBound(x + coo[0], y + coo[1]):
                                     ss.update([(x + coo[0], y + coo[1])])
                             player.tmpSet.append(ss)
-                            score = EvalFunc[evalFunc](board, player, opponent)
+                            player.used[tile.type] = True
+                            score = EvalFunc[evalFunc](board, player, opponent, setReverse = True)
                             if score > maxScore:
                                 maxScore = score
                                 maxDecision = [
@@ -149,6 +247,7 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                                 ]
                             board.retraceDrop(tile, x, y)
                             player.tmpSet.pop()
+                            player.used[tile.type] = False
                             player.score -= tile.size
     if maxScore > -32768:
         return maxDecision

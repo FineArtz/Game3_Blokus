@@ -24,8 +24,14 @@ if __name__ == '__main__':
         player.append(Player(0, 0, pType1))
         player.append(Player(0, 1, pType2))
     else:
-        player.append(Player(0, 0, 1))
-        player.append(Player(0, 1, 1))
+        player.append(Player(0, 0, 0))
+        player.append(Player(0, 1, 0))
+    
+    evf = [0, 0]
+    if '-e' in sys.argv[1:]:
+        argpos = sys.argv.index('-e')
+        evf[0] = int(sys.argv[argpos + 1])
+        evf[1] = int(sys.argv[argpos + 2])
 
     if testMode:
         fout = open("game.out", "w+", encoding = 'utf-8')
@@ -39,7 +45,7 @@ if __name__ == '__main__':
         for i in range(board.playerNum):
             startTime = time.time()
 
-            result = player[i].action(board, player[i ^ 1])
+            result = player[i].action(board, player[i ^ 1], setEvalFunc = evf[i])
             if result['action']:
                 flag = True
                 if testMode:
