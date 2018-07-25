@@ -6,6 +6,7 @@ import operator
 import shape
 from enum import Enum
 import copy
+import numpy as np 
 
 Color = Enum('Color', ('BLUE', 'YELLOW', 'RED', 'GREEN', 'PURPLE', 'ORANGE'))
 CooDx = [1, 0, -1, 0]
@@ -77,7 +78,7 @@ class Board(object):
                 self.size = 14
                 self.playerNum = 2
                 self.color = [1, 2]
-                self.board = [[0 for col in range(14)] for row in range(14)]
+                self.board = np.zeros((14, 14), dtype = int)
                 # 0: blank
                 # 1: occupied by player 1
                 # 2: occupied by player 2
@@ -86,7 +87,7 @@ class Board(object):
             self.size = initState.size
             self.playerNum = initState.playerNum
             self.color = initState.color
-            self.board = copy.deepcopy(initState.board)
+            self.board = initState.board.copy()
         elif isinstance(initState, dict):
             self.type, self.size, self.playerNum, self.board = initState
             self.color = [i + 1 for i in range(self.playerNum)]
@@ -247,6 +248,28 @@ class Board(object):
                     fout.write(chr(shape.colorAscii[self.board[i][j]]))
                     fout.write(chr(32))
             print() if fout is None else fout.write("\n")
+
+    def canDropPos(self, player, tile):
+        bg = np.ones((self.size, self.size), dtype = bool)
+        ed = np.ones((self.size, self.size), dtype = bool)
+        cn = np.zeros((self.size, self.size), dtype = bool)
+        for (x, y) in tile.shape:
+            bg[:self.size - x, :self.size - y] &= (self.board[x:, y:] == 0)
+            if x != 0: 
+                bg[self.size - x] = False
+            if y != 0:
+                bg[..., self.size - y] = False
+            ed[:self.size - x - 1, :self.size - y] &= ~(self.board[x + 1:, y:] == self.color[player.order])
+            ed[:self.size - x + 1, :self.size - y] &= ~(self.board[x - 1:, y:] == self.color[player.order])
+            ed[:self.size - x, :self.size - y - 1] &= ~(self.board[x:, y + 1:] == self.color[player.order])
+            ed[:self.size - x, :self.size - y + 1] &= ~(self.board[x:, y - 1:] == self.color[player.order])
+            cn[:self.size - x - 1, :self.size - y - 1] |= (self.board[x + 1:, y + 1:] == self.color[player.order])
+            cn[:self.size - x + 1, :self.size - y - 1] |= (self.board[x - 1:, y + 1:] == self.color[player.order])
+            cn[:self.size - x - 1, :self.size - y + 1] |= (self.board[x + 1:, y - 1:] == self.color[player.order])
+            cn[:self.size - x + 1, :self.size - y + 1] |= (self.board[x - 1:, y - 1:] == self.color[player.order])
+        bg &= ed
+        bg &= cn
+        
 
     def getScore(self):
         scores = [0 for i in range(self.playerNum)]

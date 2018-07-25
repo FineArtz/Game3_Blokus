@@ -6,6 +6,7 @@ from board import Tiles, Board
 import shape
 import random
 import copy
+import numpy as np 
 
 DecisionFunc = [] # the list of search functions
 EvalFunc = [] # the list of evaluation functions
