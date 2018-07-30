@@ -25,7 +25,7 @@ if __name__ == '__main__':
         player.append(Player(0, 1, pType2))
     else:
         player.append(Player(0, 0, 0))
-        player.append(Player(0, 1, 0))
+        player.append(Player(0, 1, 2))
     
     evf = [0, 0]
     if '-e' in sys.argv[1:]:
@@ -39,6 +39,7 @@ if __name__ == '__main__':
 
     Round = 0
 
+    totSt = time.time()
     while True:
         flag = False
         Round = Round + 1
@@ -75,6 +76,8 @@ if __name__ == '__main__':
         else:
             print("Round %d: " % Round)
     
+    totEd = time.time()
+    print("tot time = %f" % (totEd - totSt))
     if testMode:
         fout.close()
 

@@ -14,7 +14,7 @@ EvalFunc = [] # the list of evaluation functions
 evalWeight = [20, 10]
 # weights of greedyEval
 
-minimaxDepth = 2
+minimaxDepth = 3
 # depth = n means search n rounds 
 
 '''
@@ -45,42 +45,26 @@ def randomRandom(board, player, opponent, **info):
         Purely random
     '''
 
-    tmpSet = set()
-    for c in player.corners:
-        if board.board[c[0]][c[1]] == 0 \
-        and not c in tmpSet \
-        and not board.isAdj(player, c[0], c[1]):
-            tmpSet.update([c])
-    for s in player.tmpSet:
-        for c in s:
-            if board.board[c[0]][c[1]] == 0 \
-            and not c in tmpSet \
-            and not board.isAdj(player, c[0], c[1]):
-                tmpSet.update([c])
-    possibleCorners = [c for c in tmpSet]
-    random.shuffle(possibleCorners)
-    remain = [i for i in range(21) if not player.used[i]]
-    random.shuffle(remain)
-    for (x, y) in possibleCorners:
-        for t in remain:
-            direction = [i for i in range(8)]
-            random.shuffle(direction)
-            for d in direction:
-                tile = Tiles(t, d % 4, d // 4)
-                for (xx, yy) in tile.shape:
-                    cx = x - xx
-                    cy = y - yy
-                    if cx >= 0 and cy >= 0:
-                        flag = board.dropTile(player, tile, cx, cy)
-                        if flag:
-                            return [
-                                t, # type of tile
-                                d % 4, # rotation
-                                d // 4, # flip
-                                cx, # x
-                                cy # y
-                            ]
+    tileList = np.where(player.used == False)[0]
+    np.random.shuffle(tileList)
+    for t in tileList:
+        direction = np.random.permutation(shape.tileMaxRotation[t])
+        for d in direction:
+            f = 0
+            tile = Tiles(t, d, f)
+            possiblePos = board.canDropPos(player, tile)
+            if possiblePos[0].size != 0:
+                i = np.random.choice(possiblePos[0].size)
+                x, y = possiblePos[0][i], possiblePos[1][i]
+                return [t, d, f, x, y]
+            f = 1
+            tile = Tiles(t, d, f)
+            possiblePos = board.canDropPos(player, tile)
+            if possiblePos[0].size != 0:
+                x, y = np.random.choice(possiblePos[0]), np.random.choice(possiblePos[1])
+                return [t, d, f, x, y]
     return [-1, 0, 0, 0, 0]
+
 
 DecisionFunc.append(randomRandom)
 
@@ -141,7 +125,7 @@ def greedyEval(board, player, opponent, **info):
     '''
 
     def validCornerNumber(player):
-        return len(board.getCorners(player))
+        return board.getCorners(player)[0].size
 
     score = (player.score - opponent.score) * evalWeight[0]
     cor = validCornerNumber(player) - validCornerNumber(opponent)
@@ -222,34 +206,38 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
     for i in range(20, -1, -1):
         if player.used[i]:
             continue
-        for x in range(board.size):
-            for y in range(board.size):
-                for p in range(shape.tileMaxRotation[i]):
-                    for q in range(2):
-                        tile = Tiles(i, p, q)
-                        result = board.dropTile(player, tile, x, y)
-                        if result:
-                            player.score += tile.size
-                            ss = set()
-                            for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
-                                if board.isInBound(x + coo[0], y + coo[1]):
-                                    ss.update([(x + coo[0], y + coo[1])])
-                            player.tmpSet.append(ss)
-                            player.used[tile.type] = True
-                            score = EvalFunc[evalFunc](board, player, opponent, setReverse = True)
-                            if score > maxScore:
-                                maxScore = score
-                                maxDecision = [
-                                    i, # type of tile
-                                    p, # rotation
-                                    q, # flip
-                                    x, # x
-                                    y # y
-                                ]
-                            board.retraceDrop(tile, x, y)
-                            player.tmpSet.pop()
-                            player.used[tile.type] = False
-                            player.score -= tile.size
+        for p in range(shape.tileMaxRotation[i]):
+            for q in [0, 1]:
+                tile = Tiles(i, p, q)
+                xlist, ylist = board.canDropPos(player, tile)
+                if xlist.size == 0:
+                    continue
+                for k in range(xlist.size):
+                    x = xlist[k]
+                    y = ylist[k]
+                    result = board.dropTile(player, tile, x, y, False)
+                    if result:
+                        player.score += tile.size
+                        ss = set()
+                        for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
+                            if board.isInBound(x + coo[0], y + coo[1]):
+                                ss.update([(x + coo[0], y + coo[1])])
+                        player.tmpSet.append(ss)
+                        player.used[tile.type] = True
+                        score = EvalFunc[evalFunc](board, player, opponent, setReverse = True)
+                        if score > maxScore:
+                            maxScore = score
+                            maxDecision = [
+                                i, # type of tile
+                                p, # rotation
+                                q, # flip
+                                x, # x
+                                y # y
+                            ]
+                        board.retraceDrop(tile, x, y)
+                        player.tmpSet.pop()
+                        player.used[tile.type] = False
+                        player.score -= tile.size
     if maxScore > -32768:
         return maxDecision
     else:
@@ -269,32 +257,36 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
     for i in range(20, -1, -1):
         if player.used[i]:
             continue
-        for x in range(board.size):
-            for y in range(board.size):
-                for p in range(shape.tileMaxRotation[i]):
-                    for q in range(2):
-                        tile = Tiles(i, p, q)
-                        result = board.dropTile(player, tile, x, y)
-                        if result:
-                            player.score += tile.size
-                            ss = set()
-                            for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
-                                if board.isInBound(x + coo[0], y + coo[1]):
-                                    ss.update([(x + coo[0], y + coo[1])])
-                            player.tmpSet.append(ss)
-                            score = -_alphaBeta(depth + 1, board, opponent, player, evalFunc, -beta, -alpha, desPlayer)
-                            board.retraceDrop(tile, x, y)
-                            player.tmpSet.pop()
-                            player.score -= tile.size
-                            if score >= alpha:
-                                alpha = score
-                                if depth == 0:
-                                    bestMove = [i, p, q, x, y]
-                                    if alpha >= beta:
-                                        return [alpha, bestMove]
-                                else:
-                                    if alpha >= beta:
-                                        return alpha
+        for p in range(shape.tileMaxRotation[i]):
+            for q in [0, 1]:
+                tile = Tiles(i, p, q)
+                xlist, ylist = board.canDropPos(player, tile)
+                if xlist.size == 0:
+                    continue
+                for k in range(xlist.size):
+                    x = xlist[k]
+                    y = ylist[k]
+                    result = board.dropTile(player, tile, x, y, False)
+                    if result:
+                        player.score += tile.size
+                        ss = set()
+                        for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
+                            if board.isInBound(x + coo[0], y + coo[1]):
+                                ss.update([(x + coo[0], y + coo[1])])
+                        player.tmpSet.append(ss)
+                        score = -_alphaBeta(depth + 1, board, opponent, player, evalFunc, -beta, -alpha, desPlayer)
+                        board.retraceDrop(tile, x, y)
+                        player.tmpSet.pop()
+                        player.score -= tile.size
+                        if score >= alpha:
+                            alpha = score
+                            if depth == 0:
+                                bestMove = [i, p, q, x, y]
+                                if alpha >= beta:
+                                    return [alpha, bestMove]
+                            else:
+                                if alpha >= beta:
+                                    return alpha
     return alpha if depth != 0 else [alpha, bestMove]
 
 def alphaBeta(board, player, opponent, evalFunc = 0, **info):
@@ -315,3 +307,85 @@ def alphaBeta(board, player, opponent, evalFunc = 0, **info):
     return bestMove[1]
 
 DecisionFunc.append(alphaBeta)
+
+def mcts(board, player, opponent, evalFunc = 0, **info):
+
+    '''
+        Enumerate all possible drops and save 5 best
+        drops, then use mcstEval to reevaluate them
+    '''
+
+    if 'setEvalFunc' in info:
+        evalFunc = info['setEvalFunc']
+
+    global evalWeight
+    if 'setEvalWeight' in info:
+        evalWeight = info['setEvalWeight']
+
+    maxDecision = []
+    for i in range(20, -1, -1):
+        if player.used[i]:
+            continue
+        for p in range(shape.tileMaxRotation[i]):
+            for q in [0, 1]:
+                tile = Tiles(i, p, q)
+                xlist, ylist = board.canDropPos(player, tile)
+                if xlist.size == 0:
+                    continue
+                for k in range(xlist.size):
+                    x = xlist[k]
+                    y = ylist[k]
+                    board.dropTile(player, tile, x, y, False)
+                    player.score += tile.size
+                    player.used[tile.type] = True
+                    score = EvalFunc[evalFunc](board, player, opponent, setReverse = True)
+                    if len(maxDecision) < 5:
+                        maxDecision.append({
+                            'score' : score,
+                            'tileType' : i, # type of tile
+                            'rot' : p, # rotation
+                            'flip' : q, # flip
+                            'x' : x, # x
+                            'y' : y # y
+                        })
+                    elif score > maxDecision[-1]['score']:
+                        m = 4
+                        while m > 0:
+                            if maxDecision[m]['score'] > score:
+                                break
+                            maxDecision[m] = maxDecision[m - 1]
+                            m -= 1
+                        maxDecision[m] = {
+                            'score' : score,
+                            'tileType' : i, # type of tile
+                            'rot' : p, # rotation
+                            'flip' : q, # flip
+                            'x' : x, # x
+                            'y' : y # y
+                        }
+                    board.retraceDrop(tile, x, y)
+                    player.used[tile.type] = False
+                    player.score -= tile.size
+    if maxDecision != []:
+        maxscore = -1
+        maxd = -1
+        for i, dec in enumerate(maxDecision):
+            tile = Tiles(dec['tileType'], dec['rot'], dec['flip'])
+            board.dropTile(player, tile, dec['x'], dec['y'])
+            player.used[dec['tileType']] = True
+            score = mctsEval(board, player, opponent, setTot = 20, setReverse = True)
+            if score > maxscore:
+                maxd = i
+            board.retraceDrop(tile, dec['x'], dec['y'])
+            player.used[dec['tileType']] = False
+        return [
+            maxDecision[maxd]['tileType'],
+            maxDecision[maxd]['rot'],
+            maxDecision[maxd]['flip'],
+            maxDecision[maxd]['x'],
+            maxDecision[maxd]['y']
+        ]
+    else:
+        return [-1, 0, 0, 0, 0]
+
+DecisionFunc.append(mcts)

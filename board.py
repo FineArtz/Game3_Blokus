@@ -143,14 +143,24 @@ class Board(object):
             return False
 
     def getCorners(self, player):
-        tmp = copy.copy(player.corners)
-        for s in player.tmpSet:
-            tmp = tmp | s
-        ret = set()
-        for (i, j) in tmp:
-            if self.board[i][j] == 0 and not self.isAdj(player, i, j):
-                ret.update([(i, j)])
-        return ret
+        bg = (self.board == 0)
+
+        cn = np.zeros((self.size, self.size), dtype = bool)
+        cn[1:, 1:] |= (self.board[:-1, :-1] == self.color[player.order])
+        cn[1:, :-1] |= (self.board[:-1, 1:] == self.color[player.order])
+        cn[:-1, 1:] |= (self.board[1:, :-1] == self.color[player.order])
+        cn[:-1, :-1] |= (self.board[1:, 1:] == self.color[player.order])
+
+        ed = np.zeros((self.size, self.size), dtype = bool)
+        ed[1:] |= (self.board[:-1] == self.color[player.order])
+        ed[:-1] |= (self.board[1:] == self.color[player.order])
+        ed[..., 1:] |= (self.board[..., :-1] == self.color[player.order])
+        ed[..., :-1] |= (self.board[..., 1:] == self.color[player.order])
+        
+        ed = ~ed
+        bg &= cn
+        bg &= ed
+        return np.where(bg == True)
 
     def canDrop(self, player, tile, x = -1, y = -1):
         '''
@@ -195,7 +205,7 @@ class Board(object):
                     coverCorner = True
             return coverCorner
 
-    def dropTile(self, player, tile, x = -1, y = -1):
+    def dropTile(self, player, tile, x = -1, y = -1, varify = True):
         '''
             drop the tile at (x, y) and update the board.
             'tile' can be given in the form of pointlist or Tiles.
@@ -215,8 +225,9 @@ class Board(object):
                 raise TypeError
             if tile.type == -1:
                 raise ValueError
-            if not self.canDrop(player, tile, x, y):
-                return False
+            if varify:
+                if not self.canDrop(player, tile, x, y):
+                    return False
             for (i, j) in tile.shape:
                 self.board[x + i][y + j] = self.color[player.order]
             return True
@@ -250,26 +261,59 @@ class Board(object):
             print() if fout is None else fout.write("\n")
 
     def canDropPos(self, player, tile):
+        isEmpty = (self.board == self.color[player.order])
+        if not (True in isEmpty):
+            bg = np.zeros((self.size, self.size), dtype = bool)
+            x0, y0 = [4, 4] if player.order == 0 else [9, 9]
+            for (x, y) in tile.shape:
+                bg[x0 - x, y0 - y] = True
+            return np.where(bg == True)
+
         bg = np.ones((self.size, self.size), dtype = bool)
-        ed = np.ones((self.size, self.size), dtype = bool)
+        ed = np.zeros((self.size, self.size), dtype = bool)
         cn = np.zeros((self.size, self.size), dtype = bool)
+        mark = self.color[player.order]
+
         for (x, y) in tile.shape:
             bg[:self.size - x, :self.size - y] &= (self.board[x:, y:] == 0)
             if x != 0: 
                 bg[self.size - x] = False
             if y != 0:
                 bg[..., self.size - y] = False
-            ed[:self.size - x - 1, :self.size - y] &= ~(self.board[x + 1:, y:] == self.color[player.order])
-            ed[:self.size - x + 1, :self.size - y] &= ~(self.board[x - 1:, y:] == self.color[player.order])
-            ed[:self.size - x, :self.size - y - 1] &= ~(self.board[x:, y + 1:] == self.color[player.order])
-            ed[:self.size - x, :self.size - y + 1] &= ~(self.board[x:, y - 1:] == self.color[player.order])
-            cn[:self.size - x - 1, :self.size - y - 1] |= (self.board[x + 1:, y + 1:] == self.color[player.order])
-            cn[:self.size - x + 1, :self.size - y - 1] |= (self.board[x - 1:, y + 1:] == self.color[player.order])
-            cn[:self.size - x - 1, :self.size - y + 1] |= (self.board[x + 1:, y - 1:] == self.color[player.order])
-            cn[:self.size - x + 1, :self.size - y + 1] |= (self.board[x - 1:, y - 1:] == self.color[player.order])
+
+            ed[:self.size - x - 1, :self.size - y] |= (self.board[x + 1:, y:] == mark)
+            if x <= 1:
+                ed[1 - x:, :self.size - y] |= (self.board[:self.size - 1 + x, y:] == mark)
+            else:
+                ed[:self.size - x + 1, :self.size - y] |= (self.board[x - 1:, y:] == mark)
+            ed[:self.size - x, :self.size - y - 1] |= (self.board[x:, y + 1:] == mark)
+            if y <= 1:
+                ed[:self.size - x, 1 - y:] |= (self.board[x:, :self.size - 1 + y] == mark)
+            else:
+                ed[:self.size - x, :self.size - y + 1] |= (self.board[x:, y - 1:] == mark)
+
+            cn[:self.size - x - 1, :self.size - y - 1] |= (self.board[x + 1:, y + 1:] == mark)
+            if x <= 1 and y <= 1:
+                cn[1 - x:, 1 - y:] |= (self.board[:self.size - 1 + x, :self.size - 1 + y] == mark)
+                cn[1 - x:, :self.size - y - 1] |= (self.board[:self.size - 1 + x, y + 1:] == mark)
+                cn[:self.size - x - 1, 1 - y:] |= (self.board[x + 1:, :self.size - 1 + y] == mark)
+            elif x <= 1 and y > 1:
+                cn[1 - x:, :self.size - y + 1] |= (self.board[:self.size - 1 + x, y - 1:] == mark)
+                cn[1 - x:, :self.size - y - 1] |= (self.board[:self.size - 1 + x, y + 1:] == mark)
+                cn[:self.size - x - 1, :self.size - y + 1] |= (self.board[x + 1:, y - 1:] == mark)
+            elif x > 1 and y <= 1:
+                cn[:self.size - x + 1, 1 - y:] |= (self.board[x - 1:, :self.size - 1 + y] == mark)
+                cn[:self.size - x + 1, :self.size - y - 1] |= (self.board[x - 1:, y + 1:] == mark)
+                cn[:self.size - x - 1, 1 - y:] |= (self.board[x + 1:, :self.size - 1 + y] == mark)
+            elif x > 1 and y > 1:
+                cn[:self.size - x + 1, :self.size - y - 1] |= (self.board[x - 1:, y + 1:] == mark)
+                cn[:self.size - x - 1, :self.size - y + 1] |= (self.board[x + 1:, y - 1:] == mark)
+                cn[:self.size - x + 1, :self.size - y + 1] |= (self.board[x - 1:, y - 1:] == mark)
+
+        ed = ~ed 
         bg &= ed
         bg &= cn
-        
+        return np.where(bg == True)
 
     def getScore(self):
         scores = [0 for i in range(self.playerNum)]

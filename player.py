@@ -7,6 +7,7 @@ from board import Tiles, Board, CooDp, CooDq
 from shape import cornerSet, tileSizes
 import sys, argparse
 import json
+import numpy as np 
 
 class Player(object):
 
@@ -27,7 +28,7 @@ class Player(object):
             self.type = type
             self.order = order
             if type is 0:
-                self.used = [False for i in range(21)]
+                self.used = np.zeros(21, dtype = bool)
                 self.score = 0
                 if order == 0:
                     self.corners = set([(4, 4)])
@@ -65,7 +66,10 @@ class Player(object):
                                     setEvalWeight = [self.w1, self.w2], setEvalFunc = ef)
         if tileType != -1:
             tile = Tiles(tileType, rot, flp)
-            board.dropTile(self, tile, x, y)
+            if self.decisionMaker == DecisionFunc[0]:
+                board.dropTile(self, tile, x, y, False)
+            else:
+                board.dropTile(self, tile, x, y)
             self.used[tileType] = True
             for coo in cornerSet[tileType][rot + flp * 4]:
                 if board.isInBound(x + coo[0], y + coo[1]):
