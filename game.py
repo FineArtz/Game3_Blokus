@@ -25,7 +25,7 @@ if __name__ == '__main__':
         player.append(Player(0, 1, pType2))
     else:
         player.append(Player(0, 0, 0))
-        player.append(Player(0, 1, 2))
+        player.append(Player(0, 1, 0))
     
     evf = [0, 0]
     if '-e' in sys.argv[1:]:

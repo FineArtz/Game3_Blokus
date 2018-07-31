@@ -163,53 +163,39 @@ class Board(object):
         return np.where(bg == True)
 
     def canDrop(self, player, tile, x = -1, y = -1):
+        
         '''
+            !New: please use canDropList
             return True if player can drop the tile at (x, y).
             'tile' can be given in the form of pointlist or Tiles.
         '''
-        if x == -1 and y == -1:
-            if not isinstance(tile, list):
-                raise TypeError
-            coverCorner = False
-            for (i, j) in tile:
-                if not self.isInBound(i, j):
-                    raise Exception(u"超出边界")
-                if self.board[i][j] != 0:
-                    raise Exception(u"和已有块重叠")
-                if self.isAdj(player, i, j):
-                    raise Exception(u"边不能相邻")
-                if self.isCorner(player, i, j) \
-                or ((i, j) == (4, 4) and player == 0) \
-                or ((i, j) == (9, 9) and player == 1):
-                    coverCorner = True
-            if coverCorner:
-                return True
-            else:
-                raise Exception(u"必须有角相邻")
+
+        if not isinstance(tile, list):
+            raise TypeError
+        coverCorner = False
+        for (i, j) in tile:
+            if not self.isInBound(i, j):
+                raise Exception(u"超出边界")
+            if self.board[i][j] != 0:
+                raise Exception(u"和已有块重叠")
+            if self.isAdj(player, i, j):
+                raise Exception(u"边不能相邻")
+            if self.isCorner(player, i, j) \
+            or ((i, j) == (4, 4) and player == 0) \
+            or ((i, j) == (9, 9) and player == 1):
+                coverCorner = True
+        if coverCorner:
+            return True
         else:
-            if not isinstance(tile, Tiles):
-                raise TypeError
-            if tile.type == -1:
-                raise ValueError
-            coverCorner = False
-            for (i, j) in tile.shape:
-                if not self.isInBound(x + i, y + j):
-                    return False
-                if self.board[x + i][y + j] != 0:
-                    return False
-                if self.isAdj(player, x + i, y + j):
-                    return False
-                if (x + i, y + j) in player.corners \
-                or ((x + i, y + j) == (4, 4) and player.order == 0) \
-                or ((x + i, y + j) == (9, 9) and player.order == 1):
-                    coverCorner = True
-            return coverCorner
+            raise Exception(u"必须有角相邻")
 
     def dropTile(self, player, tile, x = -1, y = -1, varify = True):
+        
         '''
             drop the tile at (x, y) and update the board.
             'tile' can be given in the form of pointlist or Tiles.
         '''
+
         if x == -1 and y == -1:
             if not isinstance(tile, list):
                 raise TypeError
@@ -232,23 +218,9 @@ class Board(object):
                 self.board[x + i][y + j] = self.color[player.order]
             return True
 
-    '''
-    def tryDrop(self, player, tile, x, y):
-        if not isinstance(tile, Tiles):
-            raise TypeError
-        if tile.type == -1:
-            raise ValueError
-        if player < 0 or player >= self.playerNum:
-            raise ValueError
-        if not self.canDrop(player, tile, x, y):
-            return False
-        for coo in tile.shape:
-            self.board[x + coo[0]][y + coo[1]] = self.Color[player]
-        return True
-    '''
     def retraceDrop(self, tile, x, y):
-        for coo in tile.shape:
-            self.board[x + coo[0]][y + coo[1]] = 0
+        for x0, y0 in tile.shape:
+            self.board[x + x0][y + y0] = 0
 
     def print(self, fout = None):
         for i in range(self.size):
@@ -261,6 +233,15 @@ class Board(object):
             print() if fout is None else fout.write("\n")
 
     def canDropPos(self, player, tile):
+
+        '''
+            the return format is same as numpy.where()
+            return (xlist, ylist) where xlist and ylist are 
+            1-d numpy.ndarray.
+            if there is no legal position for tile, return a
+            tuple contains an empty 1-d numpy.ndarray
+        '''
+
         isEmpty = (self.board == self.color[player.order])
         if not (True in isEmpty):
             bg = np.zeros((self.size, self.size), dtype = bool)
@@ -341,8 +322,8 @@ class Board(object):
         self.size = 14
         self.playerNum = 2
         self.color = [1, 2]
-        self.board = copy.deepcopy(matrix)
-        visited = [[False for i in range(14)] for j in range(14)]
+        self.board = np.asarray(matrix)
+        visited = np.zeros((self.size, self.size), dtype = bool)
 
         def getTile(x, y, color, tilePoints):
             # floodfill
@@ -355,14 +336,16 @@ class Board(object):
                     if matrix[nx][ny] == color and not visited[nx][ny]:
                         getTile(nx, ny, color, tilePoints)
 
-        for i in range(14):
-            for j in range(14):
+        xlist, ylist = np.where(self.board != 0)
+
+        for i in np.nditer(xlist):
+            for j in np.nditer(ylist):
                 if matrix[i][j] != 0 and not visited[i][j]:
                     tilePoints = []
                     minx = 14
                     miny = 14
                     getTile(i, j, matrix[i][j], tilePoints)
-                    for [x, y] in tilePoints:
+                    for x, y in tilePoints:
                         minx = min(minx, x)
                         miny = min(miny, y)
                     for k in range(len(tilePoints)):
@@ -370,23 +353,15 @@ class Board(object):
                         tilePoints[k][1] = tilePoints[k][1] - miny
                     tilePoints.sort()
                     tmpTile = []
-                    for [x, y] in tilePoints:
+                    for x, y in tilePoints:
                         tmpTile.append((x, y))
                     for t in range(21):
                         if shape.tileSizes[t] != len(tmpTile):
                             continue
                         if tmpTile in shape.shapeSet[t]:
-                            u = shape.shapeSet[t].index(tmpTile)
                             player[matrix[i][j] - 1].used[t] = True
                             player[matrix[i][j] - 1].score += shape.tileSizes[t]
-                            for (x, y) in shape.cornerSet[t][u]:
-                                nx = minx + x
-                                ny = miny + y
-                                if nx >= 0 and nx < 14 and ny >= 0 and ny < 14:
-                                    player[matrix[i][j] - 1].corners.update([(nx, ny)])
                             break
-        player[0].updateCorners(self)
-        player[1].updateCorners(self)
 
     def toMatrix(self):
         # return board as a 14*14 matrix
@@ -397,16 +372,15 @@ class Board(object):
             'player' here is a list of Player.
             If no player can drop a tile, return True.
         '''
-        for i in range(self.playerNum):
+        for pl in player:
             for t in range(21):
-                if player[i].used[t]:
+                if pl.used[t]:
                     continue
-                for x in range(self.size):
-                    for y in range(self.size):
-                        for p in range(shape.tileMaxRotation[i]):
-                            for q in range(2):
-                                tile = Tiles(i, p, q)
-                                if self.canDrop(player[i], tile, x, y):
-                                    return False
+                for p in range(shape.tileMaxRotation[t]):
+                    for q in [0, 1]:
+                        tile = Tiles(t, p, q)
+                        xlist = self.canDropPos(pl, tile)[0]
+                        if xlist.size != 0:
+                            return False
         return True
 

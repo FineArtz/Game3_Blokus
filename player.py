@@ -30,11 +30,6 @@ class Player(object):
             if type is 0:
                 self.used = np.zeros(21, dtype = bool)
                 self.score = 0
-                if order == 0:
-                    self.corners = set([(4, 4)])
-                else:
-                    self.corners = set([(9, 9)])
-                self.tmpSet = []
                 if level == -1:
                     self.decisionMaker = None
                 else:
@@ -42,13 +37,6 @@ class Player(object):
                 self.w1, self.w2 = [20, 10]
                 if 'setWeight' in info:
                     self.w1, self.w2 = info['setWeight']
-
-    def updateCorners(self, board):
-        tmpSet = set()
-        for (i, j) in self.corners:
-            if board.board[i][j] == 0:
-                tmpSet.update([(i, j)])
-        self.corners = tmpSet
 
     def action(self, board, opponent, **info):
         if self.decisionMaker is None:
@@ -66,16 +54,9 @@ class Player(object):
                                     setEvalWeight = [self.w1, self.w2], setEvalFunc = ef)
         if tileType != -1:
             tile = Tiles(tileType, rot, flp)
-            if self.decisionMaker == DecisionFunc[0]:
-                board.dropTile(self, tile, x, y, False)
-            else:
-                board.dropTile(self, tile, x, y)
+            board.dropTile(self, tile, x, y, False)
             self.used[tileType] = True
-            for coo in cornerSet[tileType][rot + flp * 4]:
-                if board.isInBound(x + coo[0], y + coo[1]):
-                    self.corners.update([(x + coo[0], y + coo[1])])
             self.score = self.score + tileSizes[tileType]
-            self.updateCorners(board)
             return {
                 "action" : True,
                 "tileType" : tileType,
@@ -128,7 +109,7 @@ if __name__ == '__main__':
         matrix = [[0 for i in range(14)] for j in range(14)]
         player = Player(0, 0, lv)
         opponent = Player(0, 1, 0)
-    
+
     if playerOrder == 0:
         board.parseFromMatrix(matrix, [player, opponent])
     else:

@@ -14,7 +14,7 @@ EvalFunc = [] # the list of evaluation functions
 evalWeight = [20, 10]
 # weights of greedyEval
 
-minimaxDepth = 3
+minimaxDepth = 2
 # depth = n means search n rounds 
 
 '''
@@ -38,82 +38,6 @@ minimaxDepth = 3
         If none of tile can be dropped, the functions return
             [-1, 0, 0, 0, 0]
 '''
-
-def randomRandom(board, player, opponent, **info):
-
-    '''
-        Purely random
-    '''
-
-    tileList = np.where(player.used == False)[0]
-    np.random.shuffle(tileList)
-    for t in tileList:
-        direction = np.random.permutation(shape.tileMaxRotation[t])
-        for d in direction:
-            f = 0
-            tile = Tiles(t, d, f)
-            possiblePos = board.canDropPos(player, tile)
-            if possiblePos[0].size != 0:
-                i = np.random.choice(possiblePos[0].size)
-                x, y = possiblePos[0][i], possiblePos[1][i]
-                return [t, d, f, x, y]
-            f = 1
-            tile = Tiles(t, d, f)
-            possiblePos = board.canDropPos(player, tile)
-            if possiblePos[0].size != 0:
-                x, y = np.random.choice(possiblePos[0]), np.random.choice(possiblePos[1])
-                return [t, d, f, x, y]
-    return [-1, 0, 0, 0, 0]
-
-
-DecisionFunc.append(randomRandom)
-
-def randomGreedy(board, player, opponent, **info):
-
-    '''
-        Randomly choose one of the biggest tile 
-        which can be dropped and drop it on a 
-        random legal position.
-    '''
-
-    remain = []
-    nowSize = 0
-    for i in range(21):
-        if not player.used[i]:
-            if nowSize == shape.tileSizes[i]:
-                remain[nowSize - 1].append(i)
-            else:
-                remain.append([])
-                nowSize = nowSize + 1
-                remain[nowSize - 1].append(i)
-    xlist = [i for i in range(board.size)]
-    ylist = [i for i in range(board.size)]
-    random.shuffle(xlist)
-    random.shuffle(ylist)
-    for size in range(5, 0, -1):
-        if size > len(remain):
-            continue
-        random.shuffle(remain[size - 1])
-        for i in range(len(remain[size - 1])):
-            flag = False
-            for x in xlist:
-                for y in ylist:
-                    direction = [i for i in range(8)]
-                    random.shuffle(direction)
-                    for k in direction:
-                        tile = Tiles(remain[size - 1][i], k % 4, k // 4)
-                        flag = board.canDrop(player, tile, x, y)
-                        if flag:
-                            return [
-                                 remain[size - 1][i], # type of tile
-                                 k % 4, # rotation
-                                 k // 4, # flip
-                                 x, # x
-                                 y # y
-                            ]
-    return [-1, 0, 0, 0, 0]
-
-DecisionFunc.append(randomGreedy)
 
 def greedyEval(board, player, opponent, **info):
 
@@ -139,53 +63,138 @@ EvalFunc.append(greedyEval)
 def mctsEval(board, player, opponent, **info):
     score = 0
     rev = False
-    tot = 5
+    tot = 6
+    stp = 4
     if 'setTot' in info:
         tot = info['setTot']
     if 'setReverse' in info:
         rev = info['setReverse']
-    initScore = 0
-    if not rev:
-        initScore = greedyEval(board, player, opponent)
-    else:
-        initScore = greedyEval(board, opponent, player)
+    if 'setStep' in info:
+        stp = info['setStep']
+
+    tmpDecMaker = [player.decisionMaker, opponent.decisionMaker]
+    player.decisionMaker = opponent.decisionMaker = randomRandom
+    tmpPlayer = player
+    tmpOpponent = opponent
+    if rev:
+        tmpPlayer = opponent
+        tmpOpponent = player
+    initScore = greedyEval(board, tmpPlayer, tmpOpponent)
+
     for game in range(tot):
-        if not rev:
-            tmpPlayer = copy.deepcopy(player)
-            tmpOpp = copy.deepcopy(opponent)
-        else:
-            tmpOpp = copy.deepcopy(player)
-            tmpPlayer = copy.deepcopy(opponent)
         tmpHistory = []
-        tmpPlayer.decisionMaker = tmpOpp.decisionMaker = randomRandom
-        for s in tmpPlayer.tmpSet:
-            tmpPlayer.corners = tmpPlayer.corners | s
-        for s in tmpOpp.tmpSet:
-            tmpOpp.corners = tmpOpp.corners | s
         flag = False
-        for stp in range(5):
+        for step in range(stp):
             flag = False
-            result = tmpPlayer.action(board, tmpOpp, setEvalFunc = 0)
+            result = tmpPlayer.action(board, tmpOpponent, setEvalFunc = 0)
             if result['action']:
                 flag = True
+                result['id'] = 0
                 tmpHistory.append(result)
-            result = tmpOpp.action(board, tmpPlayer, setEvalFunc = 0)
+            result = tmpOpponent.action(board, tmpPlayer, setEvalFunc = 0)
             if result['action']:
                 flag = True
+                result['id'] = 1
                 tmpHistory.append(result)
             if not flag:
                 break
-        for h in tmpHistory:
-            board.retraceDrop(Tiles(h['tileType'], h['rotation'], h['flip']), h['x'], h['y'])
         if flag:
-            if greedyEval(board, tmpPlayer, tmpOpp) > initScore:
+            if greedyEval(board, tmpPlayer, tmpOpponent) > initScore:
                 score += 1
         else:
-            if tmpPlayer.score > tmpOpp.score:
+            if tmpPlayer.score > tmpOpponent.score:
                 score += 1
-    return score / tot
+        for h in tmpHistory:
+            if h['id'] == 0:
+                tmpPlayer.used[h['tileType']] = False
+                tmpPlayer.score -= shape.tileSizes[h['tileType']]
+            else:
+                tmpOpponent.used[h['tileType']] = False
+                tmpOpponent.score -= shape.tileSizes[h['tileType']]
+            board.retraceDrop(Tiles(h['tileType'], h['rotation'], h['flip']), h['x'], h['y'])
+
+    player.decisionMaker, opponent.decisionMaker = tmpDecMaker
+    return score / tot if not rev else 1 - score / tot
 
 EvalFunc.append(mctsEval)
+
+def randomRandom(board, player, opponent, **info):
+
+    '''
+        Purely random
+    '''
+
+    tileList = np.where(player.used == False)[0]
+    used = np.zeros(21, dtype = bool)
+    cnt = 0
+
+    while cnt < tileList.size:
+        t = np.random.choice(tileList)
+        while used[t]:
+            t = np.random.choice(tileList)
+        direction = np.random.permutation(shape.tileMaxRotation[t])
+        for d in direction:
+            f = 0
+            tile = Tiles(t, d, f)
+            possiblePos = board.canDropPos(player, tile)
+            if possiblePos[0].size != 0:
+                i = np.random.choice(possiblePos[0].size)
+                x, y = possiblePos[0][i], possiblePos[1][i]
+                return [t, d, f, x, y]
+            f = 1
+            tile = Tiles(t, d, f)
+            possiblePos = board.canDropPos(player, tile)
+            if possiblePos[0].size != 0:
+                i = np.random.choice(possiblePos[0].size)
+                x, y = possiblePos[0][i], possiblePos[1][i]
+                return [t, d, f, x, y]
+        used[t] = True
+        cnt += 1
+    return [-1, 0, 0, 0, 0]
+
+DecisionFunc.append(randomRandom)
+
+def randomGreedy(board, player, opponent, **info):
+
+    '''
+        Randomly choose one of the biggest tile 
+        which can be dropped and drop it on a 
+        random legal position.
+    '''
+
+    remain = []
+    nowSize = 0
+    for i in range(21):
+        if not player.used[i]:
+            if nowSize == shape.tileSizes[i]:
+                remain[nowSize - 1].append(i)
+            else:
+                remain.append([])
+                nowSize = nowSize + 1
+                remain[nowSize - 1].append(i)
+    for size in range(5, 0, -1):
+        if size > len(remain):
+            continue
+        random.shuffle(remain[size - 1])
+        for i in range(len(remain[size - 1])):
+            direction = [i for i in range(8)]
+            random.shuffle(direction)
+            for k in direction:
+                tile = Tiles(remain[size - 1][i], k % 4, k // 4)
+                xlist, ylist = board.canDropPos(player, tile)
+                if xlist.size == 0:
+                    continue
+                j = np.random.choice(xlist.size)
+                return [
+                        remain[size - 1][i], # type of tile
+                        k % 4, # rotation
+                        k // 4, # flip
+                        xlist[j], # x
+                        ylist[j] # y
+                ]
+    return [-1, 0, 0, 0, 0]
+
+DecisionFunc.append(randomGreedy)
 
 def greedy(board, player, opponent, evalFunc = 0, **info):
 
@@ -203,9 +212,11 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
 
     maxScore = -32768
     maxDecision = []
-    for i in range(20, -1, -1):
-        if player.used[i]:
-            continue
+    remain = np.where(player.used == False)[0]
+    if remain.size == 0:
+        return [-1, 0, 0, 0, 0]
+    remain = remain[::-1]
+    for i in remain:
         for p in range(shape.tileMaxRotation[i]):
             for q in [0, 1]:
                 tile = Tiles(i, p, q)
@@ -218,11 +229,6 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                     result = board.dropTile(player, tile, x, y, False)
                     if result:
                         player.score += tile.size
-                        ss = set()
-                        for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
-                            if board.isInBound(x + coo[0], y + coo[1]):
-                                ss.update([(x + coo[0], y + coo[1])])
-                        player.tmpSet.append(ss)
                         player.used[tile.type] = True
                         score = EvalFunc[evalFunc](board, player, opponent, setReverse = True)
                         if score > maxScore:
@@ -235,7 +241,6 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
                                 y # y
                             ]
                         board.retraceDrop(tile, x, y)
-                        player.tmpSet.pop()
                         player.used[tile.type] = False
                         player.score -= tile.size
     if maxScore > -32768:
@@ -254,9 +259,11 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
     if depth == minimaxDepth:
         return EvalFunc[evalFunc](board, player, opponent)
     bestMove = [-1, 0, 0, 0, 0]
-    for i in range(20, -1, -1):
-        if player.used[i]:
-            continue
+    remain = np.where(player.used == False)[0]
+    remain = remain[::-1] 
+    #reverse the array to search in a specific order
+
+    for i in remain:
         for p in range(shape.tileMaxRotation[i]):
             for q in [0, 1]:
                 tile = Tiles(i, p, q)
@@ -269,14 +276,10 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
                     result = board.dropTile(player, tile, x, y, False)
                     if result:
                         player.score += tile.size
-                        ss = set()
-                        for coo in shape.cornerSet[tile.type][tile.rotation + tile.flip * 4]:
-                            if board.isInBound(x + coo[0], y + coo[1]):
-                                ss.update([(x + coo[0], y + coo[1])])
-                        player.tmpSet.append(ss)
+
                         score = -_alphaBeta(depth + 1, board, opponent, player, evalFunc, -beta, -alpha, desPlayer)
+
                         board.retraceDrop(tile, x, y)
-                        player.tmpSet.pop()
                         player.score -= tile.size
                         if score >= alpha:
                             alpha = score
@@ -295,9 +298,10 @@ def alphaBeta(board, player, opponent, evalFunc = 0, **info):
         Alphabeta pruning
     '''
 
-    global evalWeight
     if 'setEvalFunc' in info:
         evalFunc = info['setEvalFunc']
+
+    global evalWeight
     if 'setEvalWeight' in info:
         evalWeight = info['setEvalWeight']
         
@@ -311,8 +315,8 @@ DecisionFunc.append(alphaBeta)
 def mcts(board, player, opponent, evalFunc = 0, **info):
 
     '''
-        Enumerate all possible drops and save 5 best
-        drops, then use mcstEval to reevaluate them
+        Enumerate all possible drops and select the best
+        5 of them, then use mcstEval to reevaluate them
     '''
 
     if 'setEvalFunc' in info:
@@ -321,11 +325,15 @@ def mcts(board, player, opponent, evalFunc = 0, **info):
     global evalWeight
     if 'setEvalWeight' in info:
         evalWeight = info['setEvalWeight']
+        
+    totGame = 20
+    if 'setTotalGame' in info:
+        totGame = info['setTotalGame']
 
     maxDecision = []
-    for i in range(20, -1, -1):
-        if player.used[i]:
-            continue
+    remain = np.where(player.used == False)[0]
+
+    for i in remain:
         for p in range(shape.tileMaxRotation[i]):
             for q in [0, 1]:
                 tile = Tiles(i, p, q)
@@ -371,9 +379,9 @@ def mcts(board, player, opponent, evalFunc = 0, **info):
         maxd = -1
         for i, dec in enumerate(maxDecision):
             tile = Tiles(dec['tileType'], dec['rot'], dec['flip'])
-            board.dropTile(player, tile, dec['x'], dec['y'])
+            board.dropTile(player, tile, dec['x'], dec['y'], False)
             player.used[dec['tileType']] = True
-            score = mctsEval(board, player, opponent, setTot = 20, setReverse = True)
+            score = mctsEval(board, player, opponent, setTot = totGame, setReverse = True)
             if score > maxscore:
                 maxd = i
             board.retraceDrop(tile, dec['x'], dec['y'])
