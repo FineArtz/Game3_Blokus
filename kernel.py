@@ -326,7 +326,7 @@ def mcts(board, player, opponent, evalFunc = 0, **info):
     if 'setEvalWeight' in info:
         evalWeight = info['setEvalWeight']
         
-    totGame = 20
+    totGame = 30
     if 'setTotalGame' in info:
         totGame = info['setTotalGame']
 
@@ -397,3 +397,65 @@ def mcts(board, player, opponent, evalFunc = 0, **info):
         return [-1, 0, 0, 0, 0]
 
 DecisionFunc.append(mcts)
+
+def analBoard(board, player, opponent, **info):
+
+    '''
+        return the best 5 drops and their winning rate
+    '''
+
+    maxDecision = []
+    remain = np.where(player.used == False)[0]
+
+    for i in remain:
+        for p in range(shape.tileMaxRotation[i]):
+            for q in [0, 1]:
+                tile = Tiles(i, p, q)
+                xlist, ylist = board.canDropPos(player, tile)
+                if xlist.size == 0:
+                    continue
+                for k in range(xlist.size):
+                    x = xlist[k]
+                    y = ylist[k]
+                    board.dropTile(player, tile, x, y, False)
+                    player.score += tile.size
+                    player.used[tile.type] = True
+                    score = greedyEval(board, player, opponent, setEvalWeight = [20, 10])
+                    if len(maxDecision) < 5:
+                        maxDecision.append({
+                            'score' : score,
+                            'tileType' : i, # type of tile
+                            'rot' : p, # rotation
+                            'flip' : q, # flip
+                            'x' : x, # x
+                            'y' : y # y
+                        })
+                    elif score > maxDecision[-1]['score']:
+                        m = 4
+                        while m > 0:
+                            if maxDecision[m]['score'] > score:
+                                break
+                            maxDecision[m] = maxDecision[m - 1]
+                            m -= 1
+                        maxDecision[m] = {
+                            'score' : score,
+                            'tileType' : i, # type of tile
+                            'rot' : p, # rotation
+                            'flip' : q, # flip
+                            'x' : x, # x
+                            'y' : y # y
+                        }
+                    board.retraceDrop(tile, x, y)
+                    player.used[tile.type] = False
+                    player.score -= tile.size
+    
+    for i, dec in enumerate(maxDecision):
+        tile = Tiles(dec['tileType'], dec['rot'], dec['flip'])
+        board.dropTile(player, tile, dec['x'], dec['y'], False)
+        player.used[dec['tileType']] = True
+        winningRate = mctsEval(board, player, opponent, setTot = 50, setReverse = True)
+        maxDecision[i]['winningRate'] = winningRate
+        board.retraceDrop(tile, dec['x'], dec['y'])
+        player.used[dec['tileType']] = False
+    return maxDecision
+   
