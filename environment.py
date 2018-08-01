@@ -26,13 +26,8 @@ if __name__ == '__main__':
         pa = args.players_allocate.split(',')
         if len(pa) != 2:
             raise ValueError("--player_allocate must have two arguments!")
-        for i in range(2):
-            if pa[i] == "AI":
-                player.append(Player(0, i, 0))
-            elif pa[i] == "human":
-                player.append(Player(0, i, -1))
-            else:
-                raise ValueError("args of --player_allocate must be 'AI' or 'human'!")
+        player.append(Player(0, 0, -1))
+        player.append(Player(0, 1, -1))
 
     if not args.extra is None:
         pass

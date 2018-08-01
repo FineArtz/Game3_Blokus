@@ -326,7 +326,7 @@ def mcts(board, player, opponent, evalFunc = 0, **info):
     if 'setEvalWeight' in info:
         evalWeight = info['setEvalWeight']
         
-    totGame = 30
+    totGame = 80
     if 'setTotalGame' in info:
         totGame = info['setTotalGame']
 
@@ -453,8 +453,8 @@ def analBoard(board, player, opponent, **info):
         tile = Tiles(dec['tileType'], dec['rot'], dec['flip'])
         board.dropTile(player, tile, dec['x'], dec['y'], False)
         player.used[dec['tileType']] = True
-        winningRate = mctsEval(board, player, opponent, setTot = 50, setReverse = True)
-        maxDecision[i]['winningRate'] = winningRate
+        winningRate = mctsEval(board, player, opponent, setTot = 100, setReverse = True)
+        maxDecision[i]['winningRate'] = int(winningRate * 100)
         board.retraceDrop(tile, dec['x'], dec['y'])
         player.used[dec['tileType']] = False
     return maxDecision

@@ -2,8 +2,8 @@
 # Definition of players
 # interact with board
 
-from kernel import DecisionFunc, analBoard
-from board import Tiles, Board, CooDp, CooDq
+from kernel import DecisionFunc
+from board import Tiles, Board
 from shape import cornerSet, tileSizes
 import sys, argparse
 import json
@@ -74,9 +74,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required = True, help = "input history")
-    excGroup = parser.add_mutually_exclusive_group(required = True)
-    excGroup.add_argument("--config", help = "AI config")
-    excGroup.add_argument("--analysis", help = "get winning rate")
+    parser.add_argument("--config", required = True, help = "AI config")
     args = parser.parse_args()
 
     board = Board()
@@ -84,21 +82,11 @@ if __name__ == '__main__':
     matrix = []
     player = None
     opponent = None
-    lv = 0
-    evalWeight = [10, 20]
-    evalFunc = 0
-    analysisMode = False
 
-    if args.analysis:
-        analysisMode = True
-    else:
-        conf = json.loads(args.config)
-        if conf['AI_level']:
-            lv = conf['AI_level']
-        if conf['eval_weight'] != []:
-            evalWeight = conf['eval_weight']
-        if conf['eval_func']:
-            evalFunc = conf['eval_func']
+    conf = json.loads(args.config)
+    evalWeight = conf.get('eval_weight', [10, 20])
+    evalFunc = conf.get('eval_func', 0)
+    lv = conf.get('AI_level', 0)
 
     info = json.loads(args.input)
     if info['history'] != []:
@@ -120,31 +108,24 @@ if __name__ == '__main__':
     else:
         board.parseFromMatrix(matrix, [opponent, player])
     
-    if not analysisMode:
-        result = player.action(board, opponent, setEvalWeight = evalWeight, setEvalFunc = evalFunc)
+    result = player.action(board, opponent, setEvalWeight = evalWeight, setEvalFunc = evalFunc)
 
-        if result['action']:
-            output['status'] = "Success"
-            output['is_pass'] = False
-            output['action'] = []
-            tile = Tiles(result['tileType'], result['rotation'], result['flip'])
-            x = result['x']
-            y = result['y']
-            for (i, j) in tile.shape:
-                output['action'].append({
-                    "row" : x + i,
-                    "col" : y + j
-                })
-            print(json.dumps(output))
-        else:
-            output['status'] = "Success"
-            output['is_pass'] = True
-            output['action'] = []
-            print(json.dumps(output))
+    if result['action']:
+        output['status'] = "Success"
+        output['is_pass'] = False
+        output['action'] = []
+        tile = Tiles(result['tileType'], result['rotation'], result['flip'])
+        x = result['x']
+        y = result['y']
+        for (i, j) in tile.shape:
+            output['action'].append({
+                "row" : x + i,
+                "col" : y + j
+            })
+        print(json.dumps(output))
     else:
-        result = analBoard(board, player, opponent)
-        def cmp(elem):
-            return elem['winningRate']
-        result.sort(key = cmp, reverse = True)
-        print(json.dumps(result))
+        output['status'] = "Success"
+        output['is_pass'] = True
+        output['action'] = []
+        print(json.dumps(output))
 
