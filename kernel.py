@@ -453,8 +453,8 @@ def analBoard(board, player, opponent, **info):
         tile = Tiles(dec['tileType'], dec['rot'], dec['flip'])
         board.dropTile(player, tile, dec['x'], dec['y'], False)
         player.used[dec['tileType']] = True
-        winningRate = mctsEval(board, player, opponent, setTot = 100, setReverse = True)
-        maxDecision[i]['winningRate'] = int(winningRate * 100)
+        winningRate = mctsEval(board, player, opponent, setTot = 61, setReverse = True)
+        maxDecision[i]['winningRate'] = int(winningRate * 1000)
         board.retraceDrop(tile, dec['x'], dec['y'])
         player.used[dec['tileType']] = False
     return maxDecision

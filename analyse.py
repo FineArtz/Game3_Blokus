@@ -7,25 +7,28 @@ from shape import shapeSet
 from player import Player
 import sys, argparse
 import json
+import numpy as np 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--state", required = True, help = "board state")
-    parser.add_argument("--player_id", required = True, type = True, help = 'player id')
+    #parser.add_argument("--state", required = True, help = "board state")
+    parser.add_argument("--player_id", required = True, help = 'player id')
     args = parser.parse_args()
 
     board = Board()
 
-    p_id = args.player_id
+    p_id = int(args.player_id)
     player = Player(0, p_id, 0)
     opponent = Player(0, p_id ^ 1, 0)
 
-    matrix = json.loads(args.state)
+    #matrix = json.loads(args.state)
+    board.board = np.asarray([[2, 0, 2, 2, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0], [0, 2, 0, 2, 0, 2, 2, 2, 0, 0, 1, 0, 2, 0], [0, 2, 0, 0, 2, 2, 0, 0, 0, 1, 1, 0, 2, 0], [0, 2, 0, 2, 0, 0, 2, 0, 1, 0, 2, 2, 0, 1], [0, 0, 2, 2, 1, 2, 2, 1, 1, 0, 0, 2, 1, 1], [0, 0, 0, 2, 1, 0, 2, 1, 1, 0, 0, 2, 2, 1], [1, 1, 1, 2, 1, 0, 1, 2, 0, 1, 0, 0, 1, 2], [1, 0, 2, 1, 1, 0, 1, 2, 1, 1, 1, 1, 0, 2], [1, 0, 2, 0, 0, 1, 1, 2, 0, 0, 2, 0, 1, 2], [0, 2, 2, 2, 0, 1, 2, 2, 0, 2, 2, 2, 1, 2], [0, 0, 0, 0, 2, 2, 0, 0, 2, 0, 2, 1, 1, 2], [2, 0, 0, 2, 2, 0, 2, 2, 2, 1, 1, 2, 2, 1], [2, 0, 0, 2, 0, 0, 0, 2, 1, 1, 2, 2, 0, 1], [2, 2, 2, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0]])
+    '''
     if p_id == 0:
         board.parseFromMatrix(matrix, [player, opponent])
     else:
         board.parseFromMatrix(matrix, [opponent, player])
-
+'''
     result = analBoard(board, player, opponent)
     def wr(pack):
         return pack['winningRate']
@@ -33,18 +36,18 @@ if __name__ == '__main__':
 
     output = []
     for r in result:
-        tile = Tiles(r['tileType'], r['rotation'], r['flip'])
+        tile = Tiles(r['tileType'], r['rot'], r['flip'])
         x = r['x']
         y = r['y']
         action = []
         for i, j in tile.shape:
             action.append({
-                "row" : x + i,
-                "col" : y + j
+                "row" : int(x + i),
+                "col" : int(y + j)
             }) 
         output.append({
             "action" : action,
-            "winning_rate" : r['winningRate']
+            "winning_rate" : r['winningRate'] / 10
         })
     print(json.dumps(output))
     

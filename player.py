@@ -38,6 +38,10 @@ class Player(object):
                 if 'setWeight' in info:
                     self.w1, self.w2 = info['setWeight']
 
+    def clear(self):
+        self.used = np.zeros(21, dtype = bool)
+        self.score = 0
+
     def action(self, board, opponent, **info):
         if self.decisionMaker is None:
             raise ValueError("The player is human")
@@ -119,8 +123,8 @@ if __name__ == '__main__':
         y = result['y']
         for (i, j) in tile.shape:
             output['action'].append({
-                "row" : x + i,
-                "col" : y + j
+                "row" : int(x + i),
+                "col" : int(y + j)
             })
         print(json.dumps(output))
     else:

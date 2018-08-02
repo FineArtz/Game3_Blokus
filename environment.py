@@ -113,13 +113,9 @@ if __name__ == '__main__':
                         rotf = shape.shapeSet[t].index[tile]
                         break
                 player[playerOrder].score += tileSize
-                for (i, j) in shape.cornerSet[t][rotf]:
-                    if board.isInBound(minx + i, miny + j):
-                        if board.board[minx + i][miny + j] == 0:
-                            player[playerOrder].corners.update([(minx + i, miny + j)])
                 
                 output['status'] = "Success"
                 output['action_player_id'] = playerOrder ^ 1
-                output['state'] = board.board
+                output['state'] = board.board.tolist()
                 pprint(json.dumps(output))
 

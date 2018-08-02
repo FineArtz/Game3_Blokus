@@ -1,11 +1,9 @@
 \documentclass[10pt,aspectratio=32]{beamer}
 \usepackage{sgp940}
-\usepackage{caption}
 
-\title{AI for Blokus Duo}
-\vspace{-3cm}
+\title{Game 3: Blokus Duo}
+\vspace{1.5cm}
 \author{Zhao Hanye}
-\institute{ACM Class, 2017}
 \date{\today}
 
 \begin{document}
@@ -22,41 +20,24 @@
 \end{frame}
 
 \section{Intro}
-\subsection{Game Info}
+\subsection{Background}
 \begin{frame}
-    \frametitle{Game Info}\pause
-    \vspace{-0.3cm}
-    \begin{columns}
-    	\begin{column}{4cm}
-    		\begin{figure}
-    			\includegraphics[height=4cm]{game_example}
-                \captionsetup{font={scriptsize}}
-                \caption{\scriptsize Blokus Duo}
-    		\end{figure}\pause
-    	\end{column}
-    	\begin{column}{6cm}
-    		\begin{itemize}
-    			\item Two players drop tiles on a 14*14 square board \pause
-                \item Each player has 21 different tiles \pause
-    			\item Corner to corner, but no edge to edge \pause
-                \item Flip and rotation are allowed \pause
-                \item The player who take up the most squares wins
-    		\end{itemize}
-    	\end{column}
-    \end{columns}
-\end{frame}
+\frametitle{Bullet Points}
+\vspace{-0.3cm}
 
-\subsection{Goals}
-\begin{frame}
-    \frametitle{Goals}\pause
-    \vspace{-0.3cm}
-    \begin{itemize}
-        \item Make AIs for Blokus Duo\pause
-        \item Traditional algorithms and reinforcement learning\pause
-        \item Different conbinations lead defferent levels\pause
-        \item PVE and EVE system 
-    \end{itemize}
-\end{frame}
+\begin{itemize}
+	\item Most engineers are lazy ... and that is often a good thing
+	\begin{itemize}
+		\item (\textit{lazy} $=$ \textit{to do things in the most efficient way})
+	\end{itemize}
+	\item Engineers are terrible story tellers ... they prefer content to form
+	\item Readers are lazy ... need self contained and easy to read material
+	\item \LaTeX{} can help
+\end{itemize}
+
+ \end{frame}
+
+
 \section{Motivation}
 \begin{frame}
 	\frametitle{Paragraphs of Text}

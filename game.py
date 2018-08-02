@@ -33,51 +33,69 @@ if __name__ == '__main__':
         evf[0] = int(sys.argv[argpos + 1])
         evf[1] = int(sys.argv[argpos + 2])
 
+    cnt1 = 0
+    cnt2 = 0
+    cnt3 = 0
+    fout = None
+
     if testMode:
         fout = open("game.out", "w+", encoding = 'utf-8')
+        
+    for g in range(50):
+        player[0].clear()
+        player[1].clear()
+        board.clear()
         board.print(fout)
+        Round = 0
 
-    Round = 0
+        totSt = time.time()
+        while True:
+            flag = False
+            Round = Round + 1
+            for i in range(board.playerNum):
+                startTime = time.time()
 
-    totSt = time.time()
-    while True:
-        flag = False
-        Round = Round + 1
-        for i in range(board.playerNum):
-            startTime = time.time()
-
-            result = player[i].action(board, player[i ^ 1], setEvalFunc = evf[i])
-            if result['action']:
-                flag = True
+                result = player[i].action(board, player[i ^ 1], setEvalFunc = evf[i])
+                if result['action']:
+                    flag = True
+                    if testMode:
+                        fout.write("player %d: %d %d %d %d %d\n"
+                            % (i, result['tileType'], result['rotation'], result['flip'], 
+                                result['x'], result['y']))
+                        board.print(fout)
+                    else:
+                        board.print()
+                        print("%d\n" % i, end = '')
+                        for coo in shape.shapeSet[result['tileType']][result['rotation'] + result['flip'] * 4]:
+                            print("%d %d " % (result['x'] + coo[0], result['y'] + coo[1]), end = '')
+                        print()
+                    
+                endTime = time.time()
+                print("player %d: %s" % (i, endTime - startTime))
+            if not flag:
                 if testMode:
-                    fout.write("player %d: %d %d %d %d %d\n"
-                        % (i, result['tileType'], result['rotation'], result['flip'], 
-                            result['x'], result['y']))
-                    board.print(fout)
+                    fout.write("\n")
+                    for i in range(board.playerNum):
+                        fout.write("player %d: %d\n" % (i, player[i].score))
                 else:
-                    board.print()
-                    print("%d\n" % i, end = '')
-                    for coo in shape.shapeSet[result['tileType']][result['rotation'] + result['flip'] * 4]:
-                        print("%d %d " % (result['x'] + coo[0], result['y'] + coo[1]), end = '')
                     print()
-                
-            endTime = time.time()
-            print("player %d: %s" % (i, endTime - startTime))
-        if not flag:
-            if testMode:
-                fout.write("\n")
-                for i in range(board.playerNum):
-                    fout.write("player %d: %d\n" % (i, player[i].score))
+                    for i in range(board.playerNum):
+                        print("player %d: %d" % (i, player[i].score))
+                if player[0].score > player[1].score:
+                    cnt1 += 1
+                elif player[0].score == player[1].score:
+                    cnt2 += 1
+                else:
+                    cnt3 += 1
+                break
             else:
-                print()
-                for i in range(board.playerNum):
-                    print("player %d: %d" % (i, player[i].score))
-            break
-        else:
-            print("Round %d: " % Round)
+                print("Round %d: " % Round)
+        
+        totEd = time.time()
+        print("tot time = %f" % (totEd - totSt))
     
-    totEd = time.time()
-    print("tot time = %f" % (totEd - totSt))
+    print("%d %d %d" % (cnt1, cnt2, cnt3))
+
     if testMode:
         fout.close()
 

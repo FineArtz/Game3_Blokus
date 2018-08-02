@@ -231,6 +231,9 @@ class Board(object):
                     fout.write(chr(shape.colorAscii[self.board[i][j]]))
                     fout.write(chr(32))
             print() if fout is None else fout.write("\n")
+    
+    def clear(self):
+        self.board = np.zeros((14, 14), dtype = int)
 
     def canDropPos(self, player, tile):
 

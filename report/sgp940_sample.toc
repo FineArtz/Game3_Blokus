@@ -1,6 +1,7 @@
 \beamer@sectionintoc {1}{Intro}{3}{0}{1}
-\beamer@subsectionintoc {1}{1}{Background}{4}{0}{1}
-\beamer@sectionintoc {2}{Motivation}{5}{0}{2}
-\beamer@sectionintoc {3}{Model}{7}{0}{3}
-\beamer@sectionintoc {4}{Data and Method}{10}{0}{4}
-\beamer@sectionintoc {5}{Conclusion}{14}{0}{5}
+\beamer@subsectionintoc {1}{1}{Game Info}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{Our Goals}{11}{0}{1}
+\beamer@sectionintoc {2}{Motivation}{16}{0}{2}
+\beamer@sectionintoc {3}{Model}{18}{0}{3}
+\beamer@sectionintoc {4}{Data and Method}{21}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{25}{0}{5}
