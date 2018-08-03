@@ -39,7 +39,7 @@ if __name__ == '__main__':
     output = {}
     output["status"] = "Success"
     output["action_player_id"] = 0
-    output["state"] = board.board
+    output["state"] = board.board.tolist()
 
     pprint(json.dumps(output))
     isOver = False
@@ -68,7 +68,7 @@ if __name__ == '__main__':
                 break
             output["status"] = "Success"
             output["action_player_id"] = playerOrder ^ 1
-            output["state"] = board.board
+            output["state"] = board.board.tolist()
             pprint(json.dumps(output))
             isOver = True
             continue
