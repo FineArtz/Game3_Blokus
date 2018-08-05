@@ -2,6 +2,9 @@ Game 3: Blokus
 ======
 
 Judge可分别调用environment.py和player.py进行交互。
+具体请参见manager。
+
+以下参数仅供测试使用。
 
 environment.py:
 ------

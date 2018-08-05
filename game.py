@@ -41,7 +41,7 @@ if __name__ == '__main__':
     if testMode:
         fout = open("game.out", "w+", encoding = 'utf-8')
         
-    for g in range(50):
+    for g in range(20):
         player[0].clear()
         player[1].clear()
         board.clear()
@@ -92,6 +92,7 @@ if __name__ == '__main__':
                 print("Round %d: " % Round)
         
         totEd = time.time()
+        print('game %d' % g)
         print("tot time = %f" % (totEd - totSt))
     
     print("%d %d %d" % (cnt1, cnt2, cnt3))

@@ -340,31 +340,33 @@ class Board(object):
                         getTile(nx, ny, color, tilePoints)
 
         xlist, ylist = np.where(self.board != 0)
-
-        for i in np.nditer(xlist):
-            for j in np.nditer(ylist):
-                if matrix[i][j] != 0 and not visited[i][j]:
-                    tilePoints = []
-                    minx = 14
-                    miny = 14
-                    getTile(i, j, matrix[i][j], tilePoints)
-                    for x, y in tilePoints:
-                        minx = min(minx, x)
-                        miny = min(miny, y)
-                    for k in range(len(tilePoints)):
-                        tilePoints[k][0] = tilePoints[k][0] - minx
-                        tilePoints[k][1] = tilePoints[k][1] - miny
-                    tilePoints.sort()
-                    tmpTile = []
-                    for x, y in tilePoints:
-                        tmpTile.append((x, y))
-                    for t in range(21):
-                        if shape.tileSizes[t] != len(tmpTile):
-                            continue
-                        if tmpTile in shape.shapeSet[t]:
-                            player[matrix[i][j] - 1].used[t] = True
-                            player[matrix[i][j] - 1].score += shape.tileSizes[t]
-                            break
+        for k in range(xlist.size):
+            i = xlist[k]
+            j = ylist[k]
+            if matrix[i][j] != 0 and not visited[i][j]:
+                tilePoints = []
+                minx = 14
+                miny = 14
+                getTile(int(i), int(j), matrix[i][j], tilePoints)
+                for x, y in tilePoints:
+                    minx = min(minx, x)
+                    miny = min(miny, y)
+                minx = int(minx)
+                miny = int(miny)
+                for k in range(len(tilePoints)):
+                    tilePoints[k][0] = tilePoints[k][0] - minx
+                    tilePoints[k][1] = tilePoints[k][1] - miny
+                tilePoints.sort()
+                tmpTile = []
+                for x, y in tilePoints:
+                    tmpTile.append((x, y))
+                for t in range(21):
+                    if shape.tileSizes[t] != len(tmpTile):
+                        continue
+                    if tmpTile in shape.shapeSet[t]:
+                        player[matrix[i][j] - 1].used[t] = True
+                        player[matrix[i][j] - 1].score += shape.tileSizes[t]
+                        break
 
     def toMatrix(self):
         # return board as a 14*14 matrix

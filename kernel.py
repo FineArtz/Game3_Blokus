@@ -141,13 +141,14 @@ def randomRandom(board, player, opponent, **info):
                 i = np.random.choice(possiblePos[0].size)
                 x, y = possiblePos[0][i], possiblePos[1][i]
                 return [t, d, f, x, y]
-            f = 1
-            tile = Tiles(t, d, f)
-            possiblePos = board.canDropPos(player, tile)
-            if possiblePos[0].size != 0:
-                i = np.random.choice(possiblePos[0].size)
-                x, y = possiblePos[0][i], possiblePos[1][i]
-                return [t, d, f, x, y]
+            if shape.tileMaxFlip[t]:
+                f = 1
+                tile = Tiles(t, d, f)
+                possiblePos = board.canDropPos(player, tile)
+                if possiblePos[0].size != 0:
+                    i = np.random.choice(possiblePos[0].size)
+                    x, y = possiblePos[0][i], possiblePos[1][i]
+                    return [t, d, f, x, y]
         used[t] = True
         cnt += 1
     return [-1, 0, 0, 0, 0]
@@ -177,21 +178,36 @@ def randomGreedy(board, player, opponent, **info):
             continue
         random.shuffle(remain[size - 1])
         for i in range(len(remain[size - 1])):
-            direction = [i for i in range(8)]
+            t = remain[size - 1][i]
+            direction = [i for i in range(shape.tileMaxRotation[t])]
             random.shuffle(direction)
             for k in direction:
-                tile = Tiles(remain[size - 1][i], k % 4, k // 4)
+                f = 0
+                tile = Tiles(t, k, f)
                 xlist, ylist = board.canDropPos(player, tile)
-                if xlist.size == 0:
-                    continue
-                j = np.random.choice(xlist.size)
-                return [
-                        remain[size - 1][i], # type of tile
-                        k % 4, # rotation
-                        k // 4, # flip
-                        xlist[j], # x
-                        ylist[j] # y
-                ]
+                if xlist.size != 0:
+                    j = np.random.choice(xlist.size)
+                    return [
+                            t, # type of tile
+                            k, # rotation
+                            f, # flip
+                            xlist[j], # x
+                            ylist[j] # y
+                    ]
+                if shape.tileMaxFlip[t]:
+                    f = 1
+                    tile = Tiles(t, k, f)
+                    xlist, ylist = board.canDropPos(player, tile)
+                    if xlist.size == 0:
+                        continue
+                    j = np.random.choice(xlist.size)
+                    return [
+                            t, # type of tile
+                            k, # rotation
+                            f, # flip
+                            xlist[j], # x
+                            ylist[j] # y
+                    ]
     return [-1, 0, 0, 0, 0]
 
 DecisionFunc.append(randomGreedy)
@@ -218,7 +234,10 @@ def greedy(board, player, opponent, evalFunc = 0, **info):
     remain = remain[::-1]
     for i in remain:
         for p in range(shape.tileMaxRotation[i]):
-            for q in [0, 1]:
+            f = [0]
+            if shape.tileMaxFlip[i]:
+                f.append(1)
+            for q in f:
                 tile = Tiles(i, p, q)
                 xlist, ylist = board.canDropPos(player, tile)
                 if xlist.size == 0:
@@ -265,7 +284,10 @@ def _alphaBeta(depth, board, player, opponent, evalFunc, alpha, beta, desPlayer)
 
     for i in remain:
         for p in range(shape.tileMaxRotation[i]):
-            for q in [0, 1]:
+            f = [0]
+            if shape.tileMaxFlip[i]:
+                f.append(1)
+            for q in f:
                 tile = Tiles(i, p, q)
                 xlist, ylist = board.canDropPos(player, tile)
                 if xlist.size == 0:
@@ -335,7 +357,10 @@ def mcts(board, player, opponent, evalFunc = 0, **info):
 
     for i in remain:
         for p in range(shape.tileMaxRotation[i]):
-            for q in [0, 1]:
+            f = [0]
+            if shape.tileMaxFlip[i]:
+                f.append(1)
+            for q in f:
                 tile = Tiles(i, p, q)
                 xlist, ylist = board.canDropPos(player, tile)
                 if xlist.size == 0:
@@ -409,7 +434,10 @@ def analBoard(board, player, opponent, **info):
 
     for i in remain:
         for p in range(shape.tileMaxRotation[i]):
-            for q in [0, 1]:
+            f = [0]
+            if shape.tileMaxFlip[i]:
+                f.append(1)
+            for q in f:
                 tile = Tiles(i, p, q)
                 xlist, ylist = board.canDropPos(player, tile)
                 if xlist.size == 0:

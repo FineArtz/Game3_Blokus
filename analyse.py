@@ -11,7 +11,7 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    #parser.add_argument("--state", required = True, help = "board state")
+    parser.add_argument("--state", required = True, help = "board state")
     parser.add_argument("--player_id", required = True, help = 'player id')
     args = parser.parse_args()
 
@@ -21,14 +21,12 @@ if __name__ == '__main__':
     player = Player(0, p_id, 0)
     opponent = Player(0, p_id ^ 1, 0)
 
-    #matrix = json.loads(args.state)
-    board.board = np.asarray([[2, 0, 2, 2, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0], [0, 2, 0, 2, 0, 2, 2, 2, 0, 0, 1, 0, 2, 0], [0, 2, 0, 0, 2, 2, 0, 0, 0, 1, 1, 0, 2, 0], [0, 2, 0, 2, 0, 0, 2, 0, 1, 0, 2, 2, 0, 1], [0, 0, 2, 2, 1, 2, 2, 1, 1, 0, 0, 2, 1, 1], [0, 0, 0, 2, 1, 0, 2, 1, 1, 0, 0, 2, 2, 1], [1, 1, 1, 2, 1, 0, 1, 2, 0, 1, 0, 0, 1, 2], [1, 0, 2, 1, 1, 0, 1, 2, 1, 1, 1, 1, 0, 2], [1, 0, 2, 0, 0, 1, 1, 2, 0, 0, 2, 0, 1, 2], [0, 2, 2, 2, 0, 1, 2, 2, 0, 2, 2, 2, 1, 2], [0, 0, 0, 0, 2, 2, 0, 0, 2, 0, 2, 1, 1, 2], [2, 0, 0, 2, 2, 0, 2, 2, 2, 1, 1, 2, 2, 1], [2, 0, 0, 2, 0, 0, 0, 2, 1, 1, 2, 2, 0, 1], [2, 2, 2, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0]])
-    '''
+    matrix = json.loads(args.state)
     if p_id == 0:
         board.parseFromMatrix(matrix, [player, opponent])
     else:
         board.parseFromMatrix(matrix, [opponent, player])
-'''
+
     result = analBoard(board, player, opponent)
     def wr(pack):
         return pack['winningRate']

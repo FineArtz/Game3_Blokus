@@ -58,7 +58,7 @@ if __name__ == '__main__':
                 output['result'] = {
                     "record" : json.dumps(history),
                     "score" : [p.score for p in player],
-                    "winner_id" : 0 
+                    "winner_id" : 0
                 }
                 if player[0].score < player[1].score:
                     output['result']['winner_id'] = 1
@@ -113,7 +113,7 @@ if __name__ == '__main__':
                         rotf = shape.shapeSet[t].index[tile]
                         break
                 player[playerOrder].score += tileSize
-                
+
                 output['status'] = "Success"
                 output['action_player_id'] = playerOrder ^ 1
                 output['state'] = board.board.tolist()
